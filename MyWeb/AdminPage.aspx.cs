@@ -10,9 +10,11 @@ namespace MyWeb
 {
     public partial class ListUser : System.Web.UI.Page
     {
+        private LibraryContext db = new LibraryContext();
         public List<User> listUser = new List<User>();
         public List<Book> listBook = new List<Book>();
         public string userName = "";
+        private List<string> listUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -24,28 +26,26 @@ namespace MyWeb
             // greating
             if (Session["userName"]!=null) userName ="Hello "+ Session["userName"].ToString();
             // take List User
-            LibraryContext db = new LibraryContext();
+            
             listUser = db.Users.ToList();
             // take List Book
 
-            List<string> listUserName = db.Users.Select(user => user.userName).ToList();
+            // Load lại dùng lại ở view borrowBook và view listUser
+            listUserName = db.Users.Select(user => user.userName).ToList();
+
 
             if (!IsPostBack)
-            {   //  BORROW DATA
-                dropListUser.DataSource = listUserName;
-                dropListUser.DataBind();
-                dropListBook.DataSource = db.Books.Select(book => book.bookId).ToList();
-                dropListBook.DataBind();
+            {
+                // FIRST LOAD
+                listBoxUser.DataSource = listUserName;
+                listBoxUser.DataBind();
 
-                // RETURN BOOK  DATA
-                returnDropListUser.DataSource = listUserName;
-                returnDropListUser.DataBind();
-                //if (db.Users.FirstOrDefault(u => u.userName.Equals(listUserName[0])).borBooks != null)
                 string tmpUserName = listUserName[0];
+                // Danh sach sach dang muon cua nguoi dung
                 if (db.Users.FirstOrDefault(u => u.userName== tmpUserName).borBooks != null)
                 {
-                    returnDropListBook.DataSource = 
-                        db.Users.FirstOrDefault(u => u.userName == tmpUserName)
+                    returnDropListBook.DataSource = db.Users
+                        .FirstOrDefault(u => u.userName == tmpUserName)
                         .borBooks.Select(
                             // từ  danh sách "những sách đang mượn của người dùng" thông qua db.Books để lấy tên
                             bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
@@ -53,22 +53,10 @@ namespace MyWeb
                     returnDropListBook.DataBind();
                 }
 
-
             }
             else
             {
-                returnDropListUser.DataSource = listUserName;
-                if (db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue).borBooks != null)
-                {
-                    returnDropListBook.DataSource = 
-                        db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue)
-                        .borBooks.Select(bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName).ToList();
-                    returnDropListBook.DataBind();
-                }
-
             }
-
-
             // Sinh dữ liệu mẫu để test
             // sinh 100  quyển chỉ cần khác tên, các cái còn lại có thể giống nhau
             //genRandomBook(80);
@@ -209,18 +197,18 @@ namespace MyWeb
         }
         protected void dropListBook_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int bookId = Int16.Parse(dropListBook.SelectedValue);
+            /*int bookId = Int16.Parse(dropListBook.SelectedValue);
             Response.Write("LOL");
             LibraryContext db = new LibraryContext();
             Book curBook = db.Books.FirstOrDefault(book => book.bookId == bookId);
-            FillPreview(curBook);
+            FillPreview(curBook);*/
         }
 
         //Người dùng chỉ được mượn những sách chưa mượn
 
         protected void borrowBtn_Click(object sender, EventArgs e)
         {
-            LibraryContext db = new LibraryContext();
+           /* LibraryContext db = new LibraryContext();
             List<String> message = new List<string>();
 
             string userName = dropListUser.SelectedValue;
@@ -254,7 +242,7 @@ namespace MyWeb
             borrowMessages.DataSource = message;
             borrowMessages.DataBind();
             // UPDATE RETURN BOOK
-            updateReturnDropListBook();
+            updateReturnDropListBook();*/
 
         }
         private void updateReturnDropListBook()
@@ -298,6 +286,10 @@ namespace MyWeb
 
         protected void viewListUser_Click(object sender, EventArgs e)
         {
+            // LOAD LAI danh sach user
+            listBoxUser.DataSource = listUserName;
+            listBoxUser.DataBind();
+            // Chuyển sang trang ListUser
             inforMView.ActiveViewIndex = 0;
             preMView.ActiveViewIndex = 0;
         }
@@ -310,20 +302,36 @@ namespace MyWeb
 
         protected void viewNewBook_Click(object sender, EventArgs e)
         {
+            
             inforMView.ActiveViewIndex = 2;
             preMView.ActiveViewIndex = 1;
         }
 
         protected void viewBorBook_Click(object sender, EventArgs e)
         {
+            listBorUser.DataSource = listUserName.ToList();
+            listBorUser.DataBind();
+            listBorBook.DataSource = db.Books.Select(book=>book.bookName).ToList();
+            listBorBook.DataBind();
+            //Load lại 
             inforMView.ActiveViewIndex = 3;
             preMView.ActiveViewIndex = 1;
+            
+
         }
 
         protected void viewReturnBook_Click(object sender, EventArgs e)
         {
             inforMView.ActiveViewIndex = 4;
             preMView.ActiveViewIndex = 1;
+        }
+
+        protected void listBorBook_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Load thông tin qua preview Book
+            Book book = db.Books.FirstOrDefault(b => b.bookName == listBorBook.SelectedValue);
+            FillPreview(book);
+            // Kiểm tra xem người dùng đã mượn sách này chưa
         }
     }
 }

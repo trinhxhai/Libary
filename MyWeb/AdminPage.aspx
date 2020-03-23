@@ -7,27 +7,29 @@
     <title></title>
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <style>
-        .bookPic{
-            max-height:40vh;
-        }
+        
         #viewContainer{
             display:grid;
-            grid-template-columns:40vw 40vw;
-            grid-template-rows:5vw 35vw;
+            grid-template-columns:45vw 45vw;
+            grid-template-rows:5vw 40vw;
             margin-top:100px;
             margin-bottom:8vw;
-            width:80vw;
-            height:40vw;
+            width:90vw;
+            height:45vw;
             margin-left:auto;
             margin-right:auto;
+            border-radius:25px;
+            background-color: antiquewhite;
+
         }
         #menuBar {
-            display:flex;
-            align-items:flex-end;
+            display: flex;
+            align-items: flex-end;
             background-color: cadetblue;
             grid-column: 1 / span 2;
             grid-row: 1 / span 1;
-            padding-left:2vw;
+            padding-left: 2vw;
+            border-radius: 25px 25px 0 0;
         }
 
             #menuBar input {
@@ -37,19 +39,21 @@
                 border: none;
                 border: 1px solid green;
                 border-bottom: none;
-                background-color: antiquewhite;
                 margin-right: 0.5vw;
+                font-size:18px;
+                transition-duration:0.5s;
             }
             #menuBar input:hover {
                 cursor: pointer;
+                font-size:20px;
+                
             }
+                #menuBar input:focus {
+                    background-color: green;
+                }
 
-            #menuBar input:focus {
-                background-color:green;
-            }
         .info {
             padding: 2vw;
-            background-color: antiquewhite;
             grid-column: 1 / span 1;
             grid-row: 2 / span 1;
         }
@@ -61,6 +65,42 @@
             grid-row: 2 / span 1;
             border-left: 2px dotted gray;
         }
+
+        /*USER LIST*/ 
+        #listUserView{
+            padding:20px;
+        }
+        #listBoxUser{
+            width:85%;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:5vw;
+            padding:0.5vw;
+            height:200px;
+        }
+        /*PRE VIEW BOOK*/ 
+        #previewBook{
+            display: grid;
+            grid-template-columns : 50% 50%; /* containter's col 2 45vw*/
+            grid-template-rows : 15% 85%;
+        }
+            #previewBook h2{
+                grid-column :1/span 2;
+                grid-row: 1 / span 1;
+            }
+            #previewBook #inforPreviewBook{
+                grid-column: 1/ span 1;
+                grid-row: 2 / span 1;
+            }
+            #previewBook #previewPicBook {
+                max-height: 85%;
+                grid-column: 2/ span 1;
+                grid-row: 2 / span 1;
+            }
+            #previewBook #borBookMessage{
+                grid-column: 1/ span 2;
+                grid-row: 3 / span 1;
+            }
     </style>
     <script>
         function test() {
@@ -94,10 +134,9 @@
             <asp:Button ID="viewReturnBook" runat="server" Text="Return Book" OnClick="viewReturnBook_Click" />
         </div>
         <asp:MultiView ID="inforMView" runat="server" ActiveViewIndex="0">
-            <asp:View ID="listUser" runat="server">
-                <div id="listUser"  class="info" >
-                    list user
-                </div>
+            <asp:View ID="listUserView" runat="server">
+                <asp:ListBox ID="listBoxUser" runat="server">
+                </asp:ListBox>
             </asp:View>
             <asp:View ID="addUserView" runat="server">
                 <div id="addUser"  class="info" >
@@ -142,9 +181,12 @@
             <asp:View ID="borBookView" runat="server">
                 <div id="borrowBook"  class="info" >
                     <h2>Mượn sách</h2>
-                    <asp:DropDownList ID="dropListUser" runat="server" ></asp:DropDownList>
-                    <asp:DropDownList ID="dropListBook" runat="server" AutoPostBack="true" EnableViewState="true" OnSelectedIndexChanged="dropListBook_SelectedIndexChanged"></asp:DropDownList>
+                    <asp:ListBox ID="listBorUser" runat="server">
+                    </asp:ListBox>
+                    <asp:ListBox ID="listBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="listBorBook_SelectedIndexChanged">
+                    </asp:ListBox>
                     <label>Thời hạn</label>
+
                     <asp:DropDownList ID="returnDate" runat="server" >
                         <asp:ListItem Value="1">1 Tuần</asp:ListItem>  
                         <asp:ListItem Value="2">2 Tuần</asp:ListItem>  
@@ -177,16 +219,23 @@
             <asp:View ID="previewBook" runat="server">
                 <div id="previewBook" class="preview">
                     <h2>Preview Book</h2>
-                    <label>Tên Sách</label> <br />
-                    <asp:TextBox ID="previewNameBook" runat="server"></asp:TextBox><br />
-                    <label>Loại sách :</label> <br />
-                    <asp:TextBox ID="previewCategoryBook" runat="server"></asp:TextBox><br />
-                    <label>Giới thiệu :</label> <br />
-                    <asp:TextBox ID="previewDecriptionBook" runat="server"></asp:TextBox><br />
-                    <label>Giá bán :</label> <br />
-                    <asp:TextBox ID="previewPriceBook" runat="server"></asp:TextBox><br />
+                    <div id="inforPreviewBook">
+                        <label>Tên Sách : </label> 
+                            <asp:Label ID="previewNameBook" runat="server" Text=""></asp:Label>
+                        <br />
+                        <label>Loại sách :</label>
+                            <asp:Label ID="previewCategoryBook" runat="server" Text=""></asp:Label>
+                        <br />
+                        <label>Giới thiệu :</label>
+                        <asp:Label ID="previewDecriptionBook" runat="server" Text=""></asp:Label>
+                        <br />
+                        <label>Giá bán :</label> 
+                        <asp:Label ID="previewPriceBook" runat="server" Text=""></asp:Label>
+                    </div>
+
                     <asp:Image ID="previewPicBook" runat="server" class="bookPic"/>
-                    <asp:BulletedList ID="BulletedList1" runat="server" >
+
+                    <asp:BulletedList ID="borBookMessage" runat="server" >
                     </asp:BulletedList>
                 </div>
             </asp:View>

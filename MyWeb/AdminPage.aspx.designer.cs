@@ -78,6 +78,24 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.MultiView inforMView;
 
         /// <summary>
+        /// listUserView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View listUserView;
+
+        /// <summary>
+        /// listBoxUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox listBoxUser;
+
+        /// <summary>
         /// addUserView control.
         /// </summary>
         /// <remarks>
@@ -222,22 +240,22 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.View borBookView;
 
         /// <summary>
-        /// dropListUser control.
+        /// listBorUser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropListUser;
+        protected global::System.Web.UI.WebControls.ListBox listBorUser;
 
         /// <summary>
-        /// dropListBook control.
+        /// listBorBook control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList dropListBook;
+        protected global::System.Web.UI.WebControls.ListBox listBorBook;
 
         /// <summary>
         /// returnDate control.
@@ -345,7 +363,7 @@ namespace MyWeb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox previewNameBook;
+        protected global::System.Web.UI.WebControls.Label previewNameBook;
 
         /// <summary>
         /// previewCategoryBook control.
@@ -354,7 +372,7 @@ namespace MyWeb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox previewCategoryBook;
+        protected global::System.Web.UI.WebControls.Label previewCategoryBook;
 
         /// <summary>
         /// previewDecriptionBook control.
@@ -363,7 +381,7 @@ namespace MyWeb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox previewDecriptionBook;
+        protected global::System.Web.UI.WebControls.Label previewDecriptionBook;
 
         /// <summary>
         /// previewPriceBook control.
@@ -372,7 +390,7 @@ namespace MyWeb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox previewPriceBook;
+        protected global::System.Web.UI.WebControls.Label previewPriceBook;
 
         /// <summary>
         /// previewPicBook control.
@@ -384,12 +402,12 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.Image previewPicBook;
 
         /// <summary>
-        /// BulletedList1 control.
+        /// borBookMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList BulletedList1;
+        protected global::System.Web.UI.WebControls.BulletedList borBookMessage;
     }
 }
