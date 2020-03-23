@@ -71,6 +71,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\libraryWeb.mdf" />
+    <Content Include="App_Data\libraryWeb_log.ldf">
+      <DependentUpon>libraryWeb.mdf</DependentUpon>
+    </Content>
     <Content Include="bin\EntityFramework.dll" />
     <Content Include="bin\EntityFramework.xml" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
@@ -245,7 +249,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Images\" />
     <Folder Include="obj\Debug\TempPE\" />
