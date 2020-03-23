@@ -1,5 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.ListUser" %>
-
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.ListUser"  %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -69,8 +68,10 @@
         /*USER LIST*/ 
         #listUserView{
             padding:20px;
+            grid-row: 2 / span 1;
         }
         #listBoxUser{
+            display:block;
             width:85%;
             margin-left:auto;
             margin-right:auto;
@@ -78,14 +79,22 @@
             padding:0.5vw;
             height:200px;
         }
-        /*PRE VIEW BOOK*/ 
-        #previewBook{
-            display: grid;
-            grid-template-columns : 50% 50%; /* containter's col 2 45vw*/
-            grid-template-rows : 15% 85%;
+        #removeUserBtn{
+            display:block;
+            width:85%;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:1vw;
         }
-            #previewBook h2{
-                grid-column :1/span 2;
+        /*PRE VIEW BOOK*/
+        #previewBook {
+            display: grid;
+            grid-template-columns: 50% 50%; /* containter's col 2 45vw*/
+            grid-template-rows: 15% 85%;
+        }
+
+            #previewBook h2 {
+                grid-column: 1/span 2;
                 grid-row: 1 / span 1;
             }
             #previewBook #inforPreviewBook{
@@ -101,16 +110,68 @@
                 grid-column: 1/ span 2;
                 grid-row: 3 / span 1;
             }
-    </style>
-    <script>
-        function test() {
-            
+        /*PREVIEW User*/
+        #previewUser{
+            border:2px solid black;
+
         }
-    </script>
+            #previewUser #preUserInfo{
+                border : 1px solid gray;
+                font-size:1.25vw;
+                width:85%;
+                height:45%;
+                padding-top:1.5vw;
+                margin-left:auto;
+                margin-right:auto;
+            }
+            #previewUser #preUserInfo{
+                border : 1px solid gray;
+                font-size:1.25vw;
+                width:85%;
+                height:45%;
+                padding-top:1.5vw;
+                margin-left:auto;
+                margin-right:auto;
+            }
+                    #previewUser #editUser,#saveUser {
+                        display:inline-block;
+                        background-color:aqua;
+                        margin-left:0.75vw;
+                        width:6vw;
+                        
+                    }
+            #previewUser #last-row {
+                border: 1px solid pink;
+                background-color: aquamarine;
+                height: 6vw;
+            }
+
+            #previewUser #previewUserBook #userListBorBook {
+                grid-column: 1/ span 1;
+                grid-row: 1/ span 1;
+                border: 1px solid pink;
+            }
+            #previewUser #previewUserBook #returnBookBtn {
+                grid-column: 1/ span 1;
+                grid-row: 2/ span 1;
+                display: block;
+                border: 1px solid blue;
+            }
+                #previewUser #previewUserBook #previewUserBookPic {
+                    grid-column:2/ span 1;
+                    grid-row:1/ span 2;
+                    display: block;
+                    border: 1px solid blue;
+                    max-height:100%;
+                    max-width:100%;
+                    margin-left:auto;
+                    margin-right:auto;
+                }
+    </style>
+
 </head>
 <body>
     <form id="form1" runat="server">
-
         <div class="navBar">
             <a href="ListBook.aspx" class="logoLink">
                 <img src="Images/Logo.jpg" />
@@ -131,12 +192,16 @@
             <asp:Button ID="viewAddUser" runat="server" Text="Add User" OnClick="viewAddUser_Click" />
             <asp:Button ID="viewNewBook" runat="server" Text="New Book" OnClick="viewNewBook_Click" />
             <asp:Button ID="viewBorBook" runat="server" Text="Borrow Book" OnClick="viewBorBook_Click" />
-            <asp:Button ID="viewReturnBook" runat="server" Text="Return Book" OnClick="viewReturnBook_Click" />
         </div>
         <asp:MultiView ID="inforMView" runat="server" ActiveViewIndex="0">
-            <asp:View ID="listUserView" runat="server">
-                <asp:ListBox ID="listBoxUser" runat="server">
+            <asp:View ID="UserView" runat="server">
+                <div id ="listUserView">
+
+                
+                <asp:ListBox ID="listBoxUser" runat="server" OnSelectedIndexChanged="listBoxUser_SelectedIndexChanged" AutoPostBack="True">
                 </asp:ListBox>
+                <asp:Button ID="removeUserBtn" runat="server" Text="Xóa User" OnClick="removeUserBtn_Click" />
+                </div>
             </asp:View>
             <asp:View ID="addUserView" runat="server">
                 <div id="addUser"  class="info" >
@@ -195,24 +260,78 @@
                     </asp:DropDownList>
 
                     <asp:Button ID="borrowBtn" runat="server" Text="Borrow" OnClick="borrowBtn_Click" />
+
                     <asp:BulletedList ID="borrowMessages" runat="server"></asp:BulletedList>
                 </div>
             </asp:View>
-            <asp:View ID="returnBook" runat="server">
-                <div id="returnBook" class="info" >
-                <h2>Trả sách</h2>
-                <asp:DropDownList ID="returnDropListUser" runat="server" AutoPostBack="True" OnSelectedIndexChanged="returnDropListUser_SelectedIndexChanged"></asp:DropDownList>
-                <asp:DropDownList ID="returnDropListBook" runat="server" ></asp:DropDownList>
-                <asp:Button ID="returnBookBtn" runat="server" Text="Trả sách" OnClick="returnBookBtn_Click" />
-                <asp:BulletedList ID="returnBookMessages" runat="server"></asp:BulletedList>
-            </div>
-            </asp:View>
+            
         </asp:MultiView>
 
         <asp:MultiView ID="preMView" runat="server" ActiveViewIndex="0">
-            <asp:View ID="previewUser" runat="server">
-                <div class="preview"> 
-                        Preview userrrr
+            <asp:View ID="View5" runat="server">
+                <div id="previewUser"> 
+                    <div id="preUserInfo">
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>User name :</label>
+                                </td>
+                                <td>
+                                    <asp:Label ID="accName" runat="server" Text=""></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Họ tên :</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="realName" runat="server" Enabled="False"  ></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>CMND :</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="CMND" runat="server" Enabled="False"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>SDT :</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="sdt" runat="server" Enabled="False"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Số lượng sách đang mượn :</label>
+                                </td>
+                                <td>
+                                    <asp:Label ID="borBookCount" runat="server" Text=""></asp:Label>
+                                </td>
+                            </tr>
+                            <tr id="last-row">
+                                <td>
+                                    <asp:Button ID="editUser" runat="server" Text="Edit" OnClick="editUser_Click" />
+                                    <asp:Button ID="saveUser" runat="server" Text="Save" OnClick="saveUser_Click" />
+
+                                </td>
+                                <td>
+                                    <asp:BulletedList ID="validationUserError" runat="server" ViewStateMode="Disabled"></asp:BulletedList>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div id="previewUserBook">
+                        <asp:ListBox ID="userListBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="userListBorBook_SelectedIndexChanged" >
+                        </asp:ListBox>
+                        <asp:Button ID="returnBookBtn" runat="server" Text="Trả sách" OnClick="returnBookBtn_Click" />
+                        <asp:Image ID="previewUserBookPic" runat="server" />
+                    </div>
+                    
                 </div>
 
             </asp:View>
@@ -246,14 +365,5 @@
     </form>
     <footer>1a412</footer>
 </body>
-    <script>
-        /*var x = document.getElementById("viewAddUser");
-        
-        x.addEventListener("click", function () {
-            document.getElementById("viewAddUser").style.border = "2px solid green";
-            window.alert(document.getElementById("viewAddUser").style.border);
-            return false;
-        });*/
-
-    </script>
+ 
 </html>

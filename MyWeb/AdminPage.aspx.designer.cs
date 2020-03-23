@@ -60,15 +60,6 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.Button viewBorBook;
 
         /// <summary>
-        /// viewReturnBook control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button viewReturnBook;
-
-        /// <summary>
         /// inforMView control.
         /// </summary>
         /// <remarks>
@@ -78,13 +69,13 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.MultiView inforMView;
 
         /// <summary>
-        /// listUserView control.
+        /// UserView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View listUserView;
+        protected global::System.Web.UI.WebControls.View UserView;
 
         /// <summary>
         /// listBoxUser control.
@@ -94,6 +85,15 @@ namespace MyWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox listBoxUser;
+
+        /// <summary>
+        /// removeUserBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button removeUserBtn;
 
         /// <summary>
         /// addUserView control.
@@ -285,31 +285,103 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.BulletedList borrowMessages;
 
         /// <summary>
-        /// returnBook control.
+        /// preMView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View returnBook;
+        protected global::System.Web.UI.WebControls.MultiView preMView;
 
         /// <summary>
-        /// returnDropListUser control.
+        /// View5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList returnDropListUser;
+        protected global::System.Web.UI.WebControls.View View5;
 
         /// <summary>
-        /// returnDropListBook control.
+        /// accName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList returnDropListBook;
+        protected global::System.Web.UI.WebControls.Label accName;
+
+        /// <summary>
+        /// realName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox realName;
+
+        /// <summary>
+        /// CMND control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox CMND;
+
+        /// <summary>
+        /// sdt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox sdt;
+
+        /// <summary>
+        /// borBookCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label borBookCount;
+
+        /// <summary>
+        /// editUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button editUser;
+
+        /// <summary>
+        /// saveUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button saveUser;
+
+        /// <summary>
+        /// validationUserError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList validationUserError;
+
+        /// <summary>
+        /// userListBorBook control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox userListBorBook;
 
         /// <summary>
         /// returnBookBtn control.
@@ -321,31 +393,13 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.Button returnBookBtn;
 
         /// <summary>
-        /// returnBookMessages control.
+        /// previewUserBookPic control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList returnBookMessages;
-
-        /// <summary>
-        /// preMView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView preMView;
-
-        /// <summary>
-        /// previewUser control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View previewUser;
+        protected global::System.Web.UI.WebControls.Image previewUserBookPic;
 
         /// <summary>
         /// previewBook control.

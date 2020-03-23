@@ -11,55 +11,67 @@ namespace MyWeb
     public partial class ListUser : System.Web.UI.Page
     {
         private LibraryContext db = new LibraryContext();
-        public List<User> listUser = new List<User>();
-        public List<Book> listBook = new List<Book>();
+        private List<User> listUser = new List<User>();
+        private List<Book> listBook = new List<Book>();
         public string userName = "";
         private List<string> listUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            // Script Client side
-            
-
             // check permission
             if ( Session["userName"]==null || !UserLogic.isAdmin(Session["userName"].ToString()) ) Response.Redirect("NoPermisson.html");
             // greating
             if (Session["userName"]!=null) userName ="Hello "+ Session["userName"].ToString();
+
             // take List User
-            
             listUser = db.Users.ToList();
-            // take List Book
 
             // Load lại dùng lại ở view borrowBook và view listUser
             listUserName = db.Users.Select(user => user.userName).ToList();
 
+            // Danh sách sách dang mượn của người dùng
+            //Setup cho listbook
+            userListBorBook.ItemType = "BorBookItem";
+            userListBorBook.DataTextField = "name";
+            userListBorBook.DataValueField = "id";
 
             if (!IsPostBack)
             {
                 // FIRST LOAD
+
+                // LoadList User vì ViewUser là view mặc định
                 listBoxUser.DataSource = listUserName;
                 listBoxUser.DataBind();
 
+                //setup type cho trường chọn sách mượn
+                listBorBook.ItemType = "BookItem";
+                listBorBook.DataTextField = "name";
+                listBorBook.DataValueField = "id";
+                
+                // Danh sách sách dang mượn của người dùng đầu tiên hiển thị đầu tiên trên màn hình
                 string tmpUserName = listUserName[0];
-                // Danh sach sach dang muon cua nguoi dung
-                if (db.Users.FirstOrDefault(u => u.userName== tmpUserName).borBooks != null)
-                {
-                    returnDropListBook.DataSource = db.Users
-                        .FirstOrDefault(u => u.userName == tmpUserName)
-                        .borBooks.Select(
-                            // từ  danh sách "những sách đang mượn của người dùng" thông qua db.Books để lấy tên
-                            bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
-                        ).ToList();
-                    returnDropListBook.DataBind();
-                }
-
+                    if (db.Users.FirstOrDefault(u => u.userName == tmpUserName).borBooks != null)
+                    {
+                        userListBorBook.DataSource = db.Users
+                            .FirstOrDefault(u => u.userName == tmpUserName)
+                            .borBooks.Select(
+                                bb => new BorBookItem
+                                {
+                                    id = bb.id,
+                                    name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName,
+                                }
+                            ).ToList();
+                        userListBorBook.DataBind();
+                    }
             }
             else
             {
             }
+
             // Sinh dữ liệu mẫu để test
             // sinh 100  quyển chỉ cần khác tên, các cái còn lại có thể giống nhau
             //genRandomBook(80);
+            previewUserBookPic.ImageUrl = "";
 
         }
 
@@ -195,94 +207,54 @@ namespace MyWeb
             previewPicBook.ImageUrl = "/Images/"+book.imagePath;
             previewPicBook.DataBind();
         }
-        protected void dropListBook_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*int bookId = Int16.Parse(dropListBook.SelectedValue);
-            Response.Write("LOL");
-            LibraryContext db = new LibraryContext();
-            Book curBook = db.Books.FirstOrDefault(book => book.bookId == bookId);
-            FillPreview(curBook);*/
-        }
-
-        //Người dùng chỉ được mượn những sách chưa mượn
-
+ 
         protected void borrowBtn_Click(object sender, EventArgs e)
         {
-           /* LibraryContext db = new LibraryContext();
+            LibraryContext db = new LibraryContext();
             List<String> message = new List<string>();
-
-            string userName = dropListUser.SelectedValue;
-            int bookId = Int16.Parse(dropListBook.SelectedValue);
+            if (listBorUser.SelectedValue == "" || listBorBook.SelectedValue == "") return;
+            string userName = listBorUser.SelectedValue;
+            int bookId = int.Parse(listBorBook.SelectedValue);
 
             User user = db.Users.FirstOrDefault(u => u.userName == userName);
             Book curBook = db.Books.FirstOrDefault(book => book.bookId == bookId);
 
-            // Kiểm tra đã mượn sách này hay chưa
-            if (user.borBooks.Any(bb => bb.BookId == curBook.bookId)) {
-                message.Add("Bạn đã mượn sách này rồi!");
-            }
-            else
+            // Kiểm tra đã mượn sách này hay chưa !
+            if (user.borBooks.Any(bb => bb.BookId == curBook.bookId))
+                message.Add("Bạn đã mượn sách này rồi !");
+
+            // kiểm  tra số lượng sách người dùng đang mượn !
+            if (user.borBooks.Count > 20)
+                message.Add("Bạn đã mượn 20 quyển sách, hãy trả sách để có thể mượn thêm sách !");
+
+            //Số lượng sách còn lại của sách này
+            List<BorBook> avableBorBook = db.BorBooks.Where(bb => bb.state == false).ToList();
+
+            // Những sách thuộc loại sách đã chọn
+            avableBorBook = avableBorBook.Where(bb => bb.BookId == curBook.bookId).ToList();
+
+            // nếu nó rỗng tức không còn loại sách này
+            if (avableBorBook.Count == 0)
+                message.Add("Xin lỗi sách này đã hết !");
+
+            // Nếu không gặp 2 lỗi trên cho phép mượn
+            if (message.Count == 0)
             {
-                BorBook availableBook = curBook.BorBooks.FirstOrDefault(bb => bb.state == false);
-                if (availableBook == null)
-                {
-                    message.Add("Sách này đã hết số lượng!");
-                }
-                else
-                {
-                    availableBook.state = true;
-                    availableBook.returnDate = DateTime.Now.AddDays(Int16.Parse(returnDate.SelectedValue) * 7);
-                    user.borBooks.Add(availableBook);
-                    db.SaveChanges();
-                    message.Add("Mượn sách thành công!");
-                }
-
+                BorBook BB = avableBorBook[0];
+                int day = int.Parse(returnDate.SelectedValue);
+                BB.returnDate = DateTime.Today.AddDays(day * 7);
+                // set state = true chuyển sách từ trạng thái không ai mượn(false) sang có người mượn (true)
+                BB.state = true;
+                user.borBooks.Add(BB);
+                message.Add("Mượn thành công!");
+                db.SaveChanges();
             }
-
+            // Gán và hiển thị lỗi - tin nhắn cho người dùng
             borrowMessages.DataSource = message;
             borrowMessages.DataBind();
-            // UPDATE RETURN BOOK
-            updateReturnDropListBook();*/
-
-        }
-        private void updateReturnDropListBook()
-        {
-            LibraryContext db = new LibraryContext();
-            if (db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue).borBooks != null)
-            {
-                returnDropListBook.DataSource =
-                    db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue)
-                    .borBooks.Select(bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName).ToList();
-                returnDropListBook.DataBind();
-            }
-        }
-        protected void returnDropListUser_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LibraryContext db = new LibraryContext();
-            if (db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue).borBooks != null)
-            {
-                returnDropListBook.DataSource = db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue).
-                    borBooks.Select(bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName).ToList();
-                returnDropListBook.DataBind();
-            }
         }
 
-        protected void returnBookBtn_Click(object sender, EventArgs e)
-        {
-            LibraryContext db = new LibraryContext();
-            var UserBorBooks = db.Users.FirstOrDefault(u => u.userName == returnDropListUser.SelectedValue).borBooks;
-            var removeTarget = UserBorBooks.FirstOrDefault(
-                                         bb => db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName == returnDropListBook.SelectedValue
-                                );
-            removeTarget.state = false;
-            UserBorBooks.Remove(removeTarget);
-            db.SaveChanges();
-            var messages = new List<string>();
-            messages.Add("Trả sách thành công");
-            returnBookMessages.DataSource = messages;
-            returnBookMessages.DataBind();
-            updateReturnDropListBook();
-        }
+
 
         protected void viewListUser_Click(object sender, EventArgs e)
         {
@@ -297,29 +269,31 @@ namespace MyWeb
         protected void viewAddUser_Click(object sender, EventArgs e)
         {
             inforMView.ActiveViewIndex = 1;
-            preMView.ActiveViewIndex = 0;
+            preMView.ActiveViewIndex = -1;
         }
 
         protected void viewNewBook_Click(object sender, EventArgs e)
         {
-            
             inforMView.ActiveViewIndex = 2;
-            preMView.ActiveViewIndex = 1;
+            preMView.ActiveViewIndex = -1;
         }
 
         protected void viewBorBook_Click(object sender, EventArgs e)
         {
             listBorUser.DataSource = listUserName.ToList();
             listBorUser.DataBind();
-            listBorBook.DataSource = db.Books.Select(book=>book.bookName).ToList();
+            listBorBook.DataSource = db.Books.Select(
+                                        book=> new BookItem
+                                        {
+                                            id = book.bookId,
+                                            name = book.bookName
+                                       }).ToList();
             listBorBook.DataBind();
             //Load lại 
             inforMView.ActiveViewIndex = 3;
             preMView.ActiveViewIndex = 1;
-            
-
         }
-
+        
         protected void viewReturnBook_Click(object sender, EventArgs e)
         {
             inforMView.ActiveViewIndex = 4;
@@ -329,9 +303,166 @@ namespace MyWeb
         protected void listBorBook_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Load thông tin qua preview Book
-            Book book = db.Books.FirstOrDefault(b => b.bookName == listBorBook.SelectedValue);
+            int id = int.Parse(listBorBook.SelectedValue);
+            Book book = db.Books.FirstOrDefault(b => b.bookId == id); ;
             FillPreview(book);
-            // Kiểm tra xem người dùng đã mượn sách này chưa
         }
+
+        protected void listBoxUser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var username = listBoxUser.SelectedValue;
+            User user = db.Users.FirstOrDefault(u=>u.userName==username);
+            if (user == null) return;
+            accName.Text = user.userName;
+            borBookCount.Text = user.borBooks.Count.ToString();
+            // load danh sachs sachs muon
+            if (user.borBooks != null && user.borBooks.Count > 0)
+            {
+                userListBorBook.DataSource = user.borBooks
+                    .Select(bb =>
+                            new BorBookItem
+                            {
+                                id = bb.id,
+                                name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
+                            }
+
+                    ).ToList();
+            }
+            else
+            {
+                userListBorBook.DataSource = new List<BorBookItem>() ;
+            }
+            userListBorBook.DataBind();
+        }
+
+        protected void returnBookBtn_Click(object sender, EventArgs e)
+        {
+            if (userListBorBook.SelectedValue != null)
+            {
+                string username = listBoxUser.SelectedValue;
+                var user = db.Users.FirstOrDefault(u => u.userName == username);
+                if (user == null) return;
+                int BBid = int.Parse(userListBorBook.SelectedValue);
+                BorBook BB = db.BorBooks.FirstOrDefault(b => b.id == BBid );
+                if (BB == null) return;
+                user.borBooks.Remove(BB);
+                BB.state = false;
+                db.SaveChanges();
+                //load lai danh sách sách người dùng mượn
+                if (user.borBooks.Count > 0 && user.borBooks != null)
+                {
+                    userListBorBook.DataSource = user.borBooks.Select(
+                            bb => new BorBookItem
+                            {
+                                id = bb.id,
+                                name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName,
+                            }
+                        ).ToList();
+                }
+                else
+                {
+                    userListBorBook.DataSource = new List<BorBookItem>();
+                }
+
+                userListBorBook.DataBind();
+            }
+        }
+
+        protected void removeUserBtn_Click(object sender, EventArgs e)
+        {
+            string username = listBoxUser.SelectedValue;
+            var u = db.Users.FirstOrDefault(user => user.userName == username);
+            if (u == null) return;
+            u.borBooks.Clear();
+            db.Users.Remove(u);
+            db.SaveChanges();
+
+            // load lai
+            listUserName.Remove(username);
+            listBoxUser.DataSource = listUserName;
+            listBoxUser.DataBind();
+        }
+
+        // PreView Book trong ***LISTUSER ***
+        protected void userListBorBook_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (userListBorBook.SelectedValue == "") return;
+
+            int idBorBook = int.Parse(userListBorBook.SelectedValue);
+            // chắc chắn có
+            BorBook borBook = db.BorBooks.FirstOrDefault(bb=>bb.id==idBorBook);
+            Book book = db.Books.FirstOrDefault(b => b.bookId == borBook.BookId);
+            previewUserBookPic.ImageUrl = "Images/" + book.imagePath;
+            previewUserBookPic.DataBind();
+        }
+
+        protected void saveUser_Click(object sender, EventArgs e)
+        {
+            List<string> messages = new List<string>();
+            if (listBoxUser.SelectedValue == "" || listBoxUser.SelectedValue == null)
+            {
+                messages.Add("Hãy chọn user");
+                validationUserError.DataSource = messages;
+                validationUserError.DataBind();
+                return;
+            }
+            /*           User tmp = new User()
+                       {
+                           userName = inpUserName.Text,
+                           passWord = inpPassWord.Text,
+                           role = inpRole.SelectedValue
+                       };
+
+                       ValidationContext ctx = new ValidationContext(tmp, serviceProvider: null, items: null);
+                       var results = new List<ValidationResult>();
+                       var isValid = Validator.TryValidateObject(tmp, ctx, results, true);
+                       var messages = results.Select(res => res.ErrorMessage.ToString()).ToList();
+                       if (isValid)
+                       {
+                           LibraryContext db = new LibraryContext();
+                           var user = db.Users.SingleOrDefault(u => u.userName == tmp.userName);
+                           if (user != null)
+                           {
+                               user.passWord = tmp.passWord;
+                               user.role = tmp.role;
+                               db.SaveChanges();
+                               //Response.Redirect("AdminPage.aspx");
+                               realName.Enabled = true;
+                               CMND.Enabled = true;
+                               sdt.Enabled = true;
+                           }
+
+                       }
+                       validationUserError.DataSource = messages;
+                       validationUserError.DataBind();*/
+
+        }
+
+        protected void editUser_Click(object sender, EventArgs e)
+        {
+            List<string> messages = new List<string>();
+            if (listBoxUser.SelectedValue == ""|| listBoxUser.SelectedValue==null)
+            {
+                messages.Add("Hãy chọn user");
+                validationUserError.DataSource = messages;
+                validationUserError.DataBind();
+                return;
+            }
+
+            realName.Enabled = true;
+            CMND.Enabled = true;
+            sdt.Enabled = true;
+            
+        }
+    }
+    class BookItem
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+    }
+    class BorBookItem
+    {
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }
