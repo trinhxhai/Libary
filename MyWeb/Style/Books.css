@@ -1,0 +1,50 @@
+﻿/*BOOKS*/
+#bookContainer {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: flex-start; /*items các đều nhau một khoảng theo chiều ngang*/
+    align-items: center; /*items sẽ nằm ở chính giữa dòng của nó, theo chiều dọc*/
+    align-content: flex-start; /*dồn nội dung lên trên*/
+    height: 100%;
+    min-height: 66vw;
+    width: 100%;
+    border: 1px solid black;
+    padding: 2vw;
+}
+
+/**/
+.book {
+    border: 1px solid black;
+    position: relative;
+    width: 13vw;
+    height: 20vw;
+    font-size: 12px;
+    margin-bottom: 1vw;
+    margin-right:1.5vw;
+}
+    .book .bookPic {
+        border: 1px solid pink;
+        padding: 0.1vw;
+        height: 80%;
+    }
+        .book .bookPic img {
+            display: block;
+            margin: auto;
+            max-width: 10.5vw;
+            max-height: 100%;
+        }
+
+    .book .bookInfo .bookTitle a{
+        text-decoration:none;
+    }
+
+.editLink {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+}
+.removeLink {
+    position: absolute;
+    right:0;
+    bottom:0;
+}

@@ -1,0 +1,93 @@
+﻿#bodyDiv {
+    display: grid;
+    border: 1px solid black;
+    width: 94vw;
+    margin-top: 88px;
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: 17vw 77vw;
+    grid-template-rows: 6vw auto 3vw;
+}
+
+#searchBar {
+    background-color: aquamarine;
+    grid-column: 2 / span 1;
+    grid-row: 1 /span 1;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2vw;
+}
+
+    #searchBar #searchTextBox {
+        border-radius: 1.5vw;
+        width: 38vw;
+        height: 2.5vw;
+        display: inline-block;
+        margin-right: 1vw;
+        padding-left: 20px;
+    }
+
+    #searchBar #searchBtn {
+        display: inline-block;
+        border-radius: 1.5vw;
+        width: 7vw;
+        height: 2.5vw;
+    }
+
+#categoryArea {
+    grid-column: 1 / span 1;
+    grid-row: 1 /span 2;
+    background-color: greenyellow;
+}
+
+    #categoryArea #titleCategory {
+        background-color: mediumpurple;
+        display: inline-block;
+        font-size: 20px;
+        text-align: center;
+        height: 6vw;
+        line-height: 6vw;
+        width: 100%;
+    }
+
+    #categoryArea #categoryCheckList {
+        background-color: lightpink;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 20px;
+    }
+
+    #categoryArea #removeCheck {
+        display: block;
+        background-color: darkslategray;
+        width: 90%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+#bookContainer {
+    grid-column: 2 / span 1;
+    grid-row: 2 /span 1;
+}
+
+#pageNav {
+    border: 1px solid red;
+    background-color: aqua;
+    display: flex;
+    grid-column: 2 / span 1;
+    grid-row: 3 /span 1;
+    justify-content: center;
+    align-content: center;
+}
+
+    #pageNav input {
+        display: block;
+        height: 80%;
+        margin-left: 0.5vw;
+        margin-right: 0.5vw;
+    }

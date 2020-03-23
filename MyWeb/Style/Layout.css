@@ -1,0 +1,133 @@
+﻿* {
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: VnCourier;
+    font-weight: 500;
+    color: black;
+}
+
+body{
+    margin:0;
+}
+/*Navigation Bar*/
+.navBar {
+    border: 1px solid pink;
+    background-image: linear-gradient(to bottom right, #25dba2, #2febb0);
+    position: relative;
+    height: 200px;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.25vw;
+}
+
+    .navBar .logoLink {
+        float: left;
+        position: absolute;
+        display: inline-block;
+        height: 100%;
+        transform: rotate(-12deg) translate(-88px,25px);
+    }
+
+    .navBar img {
+        height: 100%;
+    }
+
+    .navBar .navMenu {
+        border: 1px solid green;
+        /* Standard syntax (must be last) */
+        display: flex;
+        align-items: flex-end;
+        height: 100%;
+        list-style-type: none;
+        margin: 0;
+        padding-right: 5vw;
+    }
+
+        .navBar .navMenu li {
+            background-color: lightcoral;
+            border: 1px solid black;
+            display: block;
+            height: 68px;
+            width: 200px;
+            margin-left: 5vw;
+        }
+
+            .navBar .navMenu li a {
+                background-color: lightgreen;
+                display: inline-block;
+                height: 68px;
+                width: 100%;
+                position: relative;
+                transform: translate(10px,22px);
+                z-index: 10;
+                visibility: visible;
+                /*text in side*/
+                font-size: 24px;
+                line-height: 68px;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+/*FOOTER*/
+footer {
+    bottom:0;
+    margin-top:2vh;
+    padding:10px;
+    font-size:20px;
+    height: 100px;
+    background-image: linear-gradient(to bottom right, #25dba2, #2febb0);
+}
+
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile: */
+    .navBar{
+        width:90%;
+        height:20vh;
+    }
+        .navBar .logoLink {
+            float: left;
+            position: absolute;
+            display: inline-block;
+            height: 50%;
+            transform: rotate(-0deg) translate(0,0);
+        }
+
+        .navBar .navMenu {
+            border: 1px solid green;
+            /* Standard syntax (must be last) */
+            display: flex;
+            align-items: flex-end; 
+            height: 100%;
+            list-style-type: none;
+            margin: 0;
+            padding-right: 5vw;
+        }
+
+            .navBar .navMenu li {
+                background-color: lightcoral;
+                border: 1px solid black;
+                display: block;
+                height: 68px;
+                width: 200px;
+                margin-left: 5vw;
+            }
+
+                .navBar .navMenu li a {
+                    background-color: lightgreen;
+                    display: inline-block;
+                    height: 68px;
+                    width: 100%;
+                    position: relative;
+                    transform: translate(10px,22px);
+                    z-index: 10;
+                    visibility: visible;
+                    /*text in side*/
+                    font-size: 24px;
+                    line-height: 68px;
+                    text-align: center;
+                    vertical-align: middle;
+                }
+}
