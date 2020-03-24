@@ -115,6 +115,9 @@ namespace MyWeb
             {
                 userName = inpUserName.Text,
                 passWord = inpPassWord.Text,
+                realName = inpRealName.Text,
+                CMND = inpCMND.Text,
+                dchi = inpDchi.Text,
                 role = inpRole.SelectedValue
             };
 
@@ -131,7 +134,7 @@ namespace MyWeb
                 {
                     db.Users.Add(tmp);
                     db.SaveChanges();
-                    
+                    messages.Add("Thêm User thành công!");
                     listUser = db.Users.ToList();
                 }
                 else
@@ -142,8 +145,8 @@ namespace MyWeb
             }
             validUserErrors.DataSource = messages;
             validUserErrors.DataBind();
-
-
+            // Không hiển thị preview
+            preMView.ActiveViewIndex = -1;
         }
 
         protected void addBookBnt_Click(object sender, EventArgs e)

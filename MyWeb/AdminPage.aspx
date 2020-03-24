@@ -173,6 +173,9 @@
             margin-left:auto;
             margin-right:auto;
         }
+
+        /*ADD USER*/
+
     </style>
 
 </head>
@@ -212,19 +215,65 @@
             <asp:View ID="addUserView" runat="server">
                 <div id="addUser"  class="info" >
                     <h2> Thêm user</h2>
-                    <label>username:</label>
-                    <asp:TextBox ID="inpUserName" runat="server"></asp:TextBox>
-                    <br />
-                    <label>password:</label>
-                    <asp:TextBox ID="inpPassWord" runat="server"></asp:TextBox>
-                    <br />
-                    <label>Role:</label>
-                    <asp:DropDownList ID="inpRole" runat="server">
-                        <asp:ListItem Value="user">User</asp:ListItem>  
-                        <asp:ListItem Value="admin">Admin</asp:ListItem>  
-                    </asp:DropDownList>
 
-                    <asp:Button ID="addUserBnt" runat="server" Text="Add User" onclick="addUserBnt_Click" />
+                    <table>
+                        <tr>
+                            <td>
+                                <label>User name:</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="inpUserName" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Password:</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="inpPassWord" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>CMND:</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="inpCMND" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Real name:</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="inpRealName" runat="server"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Dia chi:</label>
+                            </td>
+                            <td>
+                                <asp:TextBox ID="inpDchi" runat="server"></asp:TextBox>
+                            </td>
+                        </tr><tr>
+                            <td>
+                                <label>Role:</label>
+                            </td>
+                            <td>
+                                <asp:DropDownList ID="inpRole" runat="server">
+                                    <asp:ListItem Value="user">User</asp:ListItem>  
+                                    <asp:ListItem Value="admin">Admin</asp:ListItem>  
+                                </asp:DropDownList>
+                            </td>
+                            <td>
+                                <asp:Button ID="addUserBnt" runat="server" Text="Add User" onclick="addUserBnt_Click" />
+
+                            </td>
+                        </tr>
+                        
+                    </table>
+
                     <asp:BulletedList ID="validUserErrors" runat="server">
                     </asp:BulletedList>
                 </div>
