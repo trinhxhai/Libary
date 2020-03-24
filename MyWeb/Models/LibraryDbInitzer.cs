@@ -8,7 +8,7 @@ namespace MyWeb.Models
     // DropCreateDatabaseAlways nếu muốn db được tạo mới mỗi lần chạy
     // DropCreateDatabaseIfModelChanges chỉ khởi tạo lại db khi có nhưng thay đổi của models
     //CreateDatabaseIfNotExists
-    public class LibraryDbInitzer : DropCreateDatabaseIfModelChanges<LibraryContext>
+    public class LibraryDbInitzer : DropCreateDatabaseAlways<LibraryContext>
     {
         private static int lastBorBookId =0;
         protected override void Seed(LibraryContext context)
@@ -46,30 +46,40 @@ namespace MyWeb.Models
                 {
                     userName="Hai",
                     passWord="123456",
+                    realName="trinh xuan hai",
+                    CMND="012345678912",
                     role="admin"
                 },
                 new User
                 {
                     userName="Toan",
                     passWord="123456",
+                    realName="bui van toan",
+                    CMND="012345678912",
                     role="admin"
                 },
                 new User
                 {
-                    userName="Linh",
+                    userName="nam",
                     passWord="123456",
+                    realName="tran hai nam",
+                    CMND="012345678912",
                     role="admin"
                 },
                 new User
                 {
                     userName="Trung",
                     passWord="123456",
+                    realName="Nguyễn Trung Trực",
+                    CMND="012345678912",
                     role="user"
                 },
                 new User
                 {
                     userName="Tuan",
                     passWord="123456",
+                    realName="TUAN ahihi",
+                    CMND="012345678912",
                     role="user"
 
                 }

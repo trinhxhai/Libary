@@ -73,6 +73,7 @@ namespace MyWeb
             //genRandomBook(80);
             previewUserBookPic.ImageUrl = "";
 
+
         }
 
 
@@ -333,6 +334,9 @@ namespace MyWeb
                 userListBorBook.DataSource = new List<BorBookItem>() ;
             }
             userListBorBook.DataBind();
+            // load lại các trường thông tin
+            reloadUserInfo();
+
         }
 
         protected void returnBookBtn_Click(object sender, EventArgs e)
@@ -367,7 +371,28 @@ namespace MyWeb
                 userListBorBook.DataBind();
             }
         }
-
+        private void reloadUserInfo()
+        {
+            string username = listBoxUser.SelectedValue;
+            var user = db.Users.FirstOrDefault(u => u.userName == username);
+            if (user == null) {
+                accName.Text = "";
+                realName.Text = "";
+                CMND.Text = "";
+                dchi.Text = "";
+                passWord.Text = "";
+                return;
+            }
+            else
+            {
+                accName.Text = user.userName;
+                realName.Text = user.realName;
+                CMND.Text = user.CMND;
+                dchi.Text = user.dchi;
+                passWord.Text = "";
+            }
+            
+        }
         protected void removeUserBtn_Click(object sender, EventArgs e)
         {
             string username = listBoxUser.SelectedValue;
@@ -381,6 +406,7 @@ namespace MyWeb
             listUserName.Remove(username);
             listBoxUser.DataSource = listUserName;
             listBoxUser.DataBind();
+            reloadUserInfo();
         }
 
         // PreView Book trong ***LISTUSER ***
@@ -393,11 +419,12 @@ namespace MyWeb
             BorBook borBook = db.BorBooks.FirstOrDefault(bb=>bb.id==idBorBook);
             Book book = db.Books.FirstOrDefault(b => b.bookId == borBook.BookId);
             previewUserBookPic.ImageUrl = "Images/" + book.imagePath;
-            previewUserBookPic.DataBind();
+            reloadUserInfo();
         }
 
         protected void saveUser_Click(object sender, EventArgs e)
         {
+            if (realName.Enabled == false) return;
             List<string> messages = new List<string>();
             if (listBoxUser.SelectedValue == "" || listBoxUser.SelectedValue == null)
             {
@@ -406,36 +433,43 @@ namespace MyWeb
                 validationUserError.DataBind();
                 return;
             }
-            /*           User tmp = new User()
-                       {
-                           userName = inpUserName.Text,
-                           passWord = inpPassWord.Text,
-                           role = inpRole.SelectedValue
-                       };
+            var curUser = db.Users.FirstOrDefault(u => u.userName == listBoxUser.SelectedValue);
+            if (curUser == null) return;
 
-                       ValidationContext ctx = new ValidationContext(tmp, serviceProvider: null, items: null);
-                       var results = new List<ValidationResult>();
-                       var isValid = Validator.TryValidateObject(tmp, ctx, results, true);
-                       var messages = results.Select(res => res.ErrorMessage.ToString()).ToList();
-                       if (isValid)
-                       {
-                           LibraryContext db = new LibraryContext();
-                           var user = db.Users.SingleOrDefault(u => u.userName == tmp.userName);
-                           if (user != null)
-                           {
-                               user.passWord = tmp.passWord;
-                               user.role = tmp.role;
-                               db.SaveChanges();
-                               //Response.Redirect("AdminPage.aspx");
-                               realName.Enabled = true;
-                               CMND.Enabled = true;
-                               sdt.Enabled = true;
-                           }
+            User tmp = new User()
+            {
+                userName = curUser.userName,
+                realName = realName.Text,
+                CMND = CMND.Text,
+                dchi = dchi.Text,
+                passWord = passWord.Text,
+                role=curUser.role,
+            };
 
-                       }
-                       validationUserError.DataSource = messages;
-                       validationUserError.DataBind();*/
+            ValidationContext ctx = new ValidationContext(tmp, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(tmp, ctx, results, true);
+            messages = results.Select(res => res.ErrorMessage.ToString()).ToList();
+            if (isValid)
+            {
+                LibraryContext db = new LibraryContext();
+                var user = db.Users.SingleOrDefault(u => u.userName == tmp.userName);
+                if (user != null)
+                {
+                    user.realName = tmp.realName;
+                    user.CMND = tmp.CMND;
+                    user.dchi = tmp.dchi;
+                    user.passWord = tmp.passWord;
+                    db.SaveChanges();
+                    Response.Redirect("AdminPage.aspx");
+                }
 
+            }
+            validationUserError.DataSource = messages; // vì không gian hiển thị ít
+            validationUserError.DataBind();
+            reloadUserInfo();
+            realName.DataBind();
+            
         }
 
         protected void editUser_Click(object sender, EventArgs e)
@@ -451,8 +485,8 @@ namespace MyWeb
 
             realName.Enabled = true;
             CMND.Enabled = true;
-            sdt.Enabled = true;
-            
+            dchi.Enabled = true;
+            passWord.Enabled = true;
         }
     }
     class BookItem

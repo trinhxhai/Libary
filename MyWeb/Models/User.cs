@@ -14,8 +14,21 @@ namespace MyWeb.Models
         [Required(ErrorMessage = "Nhập trường username !")]
         [Key]
         public string userName { get; set; }
+
+
+        [Required(ErrorMessage = "Nhập trường Họ và tên !")]
+        public string realName { get; set; }
+        public string dchi { get; set; }
+
+        [Required(ErrorMessage = "Nhập trường CMND !")]
+        [RegularExpression(@"\d{12}", ErrorMessage = "CMND phải gồm 12 kí tự số !")]
+        public string CMND { get; set; }
+
         [Required(ErrorMessage = "Nhập trường password !")]
         public string passWord { get; set; }
+
+
+
         [Required(ErrorMessage = "Yêu cầu chọn Role !")]
         public string role { get; set; }
         public virtual ICollection<BorBook> borBooks { get; set; } 

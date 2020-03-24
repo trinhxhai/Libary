@@ -11,9 +11,19 @@ namespace MyWeb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
 
-     
+        protected void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Response.Write(ListBox1.SelectedValue);
+            TextBox1.Text= ListBox1.SelectedValue;
+        }
+
+        protected void ListBox1_TextChanged(object sender, EventArgs e)
+        {
+            Response.Write(ListBox1.SelectedValue);
+            TextBox1.Text = ListBox1.SelectedValue;
+        }
     }
 }

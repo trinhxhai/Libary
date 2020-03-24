@@ -138,35 +138,41 @@
                         background-color:aqua;
                         margin-left:0.75vw;
                         width:6vw;
-                        
                     }
             #previewUser #last-row {
                 border: 1px solid pink;
                 background-color: aquamarine;
-                height: 6vw;
+                height:4.25vw;
             }
-
-            #previewUser #previewUserBook #userListBorBook {
-                grid-column: 1/ span 1;
-                grid-row: 1/ span 1;
-                border: 1px solid pink;
+            #previewUserBook{
+                display: grid;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: 85% 15%;
+                width:85%;
+                height:55%;
+                margin-left:auto;
+                margin-right:auto;
             }
-            #previewUser #previewUserBook #returnBookBtn {
-                grid-column: 1/ span 1;
-                grid-row: 2/ span 1;
-                display: block;
-                border: 1px solid blue;
-            }
-                #previewUser #previewUserBook #previewUserBookPic {
-                    grid-column:2/ span 1;
-                    grid-row:1/ span 2;
-                    display: block;
-                    border: 1px solid blue;
-                    max-height:100%;
-                    max-width:100%;
-                    margin-left:auto;
-                    margin-right:auto;
-                }
+        #previewUser #previewUserBook #userListBorBook {
+            grid-column: 1/ span 1;
+            grid-row: 1/ span 1;
+            border: 1px solid pink;
+        }
+        #previewUser #previewUserBook #returnBookBtn {
+            grid-column: 1/ span 1;
+            grid-row: 2/ span 1;
+            display: block;
+        }
+        /*Prebook right side*/
+        #previewUser #previewUserBook #previewUserBookPic {
+            grid-column:2/ span 1;
+            grid-row:1/ span 2;
+            display: block;
+            max-height:100%;
+            max-width:100%;
+            margin-left:auto;
+            margin-right:auto;
+        }
     </style>
 
 </head>
@@ -274,7 +280,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <label>User name :</label>
+                                    <label>Username :</label>
                                 </td>
                                 <td>
                                     <asp:Label ID="accName" runat="server" Text=""></asp:Label>
@@ -282,10 +288,18 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <label>Password :</label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="passWord" runat="server" Enabled="False" ViewStateMode="Enabled"  ></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <label>Họ tên :</label>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="realName" runat="server" Enabled="False"  ></asp:TextBox>
+                                    <asp:TextBox ID="realName" runat="server" Enabled="False" ViewStateMode="Enabled"  ></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
@@ -293,15 +307,15 @@
                                     <label>CMND :</label>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="CMND" runat="server" Enabled="False"></asp:TextBox>
+                                    <asp:TextBox ID="CMND" runat="server" Enabled="False" ViewStateMode="Enabled"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label>SDT :</label>
+                                    <label>Địa chỉ :</label>
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="sdt" runat="server" Enabled="False"></asp:TextBox>
+                                    <asp:TextBox ID="dchi" runat="server" Enabled="False" ViewStateMode="Enabled"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
@@ -319,7 +333,7 @@
 
                                 </td>
                                 <td>
-                                    <asp:BulletedList ID="validationUserError" runat="server" ViewStateMode="Disabled"></asp:BulletedList>
+                                    <asp:BulletedList ID="validationUserError" runat="server"></asp:BulletedList>
                                 </td>
                             </tr>
                         </table>

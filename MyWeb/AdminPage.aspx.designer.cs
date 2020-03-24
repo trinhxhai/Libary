@@ -312,6 +312,15 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.Label accName;
 
         /// <summary>
+        /// passWord control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox passWord;
+
+        /// <summary>
         /// realName control.
         /// </summary>
         /// <remarks>
@@ -330,13 +339,13 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.TextBox CMND;
 
         /// <summary>
-        /// sdt control.
+        /// dchi control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox sdt;
+        protected global::System.Web.UI.WebControls.TextBox dchi;
 
         /// <summary>
         /// borBookCount control.
