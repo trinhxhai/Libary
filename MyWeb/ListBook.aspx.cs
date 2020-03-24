@@ -11,7 +11,6 @@ namespace MyWeb
     public partial class ListBook : System.Web.UI.Page
     {
         //Role
-        public string adminMode = "none";
         // ListBook
         private List<Book> listBook = new List<Book>();
         public List<Book> curListBook = new List<Book>();
@@ -23,14 +22,9 @@ namespace MyWeb
         // Page
         private int curStartingPage = 0;
         private const int bookPerPage = 30;
-
-        
         protected void Page_Load(object sender, EventArgs e)
         {
             LibraryContext db = new LibraryContext();
-            // Kiểm tra quyền admin
-            if (Session["username"] != null && UserLogic.isAdmin(Session["username"].ToString())) adminMode = "inline-block";
-
             // INIT
             // Lấy danh sách tất cả từ db
             listBook = db.Books.ToList<Book>();

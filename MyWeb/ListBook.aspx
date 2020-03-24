@@ -57,12 +57,7 @@
                             <a href="BookDetails.aspx?bookId=<%:curListBook[i].bookId.ToString()%>"> <%:curListBook[i].bookName %></a>
                         </h3>
                     </div>
-                <a href="EditBook.aspx?bookId=<%:curListBook[i].bookId.ToString()%>" style="display: <%:adminMode%>; " class="editLink">
-                    Sửa
-                </a>
-                <a href="RemoveBook.aspx?bookId=<%:curListBook[i].bookId.ToString()%>" style="display: <%:adminMode%>; " class="removeLink">
-                    Xóa
-                </a>
+                
                 </div>
             
                 <%} %>
