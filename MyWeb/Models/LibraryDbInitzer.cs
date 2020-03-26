@@ -25,13 +25,15 @@ namespace MyWeb.Models
                 for (int j = 0; j < Int16.Parse(listBook[i].amount); j++)
                 {
                     int bookId = listBook[i].bookId;
+                    Book book = context.Books.FirstOrDefault(b => b.bookId == bookId);
                     context.BorBooks.Add(
                                 new BorBook
                                 {
                                     id = ++lastBorBookId,
-                                    BookId = context.Books.FirstOrDefault(book => book.bookId == bookId).bookId,
+                                    BookId = book.bookId,
+                                    Book = book,
                                     returnDate = DateTime.Now,
-                                    state = false
+                                    state = 0 
                                 }
                         ); ;
                 }

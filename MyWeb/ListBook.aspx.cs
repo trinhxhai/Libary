@@ -18,7 +18,6 @@ namespace MyWeb
         private List<String> checkedCategoryList = new List<string>();
         private Dictionary<string, int> categoryDict = new Dictionary<string, int>();
         // Search Bar
-        //public List<string> searchMessage = new List<string>();
         // Page
         private int curStartingPage = 0;
         private const int bookPerPage = 30;

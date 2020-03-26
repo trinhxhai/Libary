@@ -50,7 +50,7 @@ namespace MyWeb.Models
                         id = idBorBook++,
                         BookId = book.bookId,
                         returnDate = DateTime.Now,
-                        state = false,
+                        state = 0,
                     }
                     );
 

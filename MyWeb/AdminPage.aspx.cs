@@ -231,8 +231,9 @@ namespace MyWeb
             if (user.borBooks.Count > 20)
                 message.Add("Bạn đã mượn 20 quyển sách, hãy trả sách để có thể mượn thêm sách !");
 
-            //Số lượng sách còn lại của sách này
-            List<BorBook> avableBorBook = db.BorBooks.Where(bb => bb.state == false).ToList();
+            //danh sách sách còn lại của sách này
+            List<BorBook> avableBorBook = db.BorBooks.Where(bb => bb.state == 0).ToList();
+            
 
             // Những sách thuộc loại sách đã chọn
             avableBorBook = avableBorBook.Where(bb => bb.BookId == curBook.bookId).ToList();
@@ -240,17 +241,37 @@ namespace MyWeb
             // nếu nó rỗng tức không còn loại sách này
             if (avableBorBook.Count == 0)
                 message.Add("Xin lỗi sách này đã hết !");
+            // trường hợp người dùng đã đặt trước ?? th đặc biệt
+            BorBook tmp = user.borBooks.FirstOrDefault(bb => bb.BookId == bookId&&bb.state==1);
+            if (tmp!=null)
+            {
+                // không cần xét dk số lượng sách đã mượn vì, k tăng thêm chỉ chỉnh sách's state lên 2
+                message.Clear();
+                tmp.state = 2;
+                int day = int.Parse(returnDate.SelectedValue);
+                tmp.returnDate = DateTime.Now.AddDays(day * 7);
+                db.SaveChanges();
+
+                message.Add("Người dùng này đã mượn trước, trạng thái sách chuyển thành 'đang được mượn' !");
+                borrowMessages.DataSource = message;
+                borrowMessages.DataBind();
+                return;
+            }
 
             // Nếu không gặp 2 lỗi trên cho phép mượn
             if (message.Count == 0)
             {
                 BorBook BB = avableBorBook[0];
+
+                //BB = db.BorBooks.FirstOrDefault(bb => bb.id == BB.id);
+
                 int day = int.Parse(returnDate.SelectedValue);
-                BB.returnDate = DateTime.Today.AddDays(day * 7);
-                // set state = true chuyển sách từ trạng thái không ai mượn(false) sang có người mượn (true)
-                BB.state = true;
+                BB.returnDate = DateTime.Now.AddDays(day * 7);
+                // set state =3 
+                BB.state = 2;
+                BB.Book = curBook;
                 user.borBooks.Add(BB);
-                message.Add("Mượn thành công!");
+                message.Add("Sách được mượn bởi tài khoản admin, trạng thái sách chuyển thành 'đang được mượn' !");
                 db.SaveChanges();
             }
             // Gán và hiển thị lỗi - tin nhắn cho người dùng
@@ -327,7 +348,8 @@ namespace MyWeb
                             new BorBookItem
                             {
                                 id = bb.id,
-                                name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
+                                name = bb.Book.bookName
+                                //name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
                             }
 
                     ).ToList();
@@ -353,7 +375,8 @@ namespace MyWeb
                 BorBook BB = db.BorBooks.FirstOrDefault(b => b.id == BBid );
                 if (BB == null) return;
                 user.borBooks.Remove(BB);
-                BB.state = false;
+                BB.state = 0;
+                BB.User = null;
                 db.SaveChanges();
                 //load lai danh sách sách người dùng mượn
                 if (user.borBooks.Count > 0 && user.borBooks != null)

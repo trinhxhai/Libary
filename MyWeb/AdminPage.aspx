@@ -5,182 +5,12 @@
 <head runat="server">
     <title></title>
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <style>
-        
-        #viewContainer{
-            display:grid;
-            grid-template-columns:45vw 45vw;
-            grid-template-rows:5vw 40vw;
-            margin-top:100px;
-            margin-bottom:8vw;
-            width:90vw;
-            height:45vw;
-            margin-left:auto;
-            margin-right:auto;
-            border-radius:25px;
-            background-color: antiquewhite;
-
-        }
-        #menuBar {
-            display: flex;
-            align-items: flex-end;
-            background-color: cadetblue;
-            grid-column: 1 / span 2;
-            grid-row: 1 / span 1;
-            padding-left: 2vw;
-            border-radius: 25px 25px 0 0;
-        }
-
-            #menuBar input {
-                display: block;
-                height: 68%;
-                width: 10vw;
-                border: none;
-                border: 1px solid green;
-                border-bottom: none;
-                margin-right: 0.5vw;
-                font-size:18px;
-                transition-duration:0.5s;
-            }
-            #menuBar input:hover {
-                cursor: pointer;
-                font-size:20px;
-                
-            }
-                #menuBar input:focus {
-                    background-color: green;
-                }
-
-        .info {
-            padding: 2vw;
-            grid-column: 1 / span 1;
-            grid-row: 2 / span 1;
-        }
-
-        .preview {
-            padding: 2vw;
-            background-color: antiquewhite;
-            grid-column: 2 / span 1;
-            grid-row: 2 / span 1;
-            border-left: 2px dotted gray;
-        }
-
-        /*USER LIST*/ 
-        #listUserView{
-            padding:20px;
-            grid-row: 2 / span 1;
-        }
-        #listBoxUser{
-            display:block;
-            width:85%;
-            margin-left:auto;
-            margin-right:auto;
-            margin-top:5vw;
-            padding:0.5vw;
-            height:200px;
-        }
-        #removeUserBtn{
-            display:block;
-            width:85%;
-            margin-left:auto;
-            margin-right:auto;
-            margin-top:1vw;
-        }
-        /*PRE VIEW BOOK*/
-        #previewBook {
-            display: grid;
-            grid-template-columns: 50% 50%; /* containter's col 2 45vw*/
-            grid-template-rows: 15% 85%;
-        }
-
-            #previewBook h2 {
-                grid-column: 1/span 2;
-                grid-row: 1 / span 1;
-            }
-            #previewBook #inforPreviewBook{
-                grid-column: 1/ span 1;
-                grid-row: 2 / span 1;
-            }
-            #previewBook #previewPicBook {
-                max-height: 85%;
-                grid-column: 2/ span 1;
-                grid-row: 2 / span 1;
-            }
-            #previewBook #borBookMessage{
-                grid-column: 1/ span 2;
-                grid-row: 3 / span 1;
-            }
-        /*PREVIEW User*/
-        #previewUser{
-            border:2px solid black;
-
-        }
-            #previewUser #preUserInfo{
-                border : 1px solid gray;
-                font-size:1.25vw;
-                width:85%;
-                height:45%;
-                padding-top:1.5vw;
-                margin-left:auto;
-                margin-right:auto;
-            }
-            #previewUser #preUserInfo{
-                border : 1px solid gray;
-                font-size:1.25vw;
-                width:85%;
-                height:45%;
-                padding-top:1.5vw;
-                margin-left:auto;
-                margin-right:auto;
-            }
-                    #previewUser #editUser,#saveUser {
-                        display:inline-block;
-                        background-color:aqua;
-                        margin-left:0.75vw;
-                        width:6vw;
-                    }
-            #previewUser #last-row {
-                border: 1px solid pink;
-                background-color: aquamarine;
-                height:4.25vw;
-            }
-            #previewUserBook{
-                display: grid;
-                grid-template-columns: 50% 50%;
-                grid-template-rows: 85% 15%;
-                width:85%;
-                height:55%;
-                margin-left:auto;
-                margin-right:auto;
-            }
-        #previewUser #previewUserBook #userListBorBook {
-            grid-column: 1/ span 1;
-            grid-row: 1/ span 1;
-            border: 1px solid pink;
-        }
-        #previewUser #previewUserBook #returnBookBtn {
-            grid-column: 1/ span 1;
-            grid-row: 2/ span 1;
-            display: block;
-        }
-        /*Prebook right side*/
-        #previewUser #previewUserBook #previewUserBookPic {
-            grid-column:2/ span 1;
-            grid-row:1/ span 2;
-            display: block;
-            max-height:100%;
-            max-width:100%;
-            margin-left:auto;
-            margin-right:auto;
-        }
-
-        /*ADD USER*/
-
-    </style>
+    <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 
 </head>
 <body>
     <form id="form1" runat="server">
+
         <div class="navBar">
             <a href="ListBook.aspx" class="logoLink">
                 <img src="Images/Logo.jpg" />
@@ -193,8 +23,6 @@
             </ul>
         </div>
 
-        <label id ="curentAdmin">
-        </label>
         <div id="viewContainer">
         <div id="menuBar">   
             <asp:Button ID="viewListUser" runat="server" Text="Users"  OnClick="viewListUser_Click" />
@@ -316,7 +144,7 @@
 
                     <asp:Button ID="borrowBtn" runat="server" Text="Borrow" OnClick="borrowBtn_Click" />
 
-                    <asp:BulletedList ID="borrowMessages" runat="server"></asp:BulletedList>
+                    <asp:BulletedList ID="borrowMessages" runat="server" ViewStateMode="Disabled"></asp:BulletedList>
                 </div>
             </asp:View>
             

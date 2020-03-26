@@ -135,6 +135,7 @@
     <Content Include="obj\Debug\MyWeb.pdb" />
     <Content Include="RemoveBook.aspx" />
     <Content Include="RemoveUser.aspx" />
+    <Content Include="Style\AdminPage.css" />
     <Content Include="Style\Books.css" />
     <Content Include="Style\Layout.css" />
     <Content Include="Style\ListBook.css" />
