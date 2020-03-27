@@ -16,11 +16,18 @@
                 <img src="Images/Logo.jpg" />
             </a>
             <ul class="navMenu">
+                <li><a href="ListBook.aspx">Trang Chủ</a></li>
                 <li><a href="AdminPage.aspx">Admin</a></li>
-                <li><a href=""> Trả sách </a></li>
-                <li><a href="Login.aspx">Đăng nhập</a></li>
-                <li><a href="">Đăng kí </a></li>
+                <li><a href=""> Địa điểm </a></li>
+                <li><a href="">Giới thiệu </a></li>
             </ul>
+            <div id="loginBox" runat="server">
+                <a href="Login.aspx">Đăng nhập</a>
+            </div>
+            <div id="userNav"  runat="server">
+                <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
+                <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
+            </div>
         </div>
 
         <div id="viewContainer">

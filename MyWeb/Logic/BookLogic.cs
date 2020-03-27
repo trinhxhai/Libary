@@ -56,6 +56,35 @@ namespace MyWeb.Models
 
             db.SaveChanges();
         }
-    
+        public  static void genBorBook(ref Book book, int count)
+        {
+            LibraryContext db = new LibraryContext();
+            int curid = db.BorBooks.Max(bb => bb.id) + 1;
+            for(int i = 0; i < count; i++) {
+                book.BorBooks.Add(
+                        new BorBook
+                        {
+                            id = curid++,
+                            state = 0,
+                            returnDate = DateTime.Now,
+                            BookId = book.bookId,
+                            Book = book
+                        }
+                    );
+            }
+            db.SaveChanges();
+        }
+        public static void removeBorBook(ref Book book, int count)
+        {
+            LibraryContext db = new LibraryContext();
+            int tmpId = book.bookId;
+            List<BorBook> Listbb = db.BorBooks.Where( bb=> bb.state==0 && bb.BookId==tmpId).ToList();
+            for(int i = 0; i < Math.Min(count, Listbb.Count); i++)
+            {
+                book.BorBooks.Remove(Listbb[i]);
+                db.BorBooks.Remove(Listbb[i]);
+            }
+            db.SaveChanges();
+        }
     }
 }

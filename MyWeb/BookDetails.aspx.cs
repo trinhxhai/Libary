@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MyWeb.Models;
+using System.ComponentModel.DataAnnotations;
 namespace MyWeb
 {
     public partial class BookDetails : System.Web.UI.Page
@@ -12,67 +13,76 @@ namespace MyWeb
         private List<BorBook> listBorBook = new List<BorBook>();
         private LibraryContext db = new LibraryContext();
         private Book curBook;
-
         protected void Page_Load(object sender, EventArgs e)
-        {   
+        {
+
+            //thêm sự kiện xác nhận
+            removeBtn.Attributes.Add("onclick", "return ConfirmOnDelete()");
+            // lấy thông tin sách
+            int BookId;
+            if (Request.QueryString["BookId"] == null) Response.Redirect("NotFound.html");
+            BookId = Int16.Parse(Request.QueryString["BookId"]);
+            curBook = db.Books.FirstOrDefault(b => b.bookId == BookId);
+            // nếu không tồn tại sách 
+            if (curBook == null) Response.Redirect("NotFound.html");
+
             // Kiểm tra quyền  Admin, hiện bảng BorBook
-            if (Session["username"] != null && UserLogic.isAdmin(Session["username"].ToString())) {
+            if (Session["username"] != null && UserLogic.isAdmin(Session["username"].ToString()))
+            {
                 editBtn.Visible = true;
                 removeBtn.Visible = true;
+                // không thể dùng viewstate để lưu table động, nạp lại mỗi lần :<
+                listBorBook = curBook.BorBooks.OrderBy(bb => bb.state).ToList();
+                for (int i = 0; i < listBorBook.Count; i++)
+                {
+                    var row = new TableRow();
+                    var cellID = new TableCell();
+                    cellID.Text = listBorBook[i].id.ToString();
+                    row.Cells.Add(cellID);
+                    var cellState = new TableCell();
+                    cellState.Text = (listBorBook[i].state > 0) ? (listBorBook[i].state == 1) ? "Được đặt" : "Đã mượn" : "Có sẵn";
+                    row.Cells.Add(cellState);
+                    var cellUser = new TableCell();
+                    var cellDate = new TableCell();
+                    if ((listBorBook[i].User == null))
+                    {
+                        cellUser.Text = "";
+                        cellDate.Text = "";
+                    }
+                    else
+                    {
+                        cellUser.Text = listBorBook[i].User.userName;
+                        cellDate.Text = listBorBook[i].returnDate.ToString();
+                    }
+                    row.Cells.Add(cellUser);
+                    row.Cells.Add(cellDate);
+                    borBooksTable.Rows.Add(row);
+                }
+                borBooksTable.DataBind();
             }
             else
             {
+                // nếu không phải admin không hiện danh sách sách
                 borBooks.Style.Add("display", "none");
             }
-            int BookId;
-            // lấy thông tin sách
-            // nếu k chỉ định id sách, sẽ điều hướng sang trang NotFound
-            if (Request.QueryString["BookId"] == null) Response.Redirect("NotFound.html");
-            BookId = Int16.Parse(Request.QueryString["BookId"]);
-            // tìm sách theo id
-            curBook = db.Books.FirstOrDefault(b => b.bookId == BookId);
-            // k tìm thấy sách thì tiếp tục điều hướng sang NotFound.html
-            if (curBook == null) Response.Redirect("NotFound.html");
+            
 
-            // load dữ liệu cho control
-            BookName.Text = curBook.bookName;
-            BookCategory.Text = curBook.category;
-            BookDescription.InnerHtml = curBook.description;
-            var path = "~/Images/";
-            bookPic.ImageUrl = path + curBook.imagePath;
-            BookPrice.Text = curBook.price;
-
-
-
-            //LOAD BẢNG BORBOOK cho admin
-            //listBorBook = db.BorBooks.Where(bb => bb.BookId == curBook.bookId);
-            listBorBook = curBook.BorBooks.OrderBy(bb => bb.state).ToList();
-            for (int i = 0; i < listBorBook.Count; i++)
+            if (IsPostBack)
             {
-                var row = new TableRow();
-                var cellID = new TableCell();
-                cellID.Text = listBorBook[i].id.ToString();
-                row.Cells.Add(cellID);
-                var cellState = new TableCell();
-                cellState.Text = (listBorBook[i].state>0)? (listBorBook[i].state ==1 )?"Được đặt":"Đã mượn" : "Có sẵn";
-                row.Cells.Add(cellState);
-                var cellUser = new TableCell();
-                var cellDate = new TableCell();
-                if ((listBorBook[i].User == null))
-                {
-                    cellUser.Text = "";
-                    cellDate.Text = "";
-                }
-                else
-                {
-                    cellUser.Text = listBorBook[i].User.userName;
-                    cellDate.Text = listBorBook[i].returnDate.ToString();
-                }
-                row.Cells.Add(cellUser);
-                row.Cells.Add(cellDate);
-                borBooksTable.Rows.Add(row);
+                
             }
-            borBooksTable.DataBind();
+            else
+            {
+                // chỉ lần đầu tiên
+                // load dữ liệu cho control
+                BookName.Text = curBook.bookName;
+                BookCategory.Text = curBook.category;
+                BookDescription.InnerHtml = curBook.description;
+                var path = "~/Images/";
+                bookPic.ImageUrl = path + curBook.imagePath;
+                BookPrice.Text = curBook.price;
+                BookCount.Text = curBook.amount;
+            }
         }
 
         protected void editBtn_Click(object sender, EventArgs e)
@@ -82,27 +92,107 @@ namespace MyWeb
             BookDescription.Disabled = false;
             BookPrice.Enabled = true;
             saveBtn.Visible = true;
+            BookCountLbl.Visible = true;
+            BookCount.Visible = true;
+            BookCount.Enabled = true;
             BookName.Focus();
         }
 
         protected void saveBtn_Click(object sender, EventArgs e)
         {
+            List<string> messages= new List<string>();
             // khi nhấn được nút btn => chắc chắn đã able text
-            string bNam = BookName.Text;
+            string bName = BookName.Text;
             string bCate = BookCategory.Text;
             string bPrice = BookPrice.Text;
             string bDescrip = Request.Form["BookDescription"];
+            // validate thông tin sách
+            int bookCount;
+            if (!int.TryParse(BookCount.Text, out bookCount))
+            {
+                messages.Add("Số lượng không hợp lệ");
+                errorEditBook.DataSource = messages;
+                errorEditBook.DataBind();
+                return;
+            }
+            int borBookState1 = curBook.BorBooks.Count(bb => bb.state >= 1);
 
-            
+            if (bookCount < borBookState1)
+            {
+                messages.Add("Số lượng sách không được ít hơn số lượng sách đã được mượn");
+                errorEditBook.DataSource = messages;
+                errorEditBook.DataBind();
+                return;
+            }
+
+            Book tmp = new Book
+            {
+                bookId = curBook.bookId,
+                bookName = bName,
+                category = bCate,
+                amount = BookCount.Text,
+                imagePath = curBook.imagePath,
+                price = bPrice,
+                description = bDescrip
+            };
+            ValidationContext validBook = new ValidationContext(tmp, serviceProvider: null, items: null);
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(tmp, validBook, results, true);
+            messages = results.Select(res => res.ErrorMessage.ToString()).ToList();
             // nếu lưu thành công => 
-            saveBtn.Visible = false; 
-            // disable edit các trường
-            BookName.Enabled = false;
-            BookCategory.Enabled = false;
-            BookPrice.Enabled = false;
-            // texrea
-            BookDescription.Disabled = true;
-            saveBtn.Visible = false;
+            // validate trường số lượng sách
+
+            if (isValid)
+            {
+                // sinh/hủy số sách chênh lệch !
+                int delta = bookCount - int.Parse(curBook.amount);
+                if (delta < 0)
+                {
+                    //tức là số sách nhập vào ít hơn số sách cũ, admin muốn loại bỏ bớt số sách đang "có sẵn - không có ai mượn";
+                    BookLogic.removeBorBook(ref curBook, -delta);
+                }
+                else
+                {
+                    // tăng số lượng có sẵn của sách
+                    BookLogic.genBorBook(ref curBook, delta);
+                }
+
+                // Nếu sửa thành công cần reload lại bảng borBook
+                curBook.bookName = tmp.bookName;
+                curBook.category = tmp.category;
+                curBook.price = tmp.price;
+                curBook.amount = bookCount.ToString();
+
+                curBook.description = tmp.description;
+                messages.Add("Lưu thành công!");
+                db.SaveChanges();
+
+                BookCount.Text = bookCount.ToString();
+
+                // disable edit các trường
+
+                BookName.Enabled = false;
+                BookCategory.Enabled = false;
+                BookPrice.Enabled = false;
+                // texrea
+                BookDescription.Disabled = true;
+
+                saveBtn.Visible = false;
+
+                BookCountLbl.Visible = false;
+                BookCount.Visible = false;
+                BookCount.Enabled = false;
+                // it good ideaaa
+                // for reload the borbook list too
+                // cực kì cần thận với lệnh redirect này, nó sẽ chạy các lệnh trong khối !IsPostBack
+                // cần set lại các giá trị thật đúng đắn
+                Response.Redirect("BookDetails.aspx?bookId=" + curBook.bookId);
+            }
+            else
+            {
+                errorEditBook.DataSource = results.Select(res => res.ErrorMessage.ToString()).ToList();
+                errorEditBook.DataBind();
+            }
         }
 
  
@@ -147,6 +237,13 @@ namespace MyWeb
             }
             errorBorrow.DataSource = message;
             errorBorrow.DataBind();
+        }
+
+        protected void removeBtn_Click(object sender, EventArgs e)
+        {
+            db.Books.Remove(curBook);
+            db.SaveChanges();
+            Response.Redirect("ListBook.aspx");
         }
     }
     class BookInstance

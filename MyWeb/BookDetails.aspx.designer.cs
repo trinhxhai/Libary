@@ -24,6 +24,15 @@ namespace MyWeb
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
+        /// borrowBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button borrowBtn;
+
+        /// <summary>
         /// BookName control.
         /// </summary>
         /// <remarks>
@@ -60,22 +69,31 @@ namespace MyWeb
         protected global::System.Web.UI.HtmlControls.HtmlTextArea BookDescription;
 
         /// <summary>
-        /// Button1 control.
+        /// BookCountLbl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Label BookCountLbl;
 
         /// <summary>
-        /// Button2 control.
+        /// BookCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.TextBox BookCount;
+
+        /// <summary>
+        /// errorBorrow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList errorBorrow;
 
         /// <summary>
         /// editBtn control.
@@ -87,15 +105,6 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.Button editBtn;
 
         /// <summary>
-        /// removeBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button removeBtn;
-
-        /// <summary>
         /// saveBtn control.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace MyWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button saveBtn;
+
+        /// <summary>
+        /// removeBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button removeBtn;
 
         /// <summary>
         /// errorEditBook control.
@@ -121,24 +139,6 @@ namespace MyWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image bookPic;
-
-        /// <summary>
-        /// errorBorrow control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList errorBorrow;
-
-        /// <summary>
-        /// borrowBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button borrowBtn;
 
         /// <summary>
         /// borBooks control.

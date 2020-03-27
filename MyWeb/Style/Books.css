@@ -8,22 +8,24 @@
     height: 100%;
     min-height: 66vw;
     width: 100%;
-    border: 1px solid black;
     padding: 2vw;
+    grid-column: 2 / span 1;
+    grid-row: 2 /span 1;
+    background-color: white;
 }
 
-/**/
 .book {
-    border: 1px solid black;
+    border: 1px solid lightgray; 
     position: relative;
     width: 13vw;
     height: 20vw;
     font-size: 12px;
-    margin-bottom: 1vw;
+    margin-bottom: 0.1vw;
     margin-right:1.5vw;
+    overflow: hidden;
 }
     .book .bookPic {
-        border: 1px solid pink;
+        /* border: 1px solid pink; */
         padding: 0.1vw;
         height: 80%;
     }
@@ -33,18 +35,13 @@
             max-width: 10.5vw;
             max-height: 100%;
         }
-
+    .book .bookInfo .bookTitle {
+       padding: 0;
+        margin: 0; 
+    }
     .book .bookInfo .bookTitle a{
+        font-size: 1vw;
+        margin-left:0.1vw;
+        margin-right: :0.1vw;
         text-decoration:none;
     }
-
-.editLink {
-    position: absolute;
-    right: 0;
-    bottom: 20px;
-}
-.removeLink {
-    position: absolute;
-    right:0;
-    bottom:0;
-}

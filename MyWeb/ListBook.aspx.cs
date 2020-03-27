@@ -21,14 +21,26 @@ namespace MyWeb
         // Page
         private int curStartingPage = 0;
         private const int bookPerPage = 30;
+        public string username;
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if (Session["userName"] != null) {
+                loginBox.Style.Add("display", "none");
+                username =Session["userName"].ToString();
+            }
+            else
+            {
+                userNav.Style.Add("display", "none");
+            }
+
             LibraryContext db = new LibraryContext();
             // INIT
             // Lấy danh sách tất cả từ db
             listBook = db.Books.ToList<Book>();
 
-            if (!IsPostBack) {
+            if (!IsPostBack)
+            {
                 //Only in the first load
                 Session["lastPage"] = 1;
                 inpPage.Text = "1";
@@ -41,9 +53,17 @@ namespace MyWeb
             else
             {
                 //is postback
-                curStartingPage = (int.Parse(Session["lastPage"].ToString()) - 1) * bookPerPage;
+                // cho trường hợp Session hết hạn, nhưng trang web vẫn duy trì
+                if (Session["lastPage"] == null)
+                {
+                    curStartingPage = 0;
+                }
+                else
+                {
+                    curStartingPage = (int.Parse(Session["lastPage"].ToString()) - 1) * bookPerPage;
+
+                }
             }
-            
 
         }
 
@@ -215,6 +235,12 @@ namespace MyWeb
             loadPageNumber();
             Session["lastPage"] = curStartingPage / bookPerPage + 1;
             inpPage.Text = Session["lastPage"].ToString();
+        }
+
+        protected void logoutBtn_Click(object sender, EventArgs e)
+        {
+            Session["userName"] = null;
+            Response.Redirect("ListBook.aspx");
         }
     }
     class Category

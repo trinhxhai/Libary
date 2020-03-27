@@ -1,16 +1,16 @@
 ﻿#bodyDiv {
     display: grid;
-    border: 1px solid black;
     width: 94vw;
     margin-top: 88px;
     margin-left: auto;
     margin-right: auto;
     grid-template-columns: 17vw 77vw;
     grid-template-rows: 6vw auto 3vw;
+    border: 0 1vw 1vw 0;
 }
 
 #searchBar {
-    background-color: aquamarine;
+    background: linear-gradient(90deg, rgba(132,217,187,1) 0%, rgba(0,242,167,1) 62%);
     grid-column: 2 / span 1;
     grid-row: 1 /span 1;
     display: flex;
@@ -18,10 +18,12 @@
     justify-content: flex-start;
     align-items: center;
     padding: 2vw;
+    z-index: 2;
 }
 
     #searchBar #searchTextBox {
         border-radius: 1.5vw;
+        border: 0.1vw solid #c4c2bc;
         width: 38vw;
         height: 2.5vw;
         display: inline-block;
@@ -31,19 +33,21 @@
 
     #searchBar #searchBtn {
         display: inline-block;
-        border-radius: 1.5vw;
         width: 7vw;
         height: 2.5vw;
     }
 
 #categoryArea {
+    background-color: white;
     grid-column: 1 / span 1;
     grid-row: 1 /span 2;
-    background-color: greenyellow;
+    box-shadow: 0.1vw  0 5px #d1d1d1;
+    z-index: 1;
 }
 
     #categoryArea #titleCategory {
-        background-color: mediumpurple;
+
+        background-color: #59ba98;
         display: inline-block;
         font-size: 20px;
         text-align: center;
@@ -53,7 +57,6 @@
     }
 
     #categoryArea #categoryCheckList {
-        background-color: lightpink;
         width: 90%;
         margin-left: auto;
         margin-right: auto;
@@ -62,7 +65,6 @@
 
     #categoryArea #removeCheck {
         display: block;
-        background-color: darkslategray;
         width: 90%;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -70,14 +72,8 @@
         margin-right: auto;
     }
 
-#bookContainer {
-    grid-column: 2 / span 1;
-    grid-row: 2 /span 1;
-}
-
 #pageNav {
-    border: 1px solid red;
-    background-color: aqua;
+    
     display: flex;
     grid-column: 2 / span 1;
     grid-row: 3 /span 1;
@@ -87,7 +83,11 @@
 
     #pageNav input {
         display: block;
+        text-align: center;
         height: 80%;
         margin-left: 0.5vw;
         margin-right: 0.5vw;
+    }
+    #inpPage{
+        width: 3vw;
     }

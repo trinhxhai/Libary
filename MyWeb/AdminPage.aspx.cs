@@ -13,7 +13,7 @@ namespace MyWeb
         private LibraryContext db = new LibraryContext();
         private List<User> listUser = new List<User>();
         private List<Book> listBook = new List<Book>();
-        public string userName = "";
+        public string username = "";
         private List<string> listUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,7 +21,16 @@ namespace MyWeb
             // check permission
             if ( Session["userName"]==null || !UserLogic.isAdmin(Session["userName"].ToString()) ) Response.Redirect("NoPermisson.html");
             // greating
-            if (Session["userName"]!=null) userName ="Hello "+ Session["userName"].ToString();
+
+            if (Session["userName"] != null)
+            {
+                loginBox.Style.Add("display", "none");
+                username = Session["userName"].ToString();
+            }
+            else
+            {
+                userNav.Style.Add("display", "none");
+            }
 
             // take List User
             listUser = db.Users.ToList();
@@ -513,6 +522,12 @@ namespace MyWeb
             CMND.Enabled = true;
             dchi.Enabled = true;
             passWord.Enabled = true;
+        }
+
+        protected void logoutBtn_Click(object sender, EventArgs e)
+        {
+            Session["userName"] = null;
+            Response.Redirect("ListBook.aspx");
         }
     }
     class BookItem

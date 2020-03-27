@@ -1,18 +1,19 @@
 ﻿* {
     text-decoration: none;
     box-sizing: border-box;
-    font-family: VnCourier;
-    font-weight: 500;
+   /*  font-family: Comic Sans MS !Important; */
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-weight: 250;
     color: black;
 }
 
 body{
     margin:0;
+    
 }
 /*Navigation Bar*/
 .navBar {
-    border: 1px solid pink;
-    background-image: linear-gradient(to bottom right, #25dba2, #2febb0);
+    background-image: linear-gradient(to left top, #12e6a6, #21ad83);
     position: relative;
     height: 200px;
     width: 80vw;
@@ -34,40 +35,52 @@ body{
     }
 
     .navBar .navMenu {
-        border: 1px solid green;
         /* Standard syntax (must be last) */
         display: flex;
         align-items: flex-end;
         height: 100%;
         list-style-type: none;
         margin: 0;
-        padding-right: 5vw;
+        padding-left: 6vw;
     }
 
         .navBar .navMenu li {
-            background-color: lightcoral;
-            border: 1px solid black;
             display: block;
             height: 68px;
             width: 200px;
-            margin-left: 5vw;
+            margin-left: 1.5vw;
+            margin-bottom: 0.5vw;
         }
 
             .navBar .navMenu li a {
-                background-color: lightgreen;
+                background-color: #219673;
+                color:#695a33;
+                border: 0.1vw solid white;
+                border-radius: 0.5vw;
                 display: inline-block;
                 height: 68px;
                 width: 100%;
                 position: relative;
-                transform: translate(10px,22px);
                 z-index: 10;
                 visibility: visible;
                 /*text in side*/
-                font-size: 24px;
+                font-size: 1.8vw;
                 line-height: 68px;
                 text-align: center;
                 vertical-align: middle;
             }
+            .navBar .navMenu li a:hover{
+                color:black;
+                border: 0.2vw solid #8f7a42;
+            }
+        #loginBox,#userNav{
+            position: absolute;
+            top:0.8vw;
+            right: 0.8vw;
+        }
+        #userNav a{
+            display: inline-block;
+        }
 
 /*FOOTER*/
 footer {
@@ -81,8 +94,8 @@ footer {
 
 
 
-@media only screen and (max-width: 768px) {
-    /* For mobile: */
+/* @media only screen and (max-width: 768px) {
+    For mobile:
     .navBar{
         width:90%;
         height:20vh;
@@ -97,7 +110,7 @@ footer {
 
         .navBar .navMenu {
             border: 1px solid green;
-            /* Standard syntax (must be last) */
+            Standard syntax (must be last)
             display: flex;
             align-items: flex-end; 
             height: 100%;
@@ -124,10 +137,10 @@ footer {
                     transform: translate(10px,22px);
                     z-index: 10;
                     visibility: visible;
-                    /*text in side*/
+                    text in side
                     font-size: 24px;
                     line-height: 68px;
                     text-align: center;
                     vertical-align: middle;
                 }
-}
+} */
