@@ -1,48 +1,49 @@
 ﻿
 #viewContainer {
     display: grid;
-    grid-template-columns: 45vw 45vw;
+    grid-template-columns: 46vw 46vw;
     grid-template-rows: 5vw 40vw;
-    margin-top: 100px;
+    margin-top: 88px;
     margin-bottom: 8vw;
-    width: 90vw;
+    width: 92vw;
     height: 45vw;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 25px;
-    background-color: antiquewhite;
+    background-color: white;
+    border: 1px solid gray;
 }
 
 #menuBar {
     display: flex;
     align-items: flex-end;
-    background-color: cadetblue;
+    background-color: #3af0b0;
     grid-column: 1 / span 2;
     grid-row: 1 / span 1;
-    padding-left: 2vw;
-    border-radius: 25px 25px 0 0;
 }
 
     #menuBar input {
         display: block;
+        background-color: white;
         height: 68%;
         width: 10vw;
         border: none;
-        border: 1px solid green;
+        border: 1px solid #8f7a42;
         border-bottom: none;
         margin-right: 0.5vw;
-        font-size: 18px;
-        transition-duration: 0.5s;
+        font-size: 1.5vw;
+        transition-duration: 0.25s;
     }
 
         #menuBar input:hover {
             cursor: pointer;
-            font-size: 20px;
+            border: 5px solid #8f7a42;
+            border-bottom: none;
+            height:80%;
+            width:12vw;
         }
-
-        #menuBar input:focus {
+        /*#menuBar input:focus {
             background-color: green;
-        }
+        }*/
 
 .info {
     padding: 2vw;
@@ -52,7 +53,7 @@
 
 .preview {
     padding: 2vw;
-    background-color: antiquewhite;
+    background-color: white;
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
     border-left: 2px dotted gray;
@@ -63,30 +64,58 @@
     padding: 20px;
     grid-row: 2 / span 1;
 }
+    #inpFilter {
+        display:block;
+        margin-top: 3vw;
+        width: 85%;
+        padding: 0.5vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #listBoxUser {
+        display: block;
+        width: 85%;
+        margin-top:0.5vw;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0.5vw;
+        height: 200px;
+    }
 
-#listBoxUser {
-    display: block;
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5vw;
-    padding: 0.5vw;
-    height: 200px;
-}
+    #removeUserBtn {
+        display: block;
+        width: 85%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1vw;
+    }
 
-#removeUserBtn {
-    display: block;
-    width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1vw;
+    /*BorBook Page*/
+#listBorUser {
+    background-color: pink;
+    height: 40%;
+    width: 30%;
 }
-/*PRE VIEW BOOK*/
-#previewBook {
-    display: grid;
-    grid-template-columns: 50% 50%; /* containter's col 2 45vw*/
-    grid-template-rows: 15% 85%;
+#listBorBook {
+    background-color: pink;
+    height: 40%;
+    width: 68%;
 }
+#borViewUserFilter {
+    width: 30%;
+}
+#borViewBookFilter {
+    width: 68%;
+}
+#borViewUserFilter, #borViewBookFilter{
+    margin-bottom:0.5vw;
+}
+    /*PRE VIEW BOOK*/
+    #previewBook {
+        display: grid;
+        grid-template-columns: 50% 50%; /* containter's col 2 45vw*/
+        grid-template-rows: 15% 85%;
+    }
 
     #previewBook h2 {
         grid-column: 1/span 2;
@@ -108,42 +137,28 @@
         grid-column: 1/ span 2;
         grid-row: 3 / span 1;
     }
+
 /*PREVIEW User*/
 #previewUser {
-    border: 2px solid black;
+    border-left: 1px solid black;
 }
 
     #previewUser #preUserInfo {
-        border: 1px solid gray;
         font-size: 1.25vw;
         width: 85%;
-        height: 45%;
+        height: 50%;
         padding-top: 1.5vw;
         margin-left: auto;
         margin-right: auto;
+        overflow:auto;
     }
-
-    #previewUser #preUserInfo {
-        border: 1px solid gray;
-        font-size: 1.25vw;
-        width: 85%;
-        height: 45%;
-        padding-top: 1.5vw;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     #previewUser #editUser, #saveUser {
-        display: inline-block;
-        background-color: aqua;
-        margin-left: 0.75vw;
-        width: 6vw;
+        display: block;
+        width: 10vw;
     }
 
-    #previewUser #last-row {
-        border: 1px solid pink;
+    #previewUser #editBtn {
         background-color: aquamarine;
-        height: 4.25vw;
     }
 
 #previewUserBook {
@@ -151,15 +166,15 @@
     grid-template-columns: 50% 50%;
     grid-template-rows: 85% 15%;
     width: 85%;
-    height: 55%;
+    height: 50%;
     margin-left: auto;
     margin-right: auto;
+    padding:0.5vw;
 }
 
 #previewUser #previewUserBook #userListBorBook {
     grid-column: 1/ span 1;
     grid-row: 1/ span 1;
-    border: 1px solid pink;
 }
 
 #previewUser #previewUserBook #returnBookBtn {

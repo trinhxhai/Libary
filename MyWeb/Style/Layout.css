@@ -6,10 +6,14 @@
     font-weight: 250;
     color: black;
 }
+input[type=submit]{
+    cursor:pointer;
+    font-size:1.4vw;
+}
 
 body{
     margin:0;
-    
+
 }
 /*Navigation Bar*/
 .navBar {
@@ -20,6 +24,7 @@ body{
     margin-left: auto;
     margin-right: auto;
     padding: 0.25vw;
+    box-shadow: 0  0 8px #b3b3b3;
 }
 
     .navBar .logoLink {
@@ -32,6 +37,7 @@ body{
 
     .navBar img {
         height: 100%;
+        box-shadow: 0  0 8px #d1d1d1;
     }
 
     .navBar .navMenu {
@@ -75,8 +81,8 @@ body{
             }
         #loginBox,#userNav{
             position: absolute;
-            top:0.8vw;
-            right: 0.8vw;
+            top:0px;
+            right: 0px;
         }
         #userNav a{
             display: inline-block;

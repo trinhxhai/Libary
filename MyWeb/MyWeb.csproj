@@ -136,6 +136,7 @@
     <Content Include="Register.aspx" />
     <Content Include="RemoveBook.aspx" />
     <Content Include="RemoveUser.aspx" />
+    <Content Include="Script\AdminPage.js" />
     <Content Include="Style\AdminPage.css" />
     <Content Include="Style\Books.css" />
     <Content Include="Style\BookDetails.css" />
@@ -262,7 +263,6 @@
     <Folder Include="Data\" />
     <Folder Include="Images\" />
     <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="Script\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

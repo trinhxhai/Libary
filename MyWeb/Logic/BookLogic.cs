@@ -49,6 +49,7 @@ namespace MyWeb.Models
                     {
                         id = idBorBook++,
                         BookId = book.bookId,
+                        borrowDate = DateTime.Now,
                         returnDate = DateTime.Now,
                         state = 0,
                     }

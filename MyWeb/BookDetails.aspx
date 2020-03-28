@@ -31,9 +31,15 @@
                 <li><a href="ListBook.aspx">Trang Chủ</a></li>
                 <li><a href="AdminPage.aspx">Admin</a></li>
                 <li><a href=""> Địa điểm </a></li>
-                <li><a href="">Đăng kí </a></li>
                 <li><a href="">Giới thiệu </a></li>
             </ul>
+            <div id="loginBox" runat="server">
+                <a href="Login.aspx">Đăng nhập</a>
+            </div>
+            <div id="userNav"  runat="server">
+                <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
+                <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
+            </div>
         </div>
         <!-- AAAAAAAAAAAA-->
        <div id="bookContainer">
@@ -93,6 +99,7 @@
                       <asp:TableHeaderCell>Id</asp:TableHeaderCell>
                       <asp:TableHeaderCell>Trạng thái</asp:TableHeaderCell>
                       <asp:TableHeaderCell>Người mượn/đặt</asp:TableHeaderCell>
+                      <asp:TableHeaderCell>Ngày mượn Trả</asp:TableHeaderCell>
                       <asp:TableHeaderCell>Hạn Trả</asp:TableHeaderCell>
                   </asp:TableHeaderRow>
             

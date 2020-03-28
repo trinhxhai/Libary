@@ -23,7 +23,11 @@
     margin-bottom: 0.1vw;
     margin-right:1.5vw;
     overflow: hidden;
+    transition-duration:0.25s;
 }
+    .book:hover{
+        transform:scale(1.05,1.05);
+    }
     .book .bookPic {
         /* border: 1px solid pink; */
         padding: 0.1vw;
@@ -37,11 +41,13 @@
         }
     .book .bookInfo .bookTitle {
        padding: 0;
-        margin: 0; 
+       margin: 0; 
+
     }
-    .book .bookInfo .bookTitle a{
-        font-size: 1vw;
-        margin-left:0.1vw;
-        margin-right: :0.1vw;
-        text-decoration:none;
-    }
+        .book .bookInfo .bookTitle a {
+            display:block;
+            font-size: 1vw;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: none;
+        }

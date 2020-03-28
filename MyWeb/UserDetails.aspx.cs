@@ -9,38 +9,33 @@ namespace MyWeb
 {
     public partial class UserDetails : System.Web.UI.Page
     {
-        public User user = new User();
-        public List<BorBook> borBooks = new List<BorBook>();
+        private User user = new User();
+        public List<BorBook> listBorBooks = new List<BorBook>();
+        public string username;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string idq = Request.QueryString["userName"];
-            if (idq == null) Response.Redirect("NotFound.html");
-            string userName = idq.ToString();
+            username = Request.QueryString["userName"];
+            if (username == null) Response.Redirect("NotFound.html");
             LibraryContext db = new LibraryContext();
-            user = db.Users.SingleOrDefault(c => c.userName == userName);
+            user = db.Users.SingleOrDefault(c => c.userName == username);
             if(user==null) Response.Redirect("NotFound.html");
-            borBooks = user.borBooks.ToList();
+
             
-            for(int i = 0; i < borBooks.Count; i++)
-            {
-                var row = new TableRow();
-                var cellId = new TableCell();
-                cellId.Text = borBooks[i].BookId.ToString();
-                row.Cells.Add(cellId);
-                var cellBookName = new TableCell();
-                int bookid = borBooks[i].BookId;
-                cellBookName.Text = db.Books.FirstOrDefault(b => b.bookId == bookid).bookName;
-                row.Cells.Add(cellBookName);
-                var cellDate = new TableCell();
-                cellDate.Text = borBooks[i].returnDate.ToString();
-                row.Cells.Add(cellDate);
-                borBookTable.Rows.Add(row);
-            }
-            borBookTable.DataBind();
 
 
+            listBorBooks = user.borBooks.ToList();
 
+            tbUserName.Text = username;
+            tbRealName.Text = user.realName;
+            tbDiaChi.Text = user.dchi;
+            borBookCount.Text = user.borBooks.Count.ToString()+"/20";
+            tbRole.Text = user.role;
+        }
 
+        protected void logoutBtn_Click(object sender, EventArgs e)
+        {
+            Session["userName"] = null;
+            Response.Redirect("ListBook.aspx");
         }
     }
 }

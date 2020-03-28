@@ -17,7 +17,7 @@ namespace MyWeb
         private List<string> listUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Page.ClientScript.RegisterClientScriptInclude("AdminPage", "Script/AdminPage.js");
             // check permission
             if ( Session["userName"]==null || !UserLogic.isAdmin(Session["userName"].ToString()) ) Response.Redirect("NoPermisson.html");
             // greating
@@ -44,6 +44,8 @@ namespace MyWeb
             userListBorBook.DataTextField = "name";
             userListBorBook.DataValueField = "id";
 
+            
+
             if (!IsPostBack)
             {
                 // FIRST LOAD
@@ -56,22 +58,7 @@ namespace MyWeb
                 listBorBook.ItemType = "BookItem";
                 listBorBook.DataTextField = "name";
                 listBorBook.DataValueField = "id";
-                
-                // Danh sách sách dang mượn của người dùng đầu tiên hiển thị đầu tiên trên màn hình
-                string tmpUserName = listUserName[0];
-                    if (db.Users.FirstOrDefault(u => u.userName == tmpUserName).borBooks != null)
-                    {
-                        userListBorBook.DataSource = db.Users
-                            .FirstOrDefault(u => u.userName == tmpUserName)
-                            .borBooks.Select(
-                                bb => new BorBookItem
-                                {
-                                    id = bb.id,
-                                    name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName,
-                                }
-                            ).ToList();
-                        userListBorBook.DataBind();
-                    }
+
             }
             else
             {
@@ -258,7 +245,9 @@ namespace MyWeb
                 message.Clear();
                 tmp.state = 2;
                 int day = int.Parse(returnDate.SelectedValue);
-                tmp.returnDate = DateTime.Now.AddDays(day * 7);
+                tmp.borrowDate = DateTime.Now;
+                tmp.returnDate = tmp.borrowDate.AddDays(day * 7);
+
                 db.SaveChanges();
 
                 message.Add("Người dùng này đã mượn trước, trạng thái sách chuyển thành 'đang được mượn' !");
@@ -275,7 +264,8 @@ namespace MyWeb
                 //BB = db.BorBooks.FirstOrDefault(bb => bb.id == BB.id);
 
                 int day = int.Parse(returnDate.SelectedValue);
-                BB.returnDate = DateTime.Now.AddDays(day * 7);
+                BB.borrowDate = DateTime.Now;
+                BB.returnDate = BB.borrowDate.AddDays(day * 7);
                 // set state =3 
                 BB.state = 2;
                 BB.Book = curBook;
@@ -298,6 +288,12 @@ namespace MyWeb
             // Chuyển sang trang ListUser
             inforMView.ActiveViewIndex = 0;
             preMView.ActiveViewIndex = 0;
+
+            // Xóa dữ liệu tại danh sách "sách đang mượn" do ViewState để lại
+            // Tránh việc qua lại các trang dữ  liệu vẫn còn
+            userListBorBook.DataSource = new List<BorBook>(); // để null hình như vẫn được xét là ViewState
+            userListBorBook.DataBind();
+
         }
 
         protected void viewAddUser_Click(object sender, EventArgs e)
@@ -316,6 +312,7 @@ namespace MyWeb
         {
             listBorUser.DataSource = listUserName.ToList();
             listBorUser.DataBind();
+
             listBorBook.DataSource = db.Books.Select(
                                         book=> new BookItem
                                         {
@@ -406,6 +403,8 @@ namespace MyWeb
                 userListBorBook.DataBind();
             }
         }
+        
+        // Fill lại các trường in4 của người dùng
         private void reloadUserInfo()
         {
             string username = listBoxUser.SelectedValue;
@@ -448,13 +447,13 @@ namespace MyWeb
         protected void userListBorBook_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (userListBorBook.SelectedValue == "") return;
-
             int idBorBook = int.Parse(userListBorBook.SelectedValue);
             // chắc chắn có
             BorBook borBook = db.BorBooks.FirstOrDefault(bb=>bb.id==idBorBook);
             Book book = db.Books.FirstOrDefault(b => b.bookId == borBook.BookId);
             previewUserBookPic.ImageUrl = "Images/" + book.imagePath;
             reloadUserInfo();
+            // Load lại danh sách "sách đang mượn" của người dùng
         }
 
         protected void saveUser_Click(object sender, EventArgs e)

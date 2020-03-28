@@ -32,6 +32,7 @@ namespace MyWeb.Models
                                     id = ++lastBorBookId,
                                     BookId = book.bookId,
                                     Book = book,
+                                    borrowDate = DateTime.Now,
                                     returnDate = DateTime.Now,
                                     state = 0 
                                 }

@@ -1,6 +1,6 @@
 ﻿#bodyDiv {
     display: grid;
-    width: 94vw;
+    width: 92vw;
     margin-top: 88px;
     margin-left: auto;
     margin-right: auto;
@@ -10,7 +10,7 @@
 }
 
 #searchBar {
-    background: linear-gradient(90deg, rgba(132,217,187,1) 0%, rgba(0,242,167,1) 62%);
+    background-color:#3af0b0;
     grid-column: 2 / span 1;
     grid-row: 1 /span 1;
     display: flex;
@@ -18,10 +18,12 @@
     justify-content: flex-start;
     align-items: center;
     padding: 2vw;
+    box-shadow: 0 0.1vw 0 #d1d1d1;
     z-index: 2;
 }
 
     #searchBar #searchTextBox {
+
         border-radius: 1.5vw;
         border: 0.1vw solid #c4c2bc;
         width: 38vw;
@@ -45,16 +47,17 @@
     z-index: 1;
 }
 
-    #categoryArea #titleCategory {
-
-        background-color: #59ba98;
-        display: inline-block;
-        font-size: 20px;
-        text-align: center;
-        height: 6vw;
-        line-height: 6vw;
-        width: 100%;
-    }
+#categoryArea #titleCategory {
+    box-shadow: 0 0.1vw 0 #d1d1d1;
+    background-color: #3af0b0;
+    display: inline-block;
+    font-size: 1.8vw;
+    text-align: center;
+    height: 6vw;
+    line-height: 6vw;
+    width: 100%;
+    z-index: 1;
+}
 
     #categoryArea #categoryCheckList {
         width: 90%;
@@ -62,6 +65,9 @@
         margin-right: auto;
         padding-top: 20px;
     }
+        #categoryArea #categoryCheckList label, #categoryArea #categoryCheckList input{
+            cursor: pointer;
+        }
 
     #categoryArea #removeCheck {
         display: block;

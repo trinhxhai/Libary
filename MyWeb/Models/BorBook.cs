@@ -11,6 +11,7 @@ namespace MyWeb.Models
         [Required(ErrorMessage = "Nhập trường Id Borrowable book !")]
         [Key]
         public int id { get; set; }
+        public DateTime borrowDate { get; set; }
         public DateTime returnDate { get; set; }
 
         // 0 : tức không có ai mượn

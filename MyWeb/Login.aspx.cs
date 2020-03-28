@@ -21,7 +21,7 @@ namespace MyWeb
                     Session["userName"] = userName;
                     Response.Redirect("ListBook.aspx");
                 }
-                Response.Write(resq);
+                Response.Write(resq);// lỗi nếu có
             }
         }
     }

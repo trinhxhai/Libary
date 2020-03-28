@@ -6,7 +6,7 @@
     <title></title>
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-
+    <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -18,8 +18,8 @@
             <ul class="navMenu">
                 <li><a href="ListBook.aspx">Trang Chủ</a></li>
                 <li><a href="AdminPage.aspx">Admin</a></li>
-                <li><a href=""> Địa điểm </a></li>
-                <li><a href="">Giới thiệu </a></li>
+                <li><a href="#"> Địa điểm </a></li>
+                <li><a href="#">Giới thiệu </a></li>
             </ul>
             <div id="loginBox" runat="server">
                 <a href="Login.aspx">Đăng nhập</a>
@@ -41,10 +41,13 @@
             <asp:View ID="UserView" runat="server">
                 <div id ="listUserView">
 
-                
+                <input type="text" id="inpFilter" onkeyup="filterUser()" placeholder="Tìm kiếm"/>
+
                 <asp:ListBox ID="listBoxUser" runat="server" OnSelectedIndexChanged="listBoxUser_SelectedIndexChanged" AutoPostBack="True">
                 </asp:ListBox>
+
                 <asp:Button ID="removeUserBtn" runat="server" Text="Xóa User" OnClick="removeUserBtn_Click" />
+
                 </div>
             </asp:View>
             <asp:View ID="addUserView" runat="server">
@@ -136,10 +139,14 @@
             <asp:View ID="borBookView" runat="server">
                 <div id="borrowBook"  class="info" >
                     <h2>Mượn sách</h2>
+                    <input type="text" onkeyup="borView_userFilter()" id="borViewUserFilter" placeholder="Lọc người dùng"/>
+                    <input type="text" onkeyup="borView_bookFilter()" id="borViewBookFilter" placeholder="Lọc sách"/>
+                    <br />
                     <asp:ListBox ID="listBorUser" runat="server">
                     </asp:ListBox>
                     <asp:ListBox ID="listBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="listBorBook_SelectedIndexChanged">
                     </asp:ListBox>
+                    <br />
                     <label>Thời hạn</label>
 
                     <asp:DropDownList ID="returnDate" runat="server" >
@@ -162,6 +169,20 @@
                 <div id="previewUser"> 
                     <div id="preUserInfo">
                         <table>
+                            <tr id="seditBtn">
+                                <td>
+                                    <asp:Button ID="editUser" runat="server" Text="Edit" OnClick="editUser_Click" />
+                                </td>
+                                <td>
+                                    <asp:Button ID="saveUser" runat="server" Text="Save" OnClick="saveUser_Click" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <asp:BulletedList ID="validationUserError" runat="server" EnableViewState="False"></asp:BulletedList>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
                                     <label>Username :</label>
@@ -210,16 +231,7 @@
                                     <asp:Label ID="borBookCount" runat="server" Text=""></asp:Label>
                                 </td>
                             </tr>
-                            <tr id="last-row">
-                                <td>
-                                    <asp:Button ID="editUser" runat="server" Text="Edit" OnClick="editUser_Click" />
-                                    <asp:Button ID="saveUser" runat="server" Text="Save" OnClick="saveUser_Click" />
-
-                                </td>
-                                <td>
-                                    <asp:BulletedList ID="validationUserError" runat="server"></asp:BulletedList>
-                                </td>
-                            </tr>
+                            
                         </table>
                     </div>
                     
@@ -263,5 +275,5 @@
     </form>
     <footer>1a412</footer>
 </body>
- 
+
 </html>
