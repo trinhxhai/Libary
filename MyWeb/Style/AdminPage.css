@@ -9,8 +9,7 @@
     height: 46vw;
     margin-left: auto;
     margin-right: auto;
-    border: 2px solid gray;
-    
+    box-shadow: 0 0.1vw 1vw #d1d1d1;
 }
 
 #menuBar {
@@ -123,11 +122,12 @@
         grid-row: 2 / span 1;
     }
 
-    #previewBook #previewPicBook {
-        max-height: 85%;
-        grid-column: 2/ span 1;
-        grid-row: 2 / span 1;
-    }
+        #previewBook #previewPicBook {
+            max-height: 85%;
+            max-width: 100%;
+            grid-column: 2/ span 1;
+            grid-row: 2 / span 1;
+        }
 
     #previewBook #borBookMessage {
         grid-column: 1/ span 2;
@@ -187,4 +187,95 @@
     margin-right: auto;
 }
 
-/*ADD USER*/
+
+/*         For mobile:         */
+@media only screen and (max-width: 768px) {
+
+    #viewContainer {
+        display: grid;
+        grid-template-columns: 92vw;
+        grid-template-rows: 6vh 40vh 40vh;
+        margin-top: 2vh;
+        margin-bottom: 5vh;
+        height: 86vh;
+    }
+    #menuBar {
+        display: flex;
+        align-items: flex-end;
+        background-color: #3af0b0;
+        grid-column: 1 / span 1;
+    }
+
+        #menuBar input {
+            height: 68%;
+            width: 20vw;
+            font-size: 3vw;
+        }
+            #menuBar input:hover {
+                cursor: pointer;
+                border: 1px solid #8f7a42;
+                border-bottom: none;
+                height: 68%;
+                width: 20vw;
+            }
+    .info {
+        padding: 4vw;
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 1;
+        font-size:4vw;
+    }
+    .preview {
+        padding: 2vw;
+        grid-column: 1 / span 1;
+        grid-row: 3 / span 1;
+        border-left:none;
+        border-top: 2px dotted gray;
+    }
+
+    /*USER LIST*/
+    #listUserView {
+        padding: 20px;
+        grid-row: 2 / span 1;
+    }
+
+    #removeUserBtn {
+       font-size:4vw;
+    }
+    /*BorBook Page*/
+    #listBorUser {
+        height: 60%;
+    }
+    #listBorBook {
+        height: 60%;
+    }
+    /*PREVIEW User*/
+    #previewUser {
+        border-left: none;
+        border-top: 1px dotted black;
+    }
+        #previewUser #preUserInfo {
+            overflow: scroll;
+        }
+
+        #previewUser #editUser, #saveUser {
+            display: block;
+            width: 18vw;
+            font-size: 4vw;
+        }
+
+
+    #previewUserBook {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 85% 15%;
+        width: 85%;
+        height: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0.5vw;
+    }
+    #previewUser #previewUserBook #returnBookBtn {
+        font-size:4vw;
+    }
+
+}

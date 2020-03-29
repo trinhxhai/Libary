@@ -35,8 +35,6 @@ namespace MyWeb
             }
 
             LibraryContext db = new LibraryContext();
-            // INIT
-            // Lấy danh sách tất cả từ db
             listBook = db.Books.ToList<Book>();
 
             if (!IsPostBack)
@@ -66,11 +64,6 @@ namespace MyWeb
             }
 
         }
-
-        // CẦN ĐƯỢC GỌI SAU KHI ĐÃ LỌC BẰNG CHECK BOX VÀ SEARCH (vì có chạy hàm loadPageNumber)
-        // kiểm tra xem textbox của phân trang có bị thay đổi không !
- 
-
 
         // Truyền danh sách các category vào Hash
         public void parseCategory(){
@@ -121,8 +114,12 @@ namespace MyWeb
         }
         protected void categoryCheckList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // luôn lọc bằng thanh tìm kiếm trước, vì trong thanh tìm kiếm có thao tác hoàn lại toàn bộ danh sách
+            searchFilter();
+
             loadCheckedList();
             categoryFilter();
+
             curStartingPage = 0;
             inpPage.Text = "1";
             Session["lastPage"] = 1;
@@ -132,8 +129,7 @@ namespace MyWeb
         // lọc  listBook bằng category
         private void categoryFilter()
         {
-            if (checkedCategoryList.Count == 0) return;
-
+            if (checkedCategoryList == null||checkedCategoryList.Count == 0) return;
             List<Book> afterClarify = new List<Book>();
             foreach (var book in listBook)
             {
@@ -156,35 +152,38 @@ namespace MyWeb
 
         protected void searchBtn_Click(object sender, EventArgs e)
         {
+            searchFilter();
+
+            // cần lọc lại qua nhưng category đang được check
+            // kể cả khi thanh ghi không có j
+            loadCheckedList();
+            categoryFilter();
+
+            curStartingPage = 0;
+            inpPage.Text = "1";
+            Session["lastPage"] = 1;
+            loadPageNumber();
+        }
+        private void searchFilter()
+        {
             string inp = searchTextBox.Text.Trim();
-            // Nếu thanh tìm kiếm không chứa gì cả, hoặc chỉ chứa khoảng trắng thì không làm gì cả, 
-            // hay không tác động gì lên danh sách sách cả
-            if (inp == "") {
+            if (inp == "")
+            {
+                // *** cẩn thận  search phải được gọi trước category
                 Session["SearchingContent"] = null;
                 LibraryContext db = new LibraryContext();
                 listBook = db.Books.ToList();
             }
             else
             {
-                searchFilter(inp);
+                List<Book> afterClarify = new List<Book>();
+                foreach (var book in listBook)
+                {
+                    if (inBookContent(inp, book)) afterClarify.Add(book);
+                }
+                listBook = afterClarify;
             }
-            // vì mỗi post back listBook đều được lấy lại toàn bộ, nên cần phải lọc lại qua category
-            curStartingPage = 0;
-            inpPage.Text = "1";
-            Session["lastPage"] = 1;
-            loadPageNumber();
-        }
-        private void searchFilter(string inp)
-        {
-            // khi tìm kiếm
-            // mọi thứ sẽ quay trở lại như đầu ?? không , listBook cần được lọc qua Search trước khi Lọc trang
-            // đã được hãy đảm bảo listBook đã được lọc qua Category rồi
-            List<Book> afterClarify = new List<Book>();
-            foreach (var book in listBook)
-            {
-                if (inBookContent(inp, book)) afterClarify.Add(book);
-            }
-            listBook = afterClarify;
+
         }
 
         private bool inBookContent(string str, Book book)
@@ -198,14 +197,15 @@ namespace MyWeb
 
             return false;
         }
+       
 
         protected void removeCheck_Click(object sender, EventArgs e)
         {
             categoryCheckList.ClearSelection();
             LibraryContext db = new LibraryContext();
             listBook = db.Books.ToList();
-            if (Session["SearchingContent"] != null)
-                searchFilter(Session["SearchingContent"].ToString());
+            // mặc dù loại bỏ lọc theo category nhưng vẫn phải xét nội dung đang tìm kiêm
+            searchFilter();
             curStartingPage = 0;
             inpPage.Text = "1";
             Session["lastPage"] = 1;

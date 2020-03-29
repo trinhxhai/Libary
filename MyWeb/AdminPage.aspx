@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 </head>
 <body>

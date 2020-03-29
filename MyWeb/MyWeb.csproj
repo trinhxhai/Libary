@@ -139,6 +139,7 @@
     <Content Include="Style\BookDetails.css" />
     <Content Include="Style\Layout.css" />
     <Content Include="Style\ListBook.css" />
+    <Content Include="Style\Login.css" />
     <Content Include="Style\UserDetails.css" />
     <Content Include="UserDetails.aspx" />
     <Content Include="Web.config" />

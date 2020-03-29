@@ -9,11 +9,16 @@
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <link href="~/Style/ListBook.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <script src="Script/BookFilter.js"></script>
-    <style>
-
-
-        
-    </style>
+    <script>
+        function showHideCategoryList() {
+            let categoryArea = document.getElementById("categoryArea");
+            console.log(categoryArea.style.transform);
+            if (categoryArea.style.transform == "" || categoryArea.style.transform == "translateX(-100%)") 
+                categoryArea.style.transform = "translateX(0)";
+            else 
+                categoryArea.style.transform = "translateX(-100%)";
+        }
+    </script>
 </head>
 <body>
     <form id="form1" runat="server" defaultbutton="searchBtn">
@@ -37,6 +42,9 @@
             </div>
         </div>
 
+        <button id="showHideBtn" onclick="showHideCategoryList(); return false;">
+                    Show / Hide
+        </button>
 
         <div id="bodyDiv">
             <div id="searchBar">
@@ -44,6 +52,7 @@
                 <asp:Button ID="searchBtn" runat="server" Text="Tìm kiếm" OnClick="searchBtn_Click" />
             </div>
             <div id="categoryArea">
+                
                 <label id="titleCategory">
                     Thể Loại
                 </label>

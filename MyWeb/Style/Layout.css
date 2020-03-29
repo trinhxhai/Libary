@@ -1,10 +1,10 @@
 ﻿* {
     text-decoration: none;
     box-sizing: border-box;
-   /*  font-family: Comic Sans MS !Important; */
     font-family: "Comic Sans MS", cursive, sans-serif;
     font-weight: 250;
     color: black;
+    font-size: 1.2vw;
 }
 input[type=submit]{
     cursor:pointer;
@@ -67,13 +67,10 @@ body{
                 height: 68px;
                 width: 100%;
                 position: relative;
-                z-index: 10;
-                visibility: visible;
                 /*text in side*/
                 font-size: 1.8vw;
                 line-height: 68px;
                 text-align: center;
-                vertical-align: middle;
             }
             .navBar .navMenu li a:hover{
                 color:black;
@@ -104,55 +101,54 @@ footer {
     background-image: linear-gradient(to bottom right, #25dba2, #2febb0);
 }
 
-
-
-/* @media only screen and (max-width: 768px) {
-    For mobile:
-    .navBar{
-        width:90%;
-        height:20vh;
+/*For mobile:*/
+ @media only screen and (max-width: 768px) {
+    * {
+        font-weight: 250;
+        font-size: 3vw;
     }
+    input[type=submit] {
+        cursor: pointer;
+        font-size: 2.5vw;
+    }
+        .navBar{
+            width:90%;
+            height:15vh;
+        }
         .navBar .logoLink {
-            float: left;
-            position: absolute;
-            display: inline-block;
-            height: 50%;
             transform: rotate(-0deg) translate(0,0);
+            max-width:25%;
         }
 
-        .navBar .navMenu {
-            border: 1px solid green;
-            Standard syntax (must be last)
-            display: flex;
-            align-items: flex-end; 
-            height: 100%;
-            list-style-type: none;
-            margin: 0;
-            padding-right: 5vw;
-        }
-
+            .navBar .navMenu {
+                position: absolute;
+                right: 0;
+                width: 75%;
+                flex-wrap: wrap;
+                /*Standard syntax (must be last);*/
+                align-items: center;
+                justify-content: flex-start;
+                align-content: space-around;
+                padding-left: 0;
+            }
             .navBar .navMenu li {
-                background-color: lightcoral;
-                border: 1px solid black;
                 display: block;
-                height: 68px;
-                width: 200px;
+                height: 40%;
+                width: 30%;
                 margin-left: 5vw;
             }
-
                 .navBar .navMenu li a {
                     background-color: lightgreen;
-                    display: inline-block;
-                    height: 68px;
-                    width: 100%;
-                    position: relative;
-                    transform: translate(10px,22px);
-                    z-index: 10;
-                    visibility: visible;
-                    text in side
-                    font-size: 24px;
-                    line-height: 68px;
-                    text-align: center;
-                    vertical-align: middle;
+                    font-size: 3vw;
+                    height: 100%;
+                    line-height: 400%;
                 }
-} */
+        #userNav a {
+            display:block;
+        }
+        footer {
+        margin-top: 12vh;
+        height: 8vh;
+        background-image: linear-gradient(to bottom right, #25dba2, #2febb0);
+    }
+} 

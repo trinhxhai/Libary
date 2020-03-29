@@ -46,12 +46,14 @@
     box-shadow: 0.1vw  0 5px #d1d1d1;
     z-index: 1;
 }
-
-#categoryArea #titleCategory {
+#showHideBtn {
+    display:none;
+}
+    #categoryArea #titleCategory {
     box-shadow: 0 0.1vw 0 #d1d1d1;
     background-color: #3af0b0;
     display: inline-block;
-    font-size: 1.8vw;
+    font-size: 2vw;
     text-align: center;
     height: 6vw;
     line-height: 6vw;
@@ -60,10 +62,13 @@
 }
 
     #categoryArea #categoryCheckList {
+        display:block;
         width: 90%;
         margin-left: auto;
         margin-right: auto;
         padding-top: 20px;
+        height:50vw;
+        overflow:auto;
     }
         #categoryArea #categoryCheckList label, #categoryArea #categoryCheckList input{
             cursor: pointer;
@@ -97,3 +102,150 @@
     #inpPage{
         width: 3vw;
     }
+
+/*BOOKS*/
+#bookContainer {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: flex-start; /*items các đều nhau một khoảng theo chiều ngang*/
+    align-items: center; /*items sẽ nằm ở chính giữa dòng của nó, theo chiều dọc*/
+    align-content: flex-start; /*dồn nội dung lên trên*/
+    height: 100%;
+    min-height: 66vw;
+    width: 100%;
+    padding: 2vw;
+    grid-column: 2 / span 1;
+    grid-row: 2 /span 1;
+    background-color: white;
+}
+
+.book {
+    border: 1px solid lightgray;
+    position: relative;
+    width: 13vw;
+    height: 20vw;
+    font-size: 12px;
+    margin-bottom: 0.5vw;
+    margin-right: 1.5vw;
+    overflow: hidden;
+    transition-duration: 0.25s;
+}
+
+    .book:hover {
+        transform: scale(1.05,1.05);
+    }
+
+    .book .bookPic {
+        /* border: 1px solid pink; */
+        padding: 0.1vw;
+        height: 80%;
+    }
+
+        .book .bookPic img {
+            display: block;
+            margin: auto;
+            max-width: 10.5vw;
+            max-height: 100%;
+        }
+
+    .book .bookInfo .bookTitle {
+        padding: 0;
+        margin: 0;
+    }
+
+        .book .bookInfo .bookTitle a {
+            display: block;
+            font-size: 1vw;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: none;
+        }
+
+/*              FOR MOBILES                */
+@media only screen and (max-width: 768px) {
+    #bodyDiv {
+        margin-top: 2vh;
+        grid-template-rows: 5vh auto 5vh;
+    }
+
+    #searchBar {
+        grid-column: 1 / span 2;
+    }
+
+        #searchBar #searchTextBox {
+            border-radius: 3vw;
+            width: 70vw;
+            height: 5vw;
+            margin-right: 1vw;
+        }
+
+        #searchBar #searchBtn {
+            width: 15vw;
+            height: 5vw;
+        }
+
+    #categoryArea {
+        width: 40%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform : translateX(-100%);
+        z-index: 3;
+    }
+    /*nút để hiện / ẩn danh sách category*/
+    #showHideBtn {
+        display: block;
+        background-color: #3af0b0;
+        position: fixed;
+        width: 10vw;
+        height: 12vw;
+        font-size:2.2vw;
+        border-radius: 0 50% 50% 0;
+        z-index: 2;
+        top: 40vh;
+        left: 0;
+        opacity: 0.7;
+    }
+    #categoryArea #categoryCheckList{
+        padding-top:0;
+    }
+    #categoryArea #titleCategory {
+        font-size: 4vw;
+    }
+    #categoryArea #removeCheck {
+        font-size: 3vw;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+    }
+    #pageNav {
+        grid-column: 1 / span 2;
+    }
+    #inpPage {
+        width: 8vw;
+    }
+
+    #bookContainer {
+        min-height: 80vh;
+        padding: 2vw;
+        grid-column: 1 / span 2;
+        grid-row: 2 /span 1;
+    }
+    .book {
+        width: 28vw;
+        height: 42vw;
+        font-size: 2vw;
+        margin-bottom: 0.5vw;
+        margin-right: 1.5vw;
+    }
+        .book .bookPic {
+        padding: 0.1vw;
+        height: 80%;
+        }
+            .book .bookPic img {
+                max-width: 21.5vw;
+                max-height: 100%;
+            }
+            .book .bookInfo .bookTitle a {
+                font-size: 3vw;
+            }
+}

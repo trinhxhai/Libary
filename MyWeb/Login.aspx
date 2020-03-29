@@ -5,46 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <style>
-        #loginContainer {
-            display: flex;
-            flex-direction:column;
-            align-items:center;
-            width: 92vw;
-            height: 40vw;
-            border: 1px solid gray;
-            margin-top: 88px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #containerTitle {
-            position: relative;
-            background-color: #3af0b0;
-            box-shadow: 0 0.1vw 0 #d1d1d1;
-            padding-left: 2vw;
-            font-size: 1.4vw;
-            line-height: 6vw;
-            height:6vw;
-            width:100%;
-        }
-        #loginBox{
-            margin-top:5vw;
-            font-size:1.8vw;
-        }
-        #loginBox input{
-            width:15vw;
-            height:3vw;
-        }
-        #loginBox td{
-            padding:0.5vw;
-        }
-        #loginBox button{
-            width:8vw;
-            height:3vw;
-        }
-    </style>
+    <link href="~/Style/Login.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 </head>
 <body>
     <form id="form1" runat="server" method="post">

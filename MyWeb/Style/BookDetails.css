@@ -106,3 +106,73 @@
         font-size: 1.5vw;
         color:red;
     }
+@media only screen and (max-width: 768px) {
+    #bookContainer {
+        border: 1.75vw solid lightgreen;
+        border-radius: 1.75vw;
+        width: 92%;
+        margin-top: 2vh;
+        grid-template-columns: 54% 44%;
+        grid-template-rows: 20vh 10vh 20vh;
+    }
+
+        #bookContainer #inforBook {
+            grid-column: 1/span 1;
+            grid-row: 1 / span 3;
+            font-size: 3vw;
+            padding: 0.2vw;
+        }
+
+            #bookContainer #inforBook table {
+                width: 100%;
+            }
+
+            #bookContainer #inforBook td {
+                vertical-align: text-top;
+                width:50%;
+            }
+
+            #bookContainer #inforBook label {
+                font-size: 2.5vw;
+                font-weight: bold;
+            }
+
+            #bookContainer #inforBook input[type="text"] {
+                font-size: 2vw;
+            }
+
+            #bookContainer #inforBook #borrowBtn {
+                font-size: 3;
+                height: 3vh;
+            }
+
+        #bookContainer #bookPicContainer {
+            grid-column: 2/span 1;
+            grid-row: 1 / span 2;
+            padding: 0.25vw;
+        }
+
+        #bookContainer #borBooks {
+            grid-column: 1/ span 2;
+            grid-row: 3 / span 1;
+            overflow: scroll;
+            padding: 0.25vw;
+        }
+            #bookContainer #borBooks th {
+                font-size: 2.5vw;
+            }
+
+            #bookContainer #borBooks td {
+                font-size: 2vw;
+            }
+
+    /*Error*/
+    #errorEditBook li, #errorBorrow li {
+        font-size: 2vw;
+    }
+    footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+}

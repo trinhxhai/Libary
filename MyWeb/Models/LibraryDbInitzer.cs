@@ -185,7 +185,7 @@ namespace MyWeb.Models
                 {
                     bookId = fId++, // Id của sách sẽ +1 so với id  lớn nhất của các sách hiện tại
                     bookName = genRandomString(ref rand, 8),
-                    //category = genRandomString(ref rand, 5),
+                    category = genRandomString(ref rand, 5),
                     amount = "10",
                     imagePath = "LaoSomeThing.png",
                     price = "150000",
