@@ -2,15 +2,15 @@
 #viewContainer {
     display: grid;
     grid-template-columns: 46vw 46vw;
-    grid-template-rows: 5vw 40vw;
+    grid-template-rows: 6vw 40vw;
     margin-top: 88px;
     margin-bottom: 8vw;
     width: 92vw;
-    height: 45vw;
+    height: 46vw;
     margin-left: auto;
     margin-right: auto;
-    background-color: white;
-    border: 1px solid gray;
+    border: 2px solid gray;
+    
 }
 
 #menuBar {
@@ -23,7 +23,6 @@
 
     #menuBar input {
         display: block;
-        background-color: white;
         height: 68%;
         width: 10vw;
         border: none;
@@ -53,7 +52,6 @@
 
 .preview {
     padding: 2vw;
-    background-color: white;
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
     border-left: 2px dotted gray;
@@ -92,12 +90,10 @@
 
     /*BorBook Page*/
 #listBorUser {
-    background-color: pink;
     height: 40%;
     width: 30%;
 }
 #listBorBook {
-    background-color: pink;
     height: 40%;
     width: 68%;
 }
@@ -157,9 +153,6 @@
         width: 10vw;
     }
 
-    #previewUser #editBtn {
-        background-color: aquamarine;
-    }
 
 #previewUserBook {
     display: grid;

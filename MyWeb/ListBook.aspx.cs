@@ -26,7 +26,7 @@ namespace MyWeb
         {
 
             if (Session["userName"] != null) {
-                loginBox.Style.Add("display", "none");
+                headerLoginBox.Style.Add("display", "none");
                 username =Session["userName"].ToString();
             }
             else

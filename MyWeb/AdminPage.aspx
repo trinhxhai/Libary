@@ -21,7 +21,7 @@
                 <li><a href="#"> Địa điểm </a></li>
                 <li><a href="#">Giới thiệu </a></li>
             </ul>
-            <div id="loginBox" runat="server">
+            <div id="headerLoginBox" runat="server">
                 <a href="Login.aspx">Đăng nhập</a>
             </div>
             <div id="userNav"  runat="server">
@@ -273,7 +273,7 @@
 
 
     </form>
-    <footer>1a412</footer>
+    <footer>1412</footer>
 </body>
 
 </html>

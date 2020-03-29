@@ -26,6 +26,10 @@
         #bookContainer #inforBook td {
             vertical-align: text-top;
         }
+        #bookContainer #inforBook label {
+            font-size:1.6vw;
+            font-w
+        }
         #bookContainer #inforBook input[type="text"] {
             border: none;
             border-bottom: 0.15vw solid #b3e3db;

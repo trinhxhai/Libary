@@ -29,7 +29,7 @@ namespace MyWeb
 
             if (Session["userName"] != null)
             {
-                loginBox.Style.Add("display", "none");
+                headerLoginBox.Style.Add("display", "none");
                 username = Session["userName"].ToString();
             }
             else
@@ -43,37 +43,7 @@ namespace MyWeb
                 editBtn.Visible = true;
                 removeBtn.Visible = true;
                 // không thể dùng viewstate để lưu table động, nạp lại mỗi lần :<
-                listBorBook = curBook.BorBooks.OrderBy(bb => -bb.state).ToList();
-                for (int i = 0; i < listBorBook.Count; i++)
-                {
-                    var row = new TableRow();
-                    var cellID = new TableCell();
-                    cellID.Text = listBorBook[i].id.ToString();
-                    row.Cells.Add(cellID);
-                    var cellState = new TableCell();
-                    cellState.Text = (listBorBook[i].state > 0) ? (listBorBook[i].state == 1) ? "Đặt trước" : "Đã mượn" : "Có sẵn";
-                    row.Cells.Add(cellState);
-                    var cellUser = new TableCell();
-                    var cellborrowDate = new TableCell();
-                    var cellreturnDate = new TableCell();
-                    if ((listBorBook[i].User == null))
-                    {
-                        cellUser.Text = "";
-                        cellborrowDate.Text = "";
-                        cellreturnDate.Text = "";
-                    }
-                    else
-                    {
-                        cellUser.Text = listBorBook[i].User.userName;
-                        cellborrowDate.Text = listBorBook[i].borrowDate.ToString();
-                        cellreturnDate.Text = listBorBook[i].returnDate.ToString();
-                    }
-                    row.Cells.Add(cellUser);
-                    row.Cells.Add(cellborrowDate);
-                    row.Cells.Add(cellreturnDate);
-                    borBooksTable.Rows.Add(row);
-                }
-                borBooksTable.DataBind();
+                updateBorBook();
             }
             else
             {
@@ -100,6 +70,59 @@ namespace MyWeb
             }
         }
 
+        private void updateBorBook()
+        {
+            var z = borBooksTable;
+            borBooksTable.Controls.Clear();
+            listBorBook = curBook.BorBooks.OrderBy(bb => -bb.state).ToList();
+            var headerRow = new TableHeaderRow();
+            var headerID = new TableHeaderCell();
+            headerID.Text = "ID";
+            headerRow.Controls.Add(headerID);
+            var headerState = new TableHeaderCell();
+            headerState.Text = "Trạng thái";
+            headerRow.Controls.Add(headerState);
+            var headerUser = new TableHeaderCell();
+            headerUser.Text = "Người mượn/đặt";
+            headerRow.Controls.Add(headerUser);
+            var headerBorrowDate = new TableHeaderCell();
+            headerBorrowDate.Text = "Ngày mượn";
+            headerRow.Controls.Add(headerBorrowDate);
+            var headerReturnDate = new TableHeaderCell();
+            headerReturnDate.Text = "Hạn trả";
+            headerRow.Controls.Add(headerReturnDate);
+            borBooksTable.Rows.Add(headerRow);
+            for (int i = 0; i < listBorBook.Count; i++)
+            {
+                var row = new TableRow();
+                var cellID = new TableCell();
+                cellID.Text = listBorBook[i].id.ToString();
+                row.Cells.Add(cellID);
+                var cellState = new TableCell();
+                cellState.Text = (listBorBook[i].state > 0) ? (listBorBook[i].state == 1) ? "Đặt trước" : "Đã mượn" : "Có sẵn";
+                row.Cells.Add(cellState);
+                var cellUser = new TableCell();
+                var cellborrowDate = new TableCell();
+                var cellreturnDate = new TableCell();
+                if ((listBorBook[i].User == null))
+                {
+                    cellUser.Text = "";
+                    cellborrowDate.Text = "";
+                    cellreturnDate.Text = "";
+                }
+                else
+                {
+                    cellUser.Text = listBorBook[i].User.userName;
+                    cellborrowDate.Text = listBorBook[i].borrowDate.ToString();
+                    cellreturnDate.Text = listBorBook[i].returnDate.ToString();
+                }
+                row.Cells.Add(cellUser);
+                row.Cells.Add(cellborrowDate);
+                row.Cells.Add(cellreturnDate);
+                borBooksTable.Rows.Add(row);
+            }
+            borBooksTable.DataBind();
+        }
         protected void editBtn_Click(object sender, EventArgs e)
         {
             BookName.Enabled = true;
@@ -245,6 +268,9 @@ namespace MyWeb
                 user.borBooks.Add(tmp);
                 message.Add("Đặt mượn trước thành công!");
                 db.SaveChanges();
+                // ĐẶT MƯỢN THÀNH CÔNG => Cập nhật danh sách BorBook
+                updateBorBook();
+
             }
             else
             {

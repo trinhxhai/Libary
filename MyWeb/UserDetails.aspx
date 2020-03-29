@@ -6,63 +6,8 @@
 <head runat="server">
     <title></title>
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <style>
-        *{
-            margin:0;
-            padding:0;
-        }
-        #userContainer{
-            display: grid;
-            grid-template-columns: 20% 20% 20% 20% 20%;
-            width: 80%;
-            height:40vw;
-            border: 2px solid green;
-            margin-top:5vw;
-            margin-left:auto;
-            margin-right:auto;
+    <link href="~/Style/UserDetails.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
 
-        }
-            #userContainer #userInfo{
-                grid-column:1 / span 2;
-                height:100%;
-                border: 1px solid red;
-                padding:1vw;
-            }
-
-            #userContainer #borrowBooks{
-                border: 1px solid blue;
-                grid-column:3 / span 3;
-                height:100%;
-                display:flex;
-                flex-direction:column;
-                overflow:scroll;
-                padding:1vw;
-            }
-
-                .book{
-                    width:35vw;
-                    height:20vw;
-                    border:1px solid black;
-                    padding:1vw;
-                    margin-bottom:0.5vw;
-                }
-                .book .info{
-                    display:inline-block;
-                    width:20vw;
-                    height:20vw;
-                    padding-left:0.5vw;
-                }
-                .book img{
-                    float:left;
-                    max-width:10vw;
-                    max-height:20vw;
-                }
-                .book{
-            
-                }
-        /*book  container*/
-        
-    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -84,6 +29,9 @@
         </div>
         
         <div id="userContainer">
+            <label id="containerTitle">
+                User Details
+            </label>
             <div id="userInfo">
                 <label>Username : </label>
                 <asp:Label ID="tbUserName" runat="server" ></asp:Label> <br />
@@ -99,7 +47,7 @@
             
 
             <div id="borrowBooks">
-            <h2>Sách mượn:</h2>
+            <label id="bbTitle">Sách mượn:</label>
             <%for (int i = 0; i < listBorBooks.Count; i++) %>
             <% {%>
                 <div class="book">
@@ -116,14 +64,14 @@
                 </div>
             <% }%>
 
-        </div>
+            </div>
 
 
         </div>
         
         
-       
+       <footer>1412</footer>
     </form>
-   <footer>1a412</footer>
+   
 </body>
 </html>

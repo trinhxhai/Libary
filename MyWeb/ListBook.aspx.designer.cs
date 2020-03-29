@@ -24,13 +24,13 @@ namespace MyWeb
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// loginBox control.
+        /// headerLoginBox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl loginBox;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl headerLoginBox;
 
         /// <summary>
         /// userNav control.

@@ -1,0 +1,70 @@
+﻿#userContainer {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 6vw auto;
+    width: 92vw;
+    height: 40vw;
+    border: 2px solid green;
+    margin-top: 88px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#containerTitle {
+    position: relative;
+    grid-column: 1 / span 5;
+    grid-row: 1 /span 1;
+    background-color: #3af0b0;
+    box-shadow: 0 0.1vw 0 #d1d1d1;
+    padding-left: 2vw;
+    font-size: 1.4vw;
+    line-height: 6vw;
+}
+
+#userContainer #userInfo {
+    grid-column: 1 / span 2;
+    height: 100%;
+    padding: 1vw;
+    font-size:1.2vw;
+}
+    #userContainer #userInfo label{
+        font-weight:900;
+    }
+
+    #userContainer #borrowBooks {
+        grid-column: 3 / span 3;
+        border-left: 1px solid gray;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+    }
+    #userContainer #borrowBooks #bbTitle {
+        display: inline-block;
+        background-color: white;
+        padding:1vw;
+        position: sticky;
+        top: 0;
+    }
+
+.book {
+    margin-left:0.2vw;
+    width: 35vw;
+    height: 20vw;
+    border: 1px solid gray;
+    padding: 1vw;
+    margin-bottom: 0.5vw;
+}
+
+    .book .info {
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        padding-left: 0.5vw;
+    }
+
+    .book img {
+        float: left;
+        max-width: 10vw;
+        max-height: 20vw;
+    }

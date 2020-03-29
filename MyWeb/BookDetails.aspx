@@ -33,8 +33,8 @@
                 <li><a href=""> Địa điểm </a></li>
                 <li><a href="">Giới thiệu </a></li>
             </ul>
-            <div id="loginBox" runat="server">
-                <a href="Login.aspx">Đăng nhập</a>
+            <div id="headerLoginBox" runat="server">
+                <a href="Login.aspx" ViewStateMode="Disabled">Đăng nhập</a>
             </div>
             <div id="userNav"  runat="server">
                 <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
@@ -94,7 +94,7 @@
                <asp:Image ID="bookPic" runat="server" />
            </div>
            <div id="borBooks" runat="server">
-               <asp:Table ID="borBooksTable" runat="server" ViewStateMode="Enabled">
+               <asp:Table ID="borBooksTable" runat="server" ViewStateMode="Disabled">
                   <asp:TableHeaderRow>
                       <asp:TableHeaderCell>Id</asp:TableHeaderCell>
                       <asp:TableHeaderCell>Trạng thái</asp:TableHeaderCell>
@@ -109,6 +109,6 @@
     </form>
     </div>
     </form>
-    <footer>1a412</footer>
+    <footer>1412</footer>
 </body>
 </html>
