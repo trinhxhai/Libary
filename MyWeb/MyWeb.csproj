@@ -121,9 +121,12 @@
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
     <Content Include="BookDetails.aspx" />
+    <Content Include="Style\ContentPage.css" />
     <Content Include="Global.asax" />
+    <Content Include="Introduction.aspx" />
     <Content Include="ListBook.aspx" />
     <Content Include="AdminPage.aspx" />
+    <Content Include="Location.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="NoPermisson.html" />
     <Content Include="NotFound.html" />
@@ -151,6 +154,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Introduction.aspx.cs">
+      <DependentUpon>Introduction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Introduction.aspx.designer.cs">
+      <DependentUpon>Introduction.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ListBook.aspx.cs">
       <DependentUpon>ListBook.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -164,6 +174,13 @@
     </Compile>
     <Compile Include="AdminPage.aspx.designer.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Location.aspx.cs">
+      <DependentUpon>Location.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Location.aspx.designer.cs">
+      <DependentUpon>Location.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

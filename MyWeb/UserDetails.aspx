@@ -19,8 +19,8 @@
             <ul class="navMenu">
                 <li><a href="ListBook.aspx">Trang Chủ</a></li>
                 <li><a href="AdminPage.aspx">Admin</a></li>
-                <li><a href=""> Địa điểm </a></li>
-                <li><a href="">Giới thiệu </a></li>
+                <li><a href="Location.aspx"> Địa điểm </a></li>
+                <li><a href="Introduction.aspx">Giới thiệu </a></li>
             </ul>
             <div id="userNav"  runat="server">
                 <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
