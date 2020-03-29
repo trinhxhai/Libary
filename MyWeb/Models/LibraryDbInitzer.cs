@@ -10,6 +10,7 @@ namespace MyWeb.Models
     //CreateDatabaseIfNotExists
     public class LibraryDbInitzer : DropCreateDatabaseAlways<LibraryContext>
     {
+
         private static int lastBorBookId =0;
         protected override void Seed(LibraryContext context)
         {
@@ -39,6 +40,7 @@ namespace MyWeb.Models
                         ); ;
                 }
             }
+            genRandomBook(ref context,80);
             context.SaveChanges();
 
         }
@@ -121,6 +123,43 @@ namespace MyWeb.Models
                        imagePath ="LaoHac.jpg",
                        amount="13"
                 },
+                new Book()
+                {
+                       bookId = 4,
+                       bookName ="Competitive Programming 3",
+                       category ="Programming",
+                       price="240000",
+                       imagePath ="Competitive Programming 3.jpg",
+                       amount="13"
+                },
+                new Book()
+                {
+                       bookId = 5,
+                       bookName ="I Don't Know JS",
+                       category ="Programming",
+                       price="220000",
+                       imagePath ="JDK_JS.jpg",
+                       amount="11"
+                },
+                new Book()
+                {
+                       bookId = 6,
+                       bookName ="Thế giới phẳng",
+                       category ="Văn học;Self Help",
+                       price="240000",
+                       imagePath ="TGPhang.jpg",
+                       amount="13"
+                },
+                new Book()
+                {
+                       bookId = 6,
+                       bookName ="Lão và tôi",
+                       category ="Văn học",
+                       price="140000",
+                       imagePath ="LaoSomeThing.png",
+                       amount="13"
+                },
+
 
 
 
@@ -129,6 +168,35 @@ namespace MyWeb.Models
             return tmp;
         }
 
+
+        public string genRandomString(ref Random rand, int len)
+        {
+            string res = "";
+            for (int i = 0; i < len; i++) res += (char)(rand.Next(97, 122));
+            return res;
+        }
+        public void genRandomBook(ref LibraryContext db,int num)
+        {
+            int fId = db.Books.Max(b => b.bookId) + 1;
+            Random rand = new Random();
+            for (int i = 0; i < num; i++)
+            {
+                Book tmp = new Book
+                {
+                    bookId = fId++, // Id của sách sẽ +1 so với id  lớn nhất của các sách hiện tại
+                    bookName = genRandomString(ref rand, 8),
+                    //category = genRandomString(ref rand, 5),
+                    amount = "10",
+                    imagePath = "LaoSomeThing.png",
+                    price = "150000",
+                };
+                db.Books.Add(tmp);
+                db.SaveChanges();
+                // Sinh các borrowable cho book
+                BookLogic.genBorBook(tmp);
+                db.SaveChanges();
+            }
+        }
 
     }
 }

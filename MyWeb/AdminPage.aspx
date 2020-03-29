@@ -142,7 +142,7 @@
                     <input type="text" onkeyup="borView_userFilter()" id="borViewUserFilter" placeholder="Lọc người dùng"/>
                     <input type="text" onkeyup="borView_bookFilter()" id="borViewBookFilter" placeholder="Lọc sách"/>
                     <br />
-                    <asp:ListBox ID="listBorUser" runat="server">
+                    <asp:ListBox ID="listBorUser" runat="server" OnSelectedIndexChanged="listBorUser_SelectedIndexChanged">
                     </asp:ListBox>
                     <asp:ListBox ID="listBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="listBorBook_SelectedIndexChanged">
                     </asp:ListBox>

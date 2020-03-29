@@ -63,46 +63,9 @@ namespace MyWeb
             else
             {
             }
-
-            // Sinh dữ liệu mẫu để test
-            // sinh 100  quyển chỉ cần khác tên, các cái còn lại có thể giống nhau
-            //genRandomBook(80);
             previewUserBookPic.ImageUrl = "";
-
-
         }
 
-
-        //sinh book mẫu
-        public void genRandomBook(int num)
-        {
-            LibraryContext db = new LibraryContext();
-            int fId = db.Books.Max(b => b.bookId)+1;
-            Random rand = new Random();
-            for (int i = 0; i < num; i++)
-            {
-                Book tmp = new Book
-                {
-                    bookId = fId++, // Id của sách sẽ +1 so với id  lớn nhất của các sách hiện tại
-                    bookName = genRandomString(ref rand,8),
-                    amount = "10",
-                    imagePath = "LaoSomeThing.png",
-                    price = "150000",
-                };
-                db.Books.Add(tmp);
-                db.SaveChanges();
-                // Sinh các borrowable cho book
-                BookLogic.genBorBook(tmp);
-                db.SaveChanges();
-            }
-        }
-        // sinh tên ngẫu nhiên
-        public string genRandomString(ref Random rand,int len)
-        {
-            string res = "";
-            for (int i = 0; i < len; i++) res += (char)(rand.Next(97, 122));
-            return res;
-        }
         protected void addUserBnt_Click(object sender, EventArgs e)
         {
             //using System.ComponentModel.DataAnnotations;
@@ -527,6 +490,12 @@ namespace MyWeb
         {
             Session["userName"] = null;
             Response.Redirect("ListBook.aspx");
+        }
+
+        protected void listBorUser_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //cập nhật danh sách book, thêm đuôi( đã đặt trước ) khi người dùng đã có đặt trước;
+
         }
     }
     class BookItem

@@ -13,7 +13,7 @@
             align-items:center;
             width: 92vw;
             height: 40vw;
-            border: 2px solid green;
+            border: 1px solid gray;
             margin-top: 88px;
             margin-left: auto;
             margin-right: auto;
