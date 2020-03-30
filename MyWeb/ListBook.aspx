@@ -42,9 +42,7 @@
             </div>
         </div>
 
-        <button id="showHideBtn" onclick="showHideCategoryList(); return false;">
-                    Show / Hide
-        </button>
+        
 
         <div id="bodyDiv">
             <div id="searchBar">
@@ -58,6 +56,9 @@
                 </label>
                 <asp:Button ID="removeCheck" runat="server" Text="Bỏ chọn" OnClick="removeCheck_Click" />
                 <asp:CheckBoxList ID="categoryCheckList" runat="server" AutoPostBack="True" OnSelectedIndexChanged="categoryCheckList_SelectedIndexChanged"></asp:CheckBoxList>
+                <button id="showHideBtn" onclick="showHideCategoryList(); return false;">
+                    Show / Hide
+                </button>
             </div>
             <div id="bookContainer">
                 <%for( int i=0 ; i < curListBook.Count ; i++ ) %>
