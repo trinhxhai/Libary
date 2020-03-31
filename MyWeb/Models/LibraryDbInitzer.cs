@@ -37,9 +37,10 @@ namespace MyWeb.Models
                                     returnDate = DateTime.Now,
                                     state = 0 
                                 }
-                        ); ;
+                        ); 
                 }
             }
+
             genRandomBook(ref context,80);
             context.SaveChanges();
 

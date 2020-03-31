@@ -184,6 +184,7 @@ namespace MyWeb
             {
                 // sinh/hủy số sách chênh lệch !
                 int delta = bookCount - int.Parse(curBook.amount);
+                //
                 if (delta < 0)
                 {
                     //tức là số sách nhập vào ít hơn số sách cũ, admin muốn loại bỏ bớt số sách đang "có sẵn - không có ai mượn";

@@ -67,6 +67,7 @@ namespace MyWeb.Models
                         {
                             id = curid++,
                             state = 0,
+                            borrowDate = DateTime.Now,
                             returnDate = DateTime.Now,
                             BookId = book.bookId,
                             Book = book
@@ -79,7 +80,9 @@ namespace MyWeb.Models
         {
             LibraryContext db = new LibraryContext();
             int tmpId = book.bookId;
+            // chỉ có thể remove BorBook có state = 0;
             List<BorBook> Listbb = db.BorBooks.Where( bb=> bb.state==0 && bb.BookId==tmpId).ToList();
+
             for(int i = 0; i < Math.Min(count, Listbb.Count); i++)
             {
                 book.BorBooks.Remove(Listbb[i]);
