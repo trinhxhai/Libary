@@ -104,12 +104,12 @@ footer {
 /*For mobile:*/
  @media only screen and (max-width: 768px) {
     * {
-        font-weight: 250;
+        font-weight: 500;
         font-size: 3vw;
     }
     input[type=submit] {
         cursor: pointer;
-        font-size: 2.5vw;
+        font-size: 3vw;
     }
         .navBar{
             width:90%;

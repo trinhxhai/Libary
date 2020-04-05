@@ -47,7 +47,7 @@
                 </asp:ListBox>
 
                 <asp:Button ID="removeUserBtn" runat="server" Text="Xóa User" OnClick="removeUserBtn_Click" />
-
+                <asp:BulletedList ID="listUserMessages" runat="server"></asp:BulletedList>
                 </div>
             </asp:View>
             <asp:View ID="addUserView" runat="server">
@@ -142,7 +142,7 @@
                     <input type="text" onkeyup="borView_userFilter()" id="borViewUserFilter" placeholder="Lọc người dùng"/>
                     <input type="text" onkeyup="borView_bookFilter()" id="borViewBookFilter" placeholder="Lọc sách"/>
                     <br />
-                    <asp:ListBox ID="listBorUser" runat="server" OnSelectedIndexChanged="listBorUser_SelectedIndexChanged">
+                    <asp:ListBox ID="listBorUser" runat="server" OnSelectedIndexChanged="listBorUser_SelectedIndexChanged" AutoPostBack="True">
                     </asp:ListBox>
                     <asp:ListBox ID="listBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="listBorBook_SelectedIndexChanged">
                     </asp:ListBox>

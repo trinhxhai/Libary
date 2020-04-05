@@ -75,16 +75,19 @@
         margin-left: auto;
         margin-right: auto;
         padding: 0.5vw;
-        height: 200px;
+        height: 15vw;
     }
-
-    #removeUserBtn {
-        display: block;
-        width: 85%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 1vw;
+    #listUserMessages{
+        width:85%;
+        height:10vw;
     }
+#removeUserBtn {
+    display: block;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vw;
+}
 
     /*BorBook Page*/
 #listBorUser {
@@ -161,7 +164,9 @@
     height: 40%;
     margin-left: auto;
     margin-right: auto;
-    padding:0.5vw;
+    padding: 0.5vw;
+    justify-content: space-between;
+    align-content: space-between;
 }
 
 #previewUser #previewUserBook #userListBorBook {
@@ -176,14 +181,11 @@
 }
 /*Prebook right side*/
 #previewUser #previewUserBook #previewUserBookPic {
-    transition:0;
     grid-column: 2/ span 1;
     grid-row: 1/ span 2;
-    display: block;
     max-height: 100%;
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left:1vw;
 }
 
 
@@ -237,7 +239,7 @@
         grid-row: 2 / span 1;
     }
     #listBoxUser {
-        height: 22vh;
+        height: 18vh;
         width: 90%;
     }
     #removeUserBtn {
@@ -254,9 +256,12 @@
         width: 90%;
         margin-top: 1vw;
     }
+    #listUserMessages{
+
+    }
     /*BorBook Page*/
-    #borrowBook{
-        height:100%;
+    #borrowBook {
+        height: 100%;
     }
     #listBorUser {
         height: 35%;

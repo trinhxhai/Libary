@@ -17,6 +17,7 @@ namespace MyWeb
         private List<string> listUserName;
         protected void Page_Load(object sender, EventArgs e)
         {
+            // regiter for js in clientside
             Page.ClientScript.RegisterClientScriptInclude("AdminPage", "Script/AdminPage.js");
             // check permission
             if ( Session["userName"]==null || !UserLogic.isAdmin(Session["userName"].ToString()) ) Response.Redirect("NoPermisson.html");
@@ -177,6 +178,7 @@ namespace MyWeb
             List<String> message = new List<string>();
             if (listBorUser.SelectedValue == "" || listBorBook.SelectedValue == "") return;
             string userName = listBorUser.SelectedValue;
+
             int bookId = int.Parse(listBorBook.SelectedValue);
 
             User user = db.Users.FirstOrDefault(u => u.userName == userName);
@@ -213,7 +215,7 @@ namespace MyWeb
 
                 db.SaveChanges();
 
-                message.Add("Người dùng này đã mượn trước, trạng thái sách chuyển thành 'đang được mượn' !");
+                message.Add("[Người dùng đã mượn trước], trạng thái sách chuyển thành 'đang được mượn' !");
                 borrowMessages.DataSource = message;
                 borrowMessages.DataBind();
                 return;
@@ -242,6 +244,8 @@ namespace MyWeb
         }
 
 
+
+        // Xử lí phân cửa sổ 
 
         protected void viewListUser_Click(object sender, EventArgs e)
         {
@@ -304,20 +308,32 @@ namespace MyWeb
 
         protected void listBoxUser_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            // disable editing các trường dữ liệu! tránh trường hợp đang edit dở ở một trường user này, switch qua user khác các trường vấn 
+            realName.Enabled = false;
+            CMND.Enabled = false;
+            dchi.Enabled = false;
+            passWord.Enabled = false;
+
+            listUserMessages.DataSource = new List<string>();
+            listUserMessages.DataBind();
+
+
             var username = listBoxUser.SelectedValue;
             User user = db.Users.FirstOrDefault(u=>u.userName==username);
             if (user == null) return;
             accName.Text = user.userName;
             borBookCount.Text = user.borBooks.Count.ToString();
             // load danh sachs sachs muon
-            if (user.borBooks != null && user.borBooks.Count > 0)
+            if (user.borBooks != null && user.borBooks.Count >0)
             {
                 userListBorBook.DataSource = user.borBooks
+                    .Where(bb => bb.state == 2)
                     .Select(bb =>
                             new BorBookItem
                             {
                                 id = bb.id,
-                                name = bb.Book.bookName
+                                name = bb.Book.bookName 
                                 //name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
                             }
 
@@ -365,6 +381,7 @@ namespace MyWeb
 
                 userListBorBook.DataBind();
             }
+            reloadUserInfo();
         }
         
         // Fill lại các trường in4 của người dùng
@@ -387,19 +404,36 @@ namespace MyWeb
                 CMND.Text = user.CMND;
                 dchi.Text = user.dchi;
                 passWord.Text = "";
+                borBookCount.Text = user.borBooks.Count(bb=>bb.state==2).ToString();
             }
-            
         }
         protected void removeUserBtn_Click(object sender, EventArgs e)
         {
             string username = listBoxUser.SelectedValue;
+            List<string> messages= new List<string>();
             var u = db.Users.FirstOrDefault(user => user.userName == username);
-            if (u == null) return;
-            u.borBooks.Clear();
+            if (u == null) {
+                messages.Add("Hãy chọn User");
+                listUserMessages.DataSource = messages;
+                listUserMessages.DataBind();
+                return;
+
+            }
+
+            if (u.borBooks.Count(bb => bb.state == 2) > 0)
+            {
+                messages.Add("User còn sách chưa trả,  hãy trả hết sách user mượn trước khi xóa user");
+                listUserMessages.DataSource = messages;
+                listUserMessages.DataBind();
+                return;
+            }
+            
+
             db.Users.Remove(u);
             db.SaveChanges();
 
             // load lai
+            u.borBooks.Clear(); // remove các sách state  = 1; hay đặt mượn
             listUserName.Remove(username);
             listBoxUser.DataSource = listUserName;
             listBoxUser.DataBind();
@@ -432,6 +466,10 @@ namespace MyWeb
             }
             var curUser = db.Users.FirstOrDefault(u => u.userName == listBoxUser.SelectedValue);
             if (curUser == null) return;
+
+            string tmpPass = passWord.Text;
+            
+            if (passWord.Text=="") tmpPass = curUser.passWord;
 
             User tmp = new User()
             {
@@ -495,6 +533,30 @@ namespace MyWeb
         protected void listBorUser_SelectedIndexChanged(object sender, EventArgs e)
         {
             //cập nhật danh sách book, thêm đuôi( đã đặt trước ) khi người dùng đã có đặt trước;
+
+            LibraryContext db = new LibraryContext();
+
+            List<String> message = new List<string>();
+            if (listBorUser.SelectedValue == "") return;
+
+            string userName = listBorUser.SelectedValue;
+
+            User user = db.Users.FirstOrDefault(u => u.userName == userName);
+
+            List<BookItem> tmp = db.Books.Select(
+                                        book => new BookItem
+                                        {
+                                            id = book.bookId,
+                                            name = book.bookName
+                                        }).ToList();
+            for(int i = 0; i < tmp.Count; i++)
+            {
+                if (user.borBooks.Where(bb => bb.state == 1).Any(bb => bb.BookId == tmp[i].id))
+                    tmp[i].name += " [ Đã đặt trước ] ";
+            }
+
+            listBorBook.DataSource = tmp;
+            listBorBook.DataBind();
 
         }
     }
