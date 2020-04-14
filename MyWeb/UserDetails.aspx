@@ -51,16 +51,31 @@
             <label id="bbTitle">Sách mượn:</label>
             <%for (int i = 0; i < listBorBooks.Count; i++) %>
             <% {%>
+
+                <%if (listBorBooks[i].state == 1)  %>
+                <% {%>
+                <div class="book" style="opacity:0.5">
+                <%}
+                    else %>
+                <% {%>
                 <div class="book">
+                    
+                <% }%>
+
+
                     <img src="Images/<%:listBorBooks[i].Book.imagePath %>" alt="" />
 
                     <div class="info">
                         <label>Tên sách:</label>
                         <%: listBorBooks[i].Book.bookName %><br />
                         <label>Ngày mượn:</label>
-                        <%: listBorBooks[i].borrowDate %><br />
-                        <label>Hạn trả:</label>
-                        <%: listBorBooks[i].returnDate %>
+                        <%: listBorBooks[i].borrowDate.ToString("dd'/'MM'/'yyyy") %><br />
+                        <%if (listBorBooks[i].state == 2)  %>
+                        <% {%>
+                            <label>Hạn trả:</label>
+                            <%: listBorBooks[i].returnDate.ToString("dd'/'MM'/'yyyy") %>
+                        <% }%>
+                        
                     </div>
                 </div>
             <% }%>

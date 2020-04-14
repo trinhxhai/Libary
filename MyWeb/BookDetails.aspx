@@ -17,7 +17,6 @@
             if (confirm("Bạn có chắc chắn muốn xóa sách này không ?") == true)
                 return true;
             else return false;
-            
         }
     </script>
 </head>
@@ -45,50 +44,48 @@
         <!-- AAAAAAAAAAAA-->
        <div id="bookContainer">
            <div id="inforBook">
-               <table>
-                   <tr>
-                       <asp:Button ID="borrowBtn" runat="server" Text="Đặt mượn sách này " OnClick="borrowBtn_Click" />
-                   </tr>
-                   <tr>
-                       <td ><label>Tên sách :</label> </td>
-                       <td ><asp:TextBox ID="BookName" runat="server"  Enabled="False"></asp:TextBox></td>
-                   </tr>
-                   <tr>
-                       <td><label>Loại sách :</label> </td>
-                       <td><asp:TextBox ID="BookCategory" runat="server"  Enabled="False"></asp:TextBox></td>
-                   </tr>
-                   <tr>
-                       <td><label>Giá bán :</label> </td>
-                       <td><asp:TextBox ID="BookPrice" runat="server"  Enabled="False"></asp:TextBox></td>
-                   </tr>
-                  
-                   <tr>
-                       <td><label>Giới thiệu :</label> </td>
-                       <td><textarea id="BookDescription" runat="server" disabled ></textarea></td>
-                       
-                   </tr>
-                   <tr>
-                       <td><asp:Label ID="BookCountLbl" runat="server" Text="Số lượng :" Visible="False"></asp:Label> </td>
-                       <td><asp:TextBox ID="BookCount" runat="server"  Enabled="False" Visible="False"></asp:TextBox></td>
-                   </tr>
-                   
-                   <tr>
-                       <asp:BulletedList ID="errorBorrow" runat="server" ViewStateMode="Disabled"></asp:BulletedList>
-                   </tr>
-                   <tr>
-                       <td> <asp:Button ID="editBtn" runat="server" Text="Edit" Visible="False" OnClick="editBtn_Click" /></td>
-                       <td><asp:Button ID="saveBtn" runat="server" Text="Save" Visible="False" OnClick="saveBtn_Click" /></td>
+               <div id="borrowArea">
+                   <asp:Button ID="borrowBtn" runat="server" Text="Đặt mượn sách này " OnClick="borrowBtn_Click" />
+                   <asp:BulletedList ID="errorBorrow" runat="server" ViewStateMode="Disabled"></asp:BulletedList>
 
-                   </tr>
-                    <tr>
-                       <td><asp:Button ID="removeBtn" runat="server" Text="Remove" Visible="False"  OnClick="removeBtn_Click" /></td>
-                       <td></td>
-                   </tr>
-                   <tr>
-                       <td><asp:BulletedList ID="errorEditBook" runat="server"></asp:BulletedList></td>
-                   </tr>
-                   
-                   </table>
+                   <asp:Label ID="locationLabel" runat="server" Text="Địa điểm : "></asp:Label>
+                   <asp:DropDownList ID="listLocation" runat="server"></asp:DropDownList>
+               </div>
+               
+
+               <asp:Table ID="Table1" runat="server">
+                   <asp:TableRow>
+                       <asp:TableCell>
+                           <label>Tên sách :</label> 
+                       </asp:TableCell>
+                       <asp:TableCell>
+                           <textarea id="BookName" runat="server" disabled> </textarea>
+                       </asp:TableCell>
+                   </asp:TableRow>
+                   <asp:TableRow>
+                       <asp:TableCell><label>Loại sách :</label></asp:TableCell>
+                       <asp:TableCell><asp:TextBox ID="BookCategory" runat="server"  Enabled="False"></asp:TextBox></asp:TableCell>
+                   </asp:TableRow>
+                   <asp:TableRow>
+                       <asp:TableCell><label>Giá bán :</label></asp:TableCell>
+                       <asp:TableCell><asp:TextBox ID="BookPrice" runat="server"  Enabled="False"></asp:TextBox></asp:TableCell>
+                   </asp:TableRow>
+                   <asp:TableRow>
+                       <asp:TableCell><label>Giới thiệu :</label> </asp:TableCell>
+                       <asp:TableCell><textarea id="BookDescription" runat="server" disabled ></textarea></asp:TableCell>
+                   </asp:TableRow>
+                   <asp:TableRow>
+                       <asp:TableCell><asp:Label ID="BookCountLbl" runat="server" Text="Số lượng :" Visible="False"></asp:Label></asp:TableCell>
+                       <asp:TableCell><asp:TextBox ID="BookCount" runat="server"  Enabled="False" Visible="False"></asp:TextBox></asp:TableCell>
+                   </asp:TableRow>
+               </asp:Table>
+                <asp:Button ID="editBtn" runat="server" Text="Edit" Visible="False" OnClick="editBtn_Click" />
+                <asp:Button ID="saveBtn" runat="server" Text="Save" Visible="False" OnClick="saveBtn_Click" />
+                <asp:Button ID="removeBtn" runat="server" Text="Remove" Visible="False"  OnClick="removeBtn_Click" />
+                <asp:BulletedList ID="errorEditBook" runat="server"></asp:BulletedList>
+
+               
+
            </div>
             
            <div id ="bookPicContainer">
@@ -96,14 +93,6 @@
            </div>
            <div id="borBooks" runat="server">
                <asp:Table ID="borBooksTable" runat="server" ViewStateMode="Disabled">
-                  <asp:TableHeaderRow>
-                      <asp:TableHeaderCell>Id</asp:TableHeaderCell>
-                      <asp:TableHeaderCell>Trạng thái</asp:TableHeaderCell>
-                      <asp:TableHeaderCell>Người mượn/đặt</asp:TableHeaderCell>
-                      <asp:TableHeaderCell>Ngày mượn Trả</asp:TableHeaderCell>
-                      <asp:TableHeaderCell>Hạn Trả</asp:TableHeaderCell>
-                  </asp:TableHeaderRow>
-            
                </asp:Table>
            </div>
         </div>

@@ -2,39 +2,71 @@
     display: grid;
     border: 1.75vw solid lightgreen;
     border-radius: 1.75vw;
-    width: 72%;
+    width: 60%;
     margin-top: 5vw;
     margin-left: auto;
     margin-right: auto;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 20vw 20vw 20vw;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 40vw 20vw 20vw;
     grid-gap: 1%;
-    padding: 1vw;
+    padding: 2vw;
     padding-left: 2vw;
 }
 
     #bookContainer #inforBook {
         grid-column: 1/span 1;
-        grid-row: 1 / span 3;
+        grid-row: 1 / span 2;
         font-size: 2vw;
         padding: 0.2vw;
     }
-
+        
+        #bookContainer #borrowArea {
+            border:2px solid lightgray;
+            padding:1vw;
+            border-radius:2px;
+            margin-bottom:0.5vw;
+        }
         #bookContainer #inforBook table {
             width: 100%;
+            border: 2px solid lightgray;
+            padding: 1vw;
+        }
+        #bookContainer #inforBook table {
+            width: 100%;
+            overflow: hidden;
         }
         #bookContainer #inforBook td {
             vertical-align: text-top;
         }
         #bookContainer #inforBook label {
-            font-size:1.6vw;
-            font-w
+            font-size:1.5vw;
         }
         #bookContainer #inforBook input[type="text"] {
             border: none;
             border-bottom: 0.15vw solid #b3e3db;
-            font-size: 1.5vw;
+            font-size: 1.2vw;
             background-color: white;
+            width: 100%;
+            float: right;
+        }
+        #bookContainer #inforBook #saveBtn {
+            width: 100%;
+            height:3vw;
+            background-color: forestgreen;
+        }
+        #bookContainer #inforBook #listLocation {
+            width: 100%;
+            /*max-height:40vh;
+                overflow:auto;*/
+        }
+        #bookContainer #inforBook #BookName {
+            display: block;
+            background-color: white;
+            border: none;
+            border-bottom: 0.15vw solid #b3e3db;
+            resize: none;
+            width: 100%;
+            font-size: 1.2vw;
         }
         #bookContainer #inforBook #BookDescription {
             display: block;
@@ -78,7 +110,7 @@
         }
 
     #bookContainer #borBooks {
-        grid-column: 2/ span 1;
+        grid-column: 1/ span 2;
         grid-row: 3 / span 1;
         overflow: scroll;
         padding: 0.25vw;
@@ -145,6 +177,10 @@
             #bookContainer #inforBook #borrowBtn {
                 font-size: 3vw;
                 height: 3vh;
+            }
+
+            #bookContainer #inforBook #listLocation {
+                width
             }
 
         #bookContainer #bookPicContainer {

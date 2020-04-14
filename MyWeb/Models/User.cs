@@ -14,7 +14,10 @@ namespace MyWeb.Models
         [Required(ErrorMessage = "Nhập trường username !")]
         [Key]
         public string userName { get; set; }
+        [Required(ErrorMessage = "Yêu cầu chọn Role !")]
+        public string role { get; set; }
 
+        
 
         [Required(ErrorMessage = "Nhập trường Họ và tên !")]
         public string realName { get; set; }
@@ -27,10 +30,9 @@ namespace MyWeb.Models
         [Required(ErrorMessage = "Nhập trường password !")]
         public string passWord { get; set; }
 
+        public int LocationId { get; set; }
+        public virtual Location Location { get; set; }
 
-
-        [Required(ErrorMessage = "Yêu cầu chọn Role !")]
-        public string role { get; set; }
         public virtual ICollection<BorBook> borBooks { get; set; } 
     }
 }

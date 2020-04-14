@@ -7,6 +7,7 @@ namespace MyWeb.Models
 {
     public class BookLogic
     {
+        public static int limitBorBook { get; } = 5;
         public static bool validExtensionImagePath(string imagePath)
         {
             String fileExtension = System.IO.Path.GetExtension(imagePath).ToLower();
@@ -52,27 +53,31 @@ namespace MyWeb.Models
                         borrowDate = DateTime.Now,
                         returnDate = DateTime.Now,
                         state = 0,
+                        // rải đều cho 4 location mặc định
+                        LocationId = i%4 +1
                     }
                     );
 
             db.SaveChanges();
         }
-        public  static void genBorBook(ref Book book, int count)
+        public  static void genBorBook(ref Book book, int count,ref Location location)
         {
             LibraryContext db = new LibraryContext();
             int curid = db.BorBooks.Max(bb => bb.id) + 1;
             for(int i = 0; i < count; i++) {
-                book.BorBooks.Add(
-                        new BorBook
-                        {
-                            id = curid++,
-                            state = 0,
-                            borrowDate = DateTime.Now,
-                            returnDate = DateTime.Now,
-                            BookId = book.bookId,
-                            Book = book
-                        }
-                    );
+                BorBook tmp = new BorBook
+                {
+                    id = curid++,
+                    state = 0,
+                    borrowDate = DateTime.Now,
+                    returnDate = DateTime.Now,
+                    BookId = book.bookId,
+                    LocationId = location.id
+                    
+                };
+
+                book.BorBooks.Add(tmp);
+                location.BorBooks.Add(tmp);
             }
             db.SaveChanges();
         }

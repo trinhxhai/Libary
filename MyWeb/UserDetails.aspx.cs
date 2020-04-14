@@ -11,30 +11,34 @@ namespace MyWeb
     {
         private User user = new User();
         public List<BorBook> listBorBooks = new List<BorBook>();
+        private LibraryContext db = new LibraryContext();
         public string username;
         protected void Page_Load(object sender, EventArgs e)
         {
-            username = Request.QueryString["userName"];
-            if (username == null) Response.Redirect("NotFound.html");
-            LibraryContext db = new LibraryContext();
-            user = db.Users.SingleOrDefault(c => c.userName == username);
-            if(user==null) Response.Redirect("NotFound.html");
-
             
+            if(user==null) Response.Redirect("NotFound.html");
+            user = (User)Session["user"];
+            
+            if (user==null) Response.Redirect("NotFound.html");
 
+            // cập nhật user
+            user = db.Users.FirstOrDefault(u => u.userName == user.userName);
+            username = user.userName;
 
-            listBorBooks = user.borBooks.ToList();
+            // sort để hiển thị danh sách các sách mượn trước , sau đó mới là sách đặt (opacity : 0.5)
+            listBorBooks = user.borBooks.OrderBy(bb=>-bb.state).ToList();
 
             tbUserName.Text = username;
             tbRealName.Text = user.realName;
             tbDiaChi.Text = user.dchi;
-            borBookCount.Text = user.borBooks.Count.ToString()+"/20";
+            borBookCount.Text = user.borBooks.Count(bb=>bb.state==2)+"/" + BookLogic.limitBorBook 
+                + "(đang đặt :" + user.borBooks.Count(bb => bb.state == 1)+")" ;
             tbRole.Text = user.role;
         }
 
         protected void logoutBtn_Click(object sender, EventArgs e)
         {
-            Session["userName"] = null;
+            Session["user"] = null;
             Response.Redirect("ListBook.aspx");
         }
     }

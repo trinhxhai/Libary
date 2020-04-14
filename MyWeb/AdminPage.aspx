@@ -1,4 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.ListUser"  %>
+﻿
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.ListUser"  %>
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+    
 </head>
 <body>
     <form id="form1" runat="server">
@@ -29,18 +31,20 @@
                 <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
             </div>
         </div>
-
+        
         <div id="viewContainer">
         <div id="menuBar">   
             <asp:Button ID="viewListUser" runat="server" Text="Users"  OnClick="viewListUser_Click" />
             <asp:Button ID="viewAddUser" runat="server" Text="Add User" OnClick="viewAddUser_Click" />
-            <asp:Button ID="viewNewBook" runat="server" Text="New Book" OnClick="viewNewBook_Click" />
+            <asp:Button ID="viewNewBook" runat="server" Text="Add Book" OnClick="viewNewBook_Click" />
             <asp:Button ID="viewBorBook" runat="server" Text="Borrow Book" OnClick="viewBorBook_Click" />
         </div>
+
+        <!-- Bên trái-->
         <asp:MultiView ID="inforMView" runat="server" ActiveViewIndex="0">
             <asp:View ID="UserView" runat="server">
                 <div id ="listUserView">
-
+                <asp:Label ID="locationInfo" runat="server" Text="Địa điểm : "></asp:Label>
                 <input type="text" id="inpFilter" onkeyup="filterUser()" placeholder="Tìm kiếm"/>
 
                 <asp:ListBox ID="listBoxUser" runat="server" OnSelectedIndexChanged="listBoxUser_SelectedIndexChanged" AutoPostBack="True">
@@ -117,27 +121,42 @@
                 </div>
             </asp:View>
             <asp:View ID="newBookView" runat="server">
+                
                 <div id="newBook"  class="info" >
                     <h2>Thêm sách</h2>
-                    <label>Tên Sách</label> <br />
-                    <asp:TextBox ID="BookName" runat="server"></asp:TextBox><br />
-                    <label>Loại sách :</label> <br />
-                    <asp:TextBox ID="BookCategory" runat="server"></asp:TextBox><br />
-                    <label>Giới thiệu :</label> <br />
-                    <asp:TextBox ID="BookDescription" runat="server"></asp:TextBox><br />
-                    <label>Giá bán :</label> <br />
-                    <asp:TextBox ID="BookPrice" runat="server"></asp:TextBox><br />
-                    <label>Số Lượng :</label> <br />
-                    <asp:TextBox ID="Amount" runat="server"></asp:TextBox><br />
-                    <asp:FileUpload ID="ImageUpload" runat="server" />
 
+                    <table> 
+                        <tr>
+                            <td><label>Tên Sách</label></td>
+                            <td><asp:TextBox ID="BookName" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>Loại sách :</label></td>
+                            <td><asp:TextBox ID="BookCategory" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>Giới thiệu :</label></td>
+                            <td><asp:TextBox ID="BookDescription" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>Giá bán :</label></td>
+                            <td><asp:TextBox ID="BookPrice" runat="server"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>Số Lượng :</label></td>
+                            <td><asp:TextBox ID="Amount" runat="server"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <asp:FileUpload ID="ImageUpload" runat="server" />
                     <asp:Button ID="addBookBnt" runat="server" Text="Add Books" onclick="addBookBnt_Click"/>
                     <asp:BulletedList ID="validBookErrors" runat="server">
                     </asp:BulletedList>
                 </div>
+                
             </asp:View>
             <asp:View ID="borBookView" runat="server">
                 <div id="borrowBook"  class="info" >
+                    <asp:Label ID="borrowBook_locationInfo" runat="server" Text="Địa điểm : "></asp:Label>
                     <h2>Mượn sách</h2>
                     <input type="text" onkeyup="borView_userFilter()" id="borViewUserFilter" placeholder="Lọc người dùng"/>
                     <input type="text" onkeyup="borView_bookFilter()" id="borViewBookFilter" placeholder="Lọc sách"/>
@@ -164,6 +183,7 @@
             
         </asp:MultiView>
 
+        <!-- Bên phải-->
         <asp:MultiView ID="preMView" runat="server" ActiveViewIndex="0">
             <asp:View ID="View5" runat="server">
                 <div id="previewUser"> 
@@ -238,7 +258,7 @@
                     <div id="previewUserBook">
                         <asp:ListBox ID="userListBorBook" runat="server" AutoPostBack="True" OnSelectedIndexChanged="userListBorBook_SelectedIndexChanged" >
                         </asp:ListBox>
-                        <asp:Button ID="returnBookBtn" runat="server" Text="Trả sách" OnClick="returnBookBtn_Click" />
+                        <asp:Button ID="returnBookBtn" runat="server" Text="Trả sách" OnClick="returnBookBtn_Click" Enabled="False" />
                         <asp:Image ID="previewUserBookPic" runat="server" />
                     </div>
                     
@@ -268,12 +288,59 @@
                     </asp:BulletedList>
                 </div>
             </asp:View>
+            
+            <asp:View runat="server">
+                <div id="addBorBook">
+                    <asp:Label ID="addBook_locationInfo" runat="server" Text="Địa điểm : "></asp:Label>
+                    <label>Tìm sách</label>
+                    <input type="text" onkeyup="addBookView_bookFilter()" id="addBookViewBookFilter" placeholder="Lọc sách"/>
+                    <br />
+                    <asp:ListBox ID="addBorBookList" runat="server" OnSelectedIndexChanged="addBorBookList_SelectedIndexChanged" AutoPostBack="True"></asp:ListBox>
+                    <br />
+                    <h2>Thêm BorBook</h2>
+                    <label>Số lượng : </label>
+                    <asp:TextBox ID="addingAmount" runat="server" EnableViewState="False"></asp:TextBox>
+                    <asp:Button ID="addMoreBorBook"  runat="server" Text="Thêm" OnClick="addMoreBorBook_Click"  />
+                    <br />
+                    <asp:BulletedList ID="addBorBookMessage" runat="server"></asp:BulletedList>
+
+                    <asp:Table ID="removeBorBookTable" runat="server"></asp:Table>
+                    
+                </div>
+            </asp:View>
+        
         </asp:MultiView>
+
         </div>
 
 
     </form>
     <footer>1412</footer>
+    <script>
+        var borBox = document.getElementById("listBorBook");
+        var listBook = borBox.getElementsByTagName("option");
+        for (var i = 0; i < listBook.length; i++) {
+            var idx = listBook[i].innerHTML.indexOf("[ Đã đặt trước ]");
+            if (idx != -1) {
+                listBook[i].innerHTML = listBook[i].innerHTML.substr(0, listBook[i].innerHTML.indexOf("[")) +"&nbsp";
+                listBook[i].classList.add("orderFlag");
+            }
+            // 
+            
+            idx = listBook[i].innerHTML.indexOf("[ Đã mượn ]");
+            if (idx != -1) {
+                listBook[i].innerHTML = listBook[i].innerHTML.substr(0, listBook[i].innerHTML.indexOf("[")) + "&nbsp";
+                listBook[i].classList.add("borrowedFlag");
+            }
+            idx = listBook[i].innerHTML.indexOf("[Đã hết]");
+            if (idx != -1) {
+                listBook[i].innerHTML = listBook[i].innerHTML.substr(0, listBook[i].innerHTML.indexOf("[")) + "&nbsp";
+                listBook[i].classList.add("allOutFlag");
+            }
+
+        }
+
+    </script>
 </body>
 
 </html>

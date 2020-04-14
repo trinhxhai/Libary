@@ -14,11 +14,14 @@ namespace MyWeb
         private LibraryContext db = new LibraryContext();
         private Book curBook;
         public string username ;
+        private User curUser;
+        Dictionary<int, ValueTuple<string, int>> locationDict = new Dictionary<int, ValueTuple<string,int>>();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            //thêm sự kiện xác nhận
+            //thêm sự kiện xác nhận xóa borBook
             removeBtn.Attributes.Add("onclick", "return ConfirmOnDelete()");
+
             // lấy thông tin sách
             int BookId;
             if (Request.QueryString["BookId"] == null) Response.Redirect("NotFound.html");
@@ -27,61 +30,148 @@ namespace MyWeb
             // nếu không tồn tại sách 
             if (curBook == null) Response.Redirect("NotFound.html");
 
-            if (Session["userName"] != null)
+
+            // check xem còn sách này k
+            if (!curBook.BorBooks.Any(bb => bb.state == 0))
             {
+                borrowBtn.Text = "Đã hết";
+                borrowBtn.Style.Add("background-color", "gray !important");
+                borrowBtn.Enabled = false;
+                locationLabel.Visible = false;
+                listLocation.Visible = false;
+                borrowBtn.DataBind();
+            };
+            // trường hợp sách bị người dùng mượn sẽ được ghi đè ở dưới
+
+            curUser = (User)Session["user"];
+
+            if (curUser != null)
+            {
+                // Kiểm tra quyền  Admin, hiện bảng BorBook
+                if (curUser.role == "admin")
+                {
+                    editBtn.Visible = true;
+                    removeBtn.Visible = true;
+                    // không thể dùng viewstate để lưu table động, nạp lại mỗi lần :<
+                    updateBorBook();
+                }
+                else
+                {
+                    // nếu không phải admin không hiện danh sách sách
+                    borBooks.Style.Add("display", "none");
+                }
+
+
                 headerLoginBox.Style.Add("display", "none");
-                username = Session["userName"].ToString();
+                username = curUser.userName;
+                //cập nhật user trước khi check 
+                curUser = db.Users.FirstOrDefault(user => user.userName == curUser.userName);
+
+                // trong danh sách borBooks của User nếu có chỉ có thể có 1 borBook của loại sách này, dễ dàng xét được nếu có
+                var borBook = curUser.borBooks.FirstOrDefault(bb => bb.BookId == curBook.bookId);
+                if (borBook != null)
+                {
+                    if (borBook.state == 1)
+                    {
+                        borrowBtn.Text = "Hủy đặt trước";
+                        borrowBtn.Style.Add("background-color", "red !important");
+                        borrowBtn.Enabled = true;
+                        locationLabel.Visible = false;
+                        listLocation.Visible = false;
+                        borrowBtn.DataBind();
+                    }
+                    if (borBook.state == 2)
+                    {
+                        borrowBtn.Text = "Đã mượn";
+                        borrowBtn.Style.Add("background-color", "gray !important");
+                        borrowBtn.Enabled = false;
+                        locationLabel.Visible = false;
+                        listLocation.Visible = false;
+                        borrowBtn.DataBind();
+                    }
+                }
             }
             else
             {
                 userNav.Style.Add("display", "none");
             }
-
-            // Kiểm tra quyền  Admin, hiện bảng BorBook
-            if (Session["username"] != null && UserLogic.isAdmin(Session["username"].ToString()))
-            {
-                editBtn.Visible = true;
-                removeBtn.Visible = true;
-                // không thể dùng viewstate để lưu table động, nạp lại mỗi lần :<
-                updateBorBook();
-            }
-            else
-            {
-                // nếu không phải admin không hiện danh sách sách
-                borBooks.Style.Add("display", "none");
-            }
             
-
             if (IsPostBack)
             {
-                
             }
             else
             {
                 // chỉ lần đầu tiên
                 // load dữ liệu cho control
-                BookName.Text = curBook.bookName;
+                //BookName.Text = curBook.bookName;
+                BookName.InnerText = curBook.bookName;
                 BookCategory.Text = curBook.category;
                 BookDescription.InnerHtml = curBook.description;
                 var path = "~/Images/";
                 bookPic.ImageUrl = path + curBook.imagePath;
                 BookPrice.Text = curBook.price;
                 BookCount.Text = curBook.amount;
-            }
-        }
 
+                listLocation.ItemType = "LocationInstance";
+                listLocation.DataTextField = "locationInfo";
+                listLocation.DataValueField = "id";
+            }
+            parseLocation();
+        }
+        public void parseLocation()
+        {
+            if (curBook == null) return;
+            locationDict.Clear();
+            // update CurBook
+            //curBook = db.Books.FirstOrDefault(book => book.bookId == curBook.bookId);
+            List<BorBook> availableBorBooks = curBook.BorBooks.Where(bb => bb.state == 0).ToList();
+            Dictionary<int, string> locationName = new Dictionary<int, string>();
+            for (int i = 0; i < availableBorBooks.Count; i++)
+            {
+
+                ValueTuple<string, int> val;
+                int lcId = availableBorBooks[i].LocationId;
+                string lcName = availableBorBooks[i].Location.dchi;
+                if (locationDict.TryGetValue(lcId, out val))
+                {
+                    locationDict[lcId] = (val.Item1 , val.Item2+1);
+                }
+                else
+                {
+                    locationDict.Add(lcId, (lcName,1) );
+
+                }
+
+            }
+
+            listLocation.DataSource = locationDict.Select(lc =>
+                    new LocationInstance
+                    {
+                        id = lc.Key,
+                        locationInfo = lc.Value.Item1 + "(" + lc.Value.Item2 + ")"
+                    }
+                );
+            listLocation.DataBind();
+            
+        }
         private void updateBorBook()
         {
             var z = borBooksTable;
             borBooksTable.Controls.Clear();
-            listBorBook = curBook.BorBooks.OrderBy(bb => -bb.state).ToList();
+            //curBook = db.Books.FirstOrDefault(book => book.bookId == curBook.bookId);
+            listBorBook = curBook.BorBooks.OrderBy(bb => bb.LocationId).ToList();
+
             var headerRow = new TableHeaderRow();
+
             var headerID = new TableHeaderCell();
             headerID.Text = "ID";
             headerRow.Controls.Add(headerID);
             var headerState = new TableHeaderCell();
             headerState.Text = "Trạng thái";
             headerRow.Controls.Add(headerState);
+            var headerLocation = new TableHeaderCell();
+            headerLocation.Text = "Địa điểm";
+            headerRow.Controls.Add(headerLocation);
             var headerUser = new TableHeaderCell();
             headerUser.Text = "Người mượn/đặt";
             headerRow.Controls.Add(headerUser);
@@ -92,6 +182,7 @@ namespace MyWeb
             headerReturnDate.Text = "Hạn trả";
             headerRow.Controls.Add(headerReturnDate);
             borBooksTable.Rows.Add(headerRow);
+
             for (int i = 0; i < listBorBook.Count; i++)
             {
                 var row = new TableRow();
@@ -101,6 +192,11 @@ namespace MyWeb
                 var cellState = new TableCell();
                 cellState.Text = (listBorBook[i].state > 0) ? (listBorBook[i].state == 1) ? "Đặt trước" : "Đã mượn" : "Có sẵn";
                 row.Cells.Add(cellState);
+
+                var cellLocation = new TableCell();
+                cellLocation.Text = listBorBook[i].Location.dchi;
+                row.Cells.Add(cellLocation);
+
                 var cellUser = new TableCell();
                 var cellborrowDate = new TableCell();
                 var cellreturnDate = new TableCell();
@@ -113,8 +209,11 @@ namespace MyWeb
                 else
                 {
                     cellUser.Text = listBorBook[i].User.userName;
-                    cellborrowDate.Text = listBorBook[i].borrowDate.ToString();
-                    cellreturnDate.Text = listBorBook[i].returnDate.ToString();
+                    cellborrowDate.Text = listBorBook[i].borrowDate.ToString("dd'/'MM'/'yyyy");
+                    if (listBorBook[i].state==2)
+                        cellreturnDate.Text = listBorBook[i].returnDate.ToString("dd'/'MM'/'yyyy");
+                    else
+                        cellreturnDate.Text = "";
                 }
                 row.Cells.Add(cellUser);
                 row.Cells.Add(cellborrowDate);
@@ -125,7 +224,8 @@ namespace MyWeb
         }
         protected void editBtn_Click(object sender, EventArgs e)
         {
-            BookName.Enabled = true;
+            //BookName.Enabled = true;
+            BookName.Disabled = false;
             BookCategory.Enabled = true;
             BookDescription.Disabled = false;
             BookPrice.Enabled = true;
@@ -140,7 +240,8 @@ namespace MyWeb
         {
             List<string> messages= new List<string>();
             // khi nhấn được nút btn => chắc chắn đã able text
-            string bName = BookName.Text;
+            //string bName = BookName.Text;
+            string bName = BookName.InnerText;
             string bCate = BookCategory.Text;
             string bPrice = BookPrice.Text;
             string bDescrip = Request.Form["BookDescription"];
@@ -193,7 +294,12 @@ namespace MyWeb
                 else
                 {
                     // tăng số lượng có sẵn của sách
-                    BookLogic.genBorBook(ref curBook, delta);
+                    //*****************************************
+                    //*****************************************
+                    //*****************************************
+                    //*****************************************
+                    //*****************************************
+                    //BookLogic.genBorBook(ref curBook, delta);
                 }
 
                 // Nếu sửa thành công cần reload lại bảng borBook
@@ -210,7 +316,8 @@ namespace MyWeb
 
                 // disable edit các trường
 
-                BookName.Enabled = false;
+                //BookName.Enabled = false;
+                BookName.Disabled = true;
                 BookCategory.Enabled = false;
                 BookPrice.Enabled = false;
                 // texrea
@@ -240,45 +347,127 @@ namespace MyWeb
             List<String> message = new List<string>();
 
             // Kiểm tra đăng nhập
-            if (Session["userName"] == null)
+            curUser = (User)Session["user"];
+
+            if (curUser == null)
             {
-                message.Add("Bạn cần đăng nhập trước khi đăng kí mượn sách !");
-                errorBorrow.DataSource = message;
-                errorBorrow.DataBind();
-                return;
-            }
-            string tmpUserName = Session["username"].ToString();
-            User user = db.Users.FirstOrDefault(u => u.userName == tmpUserName);
-            // Kiểm tra người dùng đã mượn sách này hay chưa, hoặc đã đặt trước sách này hay chưa
-            if (user.borBooks.Any(bb => bb.BookId == curBook.bookId))
-            {
-                message.Add("Bạn đã đặt mượn trước sách này rồi !");
+                message.Add("Bạn cần đăng nhập trước khi đặt mượn sách !");
                 errorBorrow.DataSource = message;
                 errorBorrow.DataBind();
                 return;
             }
 
-            // Kiểm tra số lượng sách còn lại
-            BorBook tmp = db.BorBooks.FirstOrDefault(bb => bb.BookId == curBook.bookId &&  bb.state == 0);
+            // không thể thao thác thêm borBook vào User được tạo ra từ 2 context khác nhau
+            // bắt buộc phải dùng User được lấy ra từ db ở hiện tại
+            // cũng k thể dùng Session lưu context , như vậy context sẽ k được cập nhật
+            // Tốt hơn nên tạo Context mới ở những thao tác ntn
+            db = new LibraryContext();
+            curUser = db.Users.FirstOrDefault(user => user.userName == curUser.userName);
 
-            if (tmp!=null)
+            
+
+
+
+            // Kiểm tra xem người dùng đã đặt sách này chưa
+            BorBook borBook = curUser.borBooks.FirstOrDefault(bb => bb.BookId == curBook.bookId);
+            // tức người dùng có đặt/mượn sách rồi
+            if (borBook != null)
             {
-                // nếu có sách cho người dùng mượn và chuyển sách 
-                tmp.User = user;
-                tmp.state = 1;
-                user.borBooks.Add(tmp);
-                message.Add("Đặt mượn trước thành công!");
-                db.SaveChanges();
-                // ĐẶT MƯỢN THÀNH CÔNG => Cập nhật danh sách BorBook
-                updateBorBook();
+                if ( borBook.state == 1)
+                {
+                    // HỦY ĐẶT
+                    // nếu đã đặt thì hủy đặt
+                    curUser.borBooks.Remove(borBook);
+                    borBook.state = 0;
+                    db.SaveChanges();
+                    borrowBtn.Text = "Đặt mượn sách này";
+                    borrowBtn.Style.Add("background-color", "");
+                    locationLabel.Visible = true;
+                    listLocation.Visible = true;
+                    //red!important;
+                    borrowBtn.DataBind();
 
+                    // ***  cập nhật CurBook vì borBook ở trên vừa thay đổi - borBook là BorBook của curBook
+                    curBook = db.Books.FirstOrDefault(book => book.bookId == curBook.bookId);
+
+                    parseLocation();
+                    updateBorBook();
+
+                    message.Add("Hủy đặt sách thành công !");
+                    errorBorrow.DataSource = message;
+                    errorBorrow.DataBind();
+                    locationLabel.Visible = true;
+                    listLocation.Visible = true;
+                    return;
+                };
+
+                // Kiểm tra người dùng đã mượn sách này hay chưa, hoặc đã đặt trước sách này hay chưa
+                // never happen // pageload got it
+                if (borBook.state == 2)
+                {
+                    message.Add("Bạn đã mượn trước sách này rồi !");
+                }
+            }
+
+          
+
+            if (listLocation.SelectedIndex == -1)
+            {
+                message.Add("Hãy chọn địa điểm!");
+                errorBorrow.DataSource = message;
+                errorBorrow.DataBind();
+                return;
+            }
+
+
+            int lcId = int.Parse(listLocation.SelectedValue);
+
+            // Kiểm tra số lượng sách người dùng đã đặt & mượn
+            if (curUser.borBooks.Count == BookLogic.limitBorBook)
+            {
+                message.Add("Bạn đã đặt/mượn giới hạn " + BookLogic.limitBorBook + " sách !");
+                errorBorrow.DataSource = message;
+                errorBorrow.DataBind();
             }
             else
             {
-                message.Add("Xin lỗi, sách này đã được mượn hết!");
+                // Kiểm tra số lượng sách còn lại
+                BorBook tmp = db.BorBooks.FirstOrDefault(bb => bb.BookId == curBook.bookId && bb.state == 0 && bb.LocationId == lcId);
+
+                if (tmp != null)
+                {
+                    // nếu có sách cho người dùng mượn và chuyển sách 
+                    tmp.User = curUser;
+                    tmp.state = 1;
+                    curUser.borBooks.Add(tmp);
+                    message.Add("Đặt mượn trước thành công!");
+                    db.SaveChanges();
+                    locationLabel.Visible = false;
+                    listLocation.Visible = false;
+
+                    // ***  cập nhật CurBook vì borBook ở trên vừa thay đổi - borBook là BorBook của curBook
+                    curBook = db.Books.FirstOrDefault(book => book.bookId == curBook.bookId);
+
+                    // ĐẶT MƯỢN THÀNH CÔNG => Cập nhật danh sách BorBook
+
+                    updateBorBook();
+                    parseLocation();
+
+                    borrowBtn.Text = "Hủy đặt trước";
+                    borrowBtn.Style.Add("background-color", "red !important");
+                    //red!important;
+                    borrowBtn.DataBind();
+
+                }
+                else
+                {
+                    message.Add("Xin lỗi, sách này đã được mượn hết!");
+                }
             }
+
             errorBorrow.DataSource = message;
             errorBorrow.DataBind();
+            
         }
 
         protected void removeBtn_Click(object sender, EventArgs e)
@@ -290,7 +479,7 @@ namespace MyWeb
 
         protected void logoutBtn_Click(object sender, EventArgs e)
         {
-            Session["userName"] = null;
+            Session["user"] = null;
             Response.Redirect("ListBook.aspx");
         }
     }
@@ -301,4 +490,10 @@ namespace MyWeb
         public string userName { get; set; }
         public string returnDate { get; set; }
     }
+    class LocationInstance
+    {
+        public int id { get; set; }
+        public string locationInfo { get; set; }
+    }
+
 }

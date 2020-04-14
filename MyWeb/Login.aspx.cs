@@ -15,12 +15,25 @@ namespace MyWeb
             {
                 string userName = Request.Form.Get("username");
                 string passWord = Request.Form.Get("password");
-                string resq;
-                if (UserLogic.userLogin(userName, passWord, out resq))
+                string resq ="";
+
+                LibraryContext db = new LibraryContext();
+
+                var user = db.Users.FirstOrDefault(u => u.userName == userName && u.passWord == passWord);
+
+                if (user == null)
                 {
-                    Session["userName"] = userName;
-                    Response.Redirect("ListBook.aspx");
+                    resq = "Đăng nhập không thành công !";
                 }
+                else
+                {
+                    Session["user"] = user;
+                    //resq = "Đăng nhập thành công !";
+                    if (user.role == "admin")
+                        Response.Redirect("AdminPage.aspx");
+                    else Response.Redirect("ListBook.aspx");
+                }
+
                 Response.Write(resq);// lỗi nếu có
             }
         }

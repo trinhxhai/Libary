@@ -10,10 +10,12 @@ namespace MyWeb
 {
     public partial class ListBook : System.Web.UI.Page
     {
-        //Role
+        private LibraryContext db = new LibraryContext();
+        
         // ListBook
-        private List<Book> listBook = new List<Book>();
-        public List<Book> curListBook = new List<Book>();
+        private List<listBookItem> listBook = new List<listBookItem>();
+        // danh sách được lọc từ listBook
+        public List<listBookItem> curListBook = new List<listBookItem>();
         //Category
         private List<String> checkedCategoryList = new List<string>();
         private Dictionary<string, int> categoryDict = new Dictionary<string, int>();
@@ -22,20 +24,24 @@ namespace MyWeb
         private int curStartingPage = 0;
         private const int bookPerPage = 30;
         public string username;
+        private User curUser;
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (Session["userName"] != null) {
+            curUser = (User)Session["user"];
+
+            if (curUser != null) {
                 headerLoginBox.Style.Add("display", "none");
-                username =Session["userName"].ToString();
+                username = curUser.userName;
             }
             else
             {
                 userNav.Style.Add("display", "none");
             }
 
-            LibraryContext db = new LibraryContext();
-            listBook = db.Books.ToList<Book>();
+
+            loadListBook();
+
 
             if (!IsPostBack)
             {
@@ -64,15 +70,40 @@ namespace MyWeb
             }
 
         }
+        private void loadListBook()
+        {
+            var tmpBookList = db.Books.ToList<Book>();
+
+            listBook = new List<listBookItem>();
+
+            for (int i = 0; i < tmpBookList.Count; i++)
+            {
+                int available = tmpBookList[i].BorBooks.Where(bb => bb.state == 0).Select(bb => bb.LocationId).Distinct().ToList().Count;
+                string res;
+                if (available == 0) res = "Đã hết"; else res = available.ToString();
+
+                listBook.Add(
+                    new listBookItem
+                    {
+                        bookId = tmpBookList[i].bookId,
+                        bookName = tmpBookList[i].bookName,
+                        category = tmpBookList[i].category,
+                        description = tmpBookList[i].description,
+                        imagePath = tmpBookList[i].imagePath,
+                        availableLocation = res
+                    }
+                    );
+            }
+        }
 
         // Truyền danh sách các category vào Hash
         public void parseCategory(){
-            if (curListBook == null) return;
+            if (listBook == null) return;
             string[] categories;
             for (int i = 0; i < listBook.Count; i++)
             {
                 if (listBook[i].category == null) continue;
-                categories = listBook[i].category.Split(';');
+                categories = listBook[i].category.ToLower().Split(';');
                 foreach(string c in categories)
                 {
                     int val;
@@ -130,7 +161,7 @@ namespace MyWeb
         private void categoryFilter()
         {
             if (checkedCategoryList == null||checkedCategoryList.Count == 0) return;
-            List<Book> afterClarify = new List<Book>();
+            List<listBookItem> afterClarify = new List<listBookItem>();
             foreach (var book in listBook)
             {
                 if (book.category == null) continue;
@@ -140,9 +171,9 @@ namespace MyWeb
         }
         // Kiểm tra 1 sách nằm trong bộ lọc (category) hiện tại hay không
         // Chỉ cần 1 trong các category của sách đó nằm trong category hiện tại
-        public bool inCategory(Book book)
+        public bool inCategory(listBookItem book)
         {
-            foreach (string c in book.category.Split(';'))
+            foreach (string c in book.category.ToLower().Split(';'))
             {
                 if (checkedCategoryList.Any(checkedVal => checkedVal==c)) 
                     return true;
@@ -172,11 +203,11 @@ namespace MyWeb
                 // *** cẩn thận  search phải được gọi trước category
                 Session["SearchingContent"] = null;
                 LibraryContext db = new LibraryContext();
-                listBook = db.Books.ToList();
+                loadListBook();
             }
             else
             {
-                List<Book> afterClarify = new List<Book>();
+                List<listBookItem> afterClarify = new List<listBookItem>();
                 foreach (var book in listBook)
                 {
                     if (inBookContent(inp, book)) afterClarify.Add(book);
@@ -186,7 +217,7 @@ namespace MyWeb
 
         }
 
-        private bool inBookContent(string str, Book book)
+        private bool inBookContent(string str, listBookItem book)
         {
             if (book.bookName.ToLower().IndexOf(str.ToLower()) != -1) return true;
             if (book.description!=null)
@@ -202,8 +233,8 @@ namespace MyWeb
         protected void removeCheck_Click(object sender, EventArgs e)
         {
             categoryCheckList.ClearSelection();
-            LibraryContext db = new LibraryContext();
-            listBook = db.Books.ToList();
+            //listBook = db.Books.ToList();
+            loadListBook();
             // mặc dù loại bỏ lọc theo category nhưng vẫn phải xét nội dung đang tìm kiêm
             searchFilter();
             curStartingPage = 0;
@@ -239,7 +270,7 @@ namespace MyWeb
 
         protected void logoutBtn_Click(object sender, EventArgs e)
         {
-            Session["userName"] = null;
+            Session["user"] = null;
             Response.Redirect("ListBook.aspx");
         }
     }
@@ -248,6 +279,17 @@ namespace MyWeb
         public string text { get; set; }
         public string value { get; set; }
     }
-   
+    public class listBookItem
+    {
+        public int bookId{ get; set; }
+        public string bookName { get; set; }
+        public string category { get; set; }
+        public string description { get; set; }
+
+        public string imagePath { get; set; }
+
+        // giúp hiển thị xem sách này liệu có còn ở location nào khoonng ?
+        public string availableLocation { get; set; }
+    }
     
 }

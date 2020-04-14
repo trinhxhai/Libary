@@ -105,6 +105,15 @@ namespace MyWeb
         protected global::System.Web.UI.WebControls.View UserView;
 
         /// <summary>
+        /// locationInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label locationInfo;
+
+        /// <summary>
         /// listBoxUser control.
         /// </summary>
         /// <remarks>
@@ -301,6 +310,15 @@ namespace MyWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View borBookView;
+
+        /// <summary>
+        /// borrowBook_locationInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label borrowBook_locationInfo;
 
         /// <summary>
         /// listBorUser control.
@@ -535,5 +553,59 @@ namespace MyWeb
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.BulletedList borBookMessage;
+
+        /// <summary>
+        /// addBook_locationInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label addBook_locationInfo;
+
+        /// <summary>
+        /// addBorBookList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox addBorBookList;
+
+        /// <summary>
+        /// addingAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox addingAmount;
+
+        /// <summary>
+        /// addMoreBorBook control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addMoreBorBook;
+
+        /// <summary>
+        /// addBorBookMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList addBorBookMessage;
+
+        /// <summary>
+        /// removeBorBookTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table removeBorBookTable;
     }
 }

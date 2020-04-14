@@ -43,3 +43,18 @@ function borView_bookFilter() {
         }
     }
 }
+
+function addBookView_bookFilter() {
+    let inpFilter = document.getElementById("addBookViewBookFilter");
+    let listUser = document.getElementById("addBorBookList");
+    let books = listUser.getElementsByTagName("option");
+    //console.log(users);
+    //console.log(users.length);
+    for (var i = 0; i < books.length; i++) {
+        if (books[i].innerHTML.toLowerCase().indexOf(inpFilter.value.toLowerCase()) == -1) {
+            books[i].style.display = "none";
+        } else {
+            books[i].style.display = "block";
+        }
+    }
+}

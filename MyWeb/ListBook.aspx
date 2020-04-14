@@ -5,7 +5,6 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="">
-    <link href="~/Style/Books.css" rel="stylesheet" type="text/css" media="screen" runat="server" /> 
     <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <link href="~/Style/ListBook.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <script src="Script/BookFilter.js"></script>
@@ -74,7 +73,17 @@
                             <a href="BookDetails.aspx?bookId=<%:curListBook[i].bookId.ToString()%>"> <%:curListBook[i].bookName %></a>
                         </h3>
                     </div>
-                
+                    <%if (curListBook[i].availableLocation == "Đã hết") %>
+                    <% {%>
+                        <span class="availableLocation bad">
+                    <% }else%>
+                     <% {%>
+                        <span class="availableLocation good" >
+                    <% }%>
+
+                        <%:curListBook[i].availableLocation%>
+                    </span>
+                    
                 </div>
             
                 <%} %>

@@ -1,7 +1,7 @@
 ﻿
 #viewContainer {
     display: grid;
-    grid-template-columns: 46vw 46vw;
+    grid-template-columns: 50vw 42vw;
     grid-template-rows: 6vw 40vw;
     margin-top: 88px;
     margin-bottom: 8vw;
@@ -89,7 +89,22 @@
     margin-top: 1vw;
 }
 
-    /*BorBook Page*/
+
+.orderFlag::after {
+    content: "<< Đã đặt !";
+    background-color: greenyellow;
+}
+.borrowedFlag::after {
+    content: "[Đã mượn]";
+    background-color: orange;
+}
+.allOutFlag::after {
+    content: "[Đã Hết] ";
+    background-color: gray;
+}
+
+
+/*BorBook Page*/
 #listBorUser {
     height: 40%;
     width: 30%;
@@ -97,6 +112,7 @@
 #listBorBook {
     height: 40%;
     width: 68%;
+    overflow:scroll;
 }
 #borViewUserFilter {
     width: 30%;
@@ -172,6 +188,7 @@
 #previewUser #previewUserBook #userListBorBook {
     grid-column: 1/ span 1;
     grid-row: 1/ span 1;
+    overflow:auto;
 }
 
 #previewUser #previewUserBook #returnBookBtn {
@@ -187,9 +204,38 @@
     max-width: 100%;
     margin-left:1vw;
 }
-
+/*BÊN PHẢI - ADD BOOK */
+#newBook{
+   
+}
+#removeBorBookTable {
+    margin-top: 1vw;
+    border-collapse: collapse;
+    display: block;
+    height: 15vw;
+    overflow: auto;
+}
+    #removeBorBookTable tbody {
+        display: block;
+        width:90%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    #removeBorBookTable th {
+        font-size: 1.25vw;
+        background-color: aquamarine;
+    }
+    #removeBorBookTable td, #removeBorBookTable th {
+        border: 2px solid #759c91;
+        padding: 0.25vw;
+    }
+#addBorBook {
+    border: 5px solid pink;
+    padding:1.25vw;
+}
 
 /*************************         For mobile:         **************************/
+
 @media only screen and (max-width: 768px) {
 
     #viewContainer {
@@ -232,6 +278,7 @@
         border-left:none;
         border-top: 2px dotted gray;
     }
+
 
     /*USER LIST*/
     #listUserView {

@@ -27,7 +27,11 @@ namespace MyWeb.Models
         // nó sẽ tự động gán giá trị user của user mà nó được gán vào
         // tức là khi add một BorBook vào một User thì mặc định user của borbook đó sẽ nhận giá trị của user
         // đồng thời cũng giải quyết luôn vấn đền Book nhận 
+
         public virtual User User { get; set; }
+
+        public int LocationId { get; set; }
+        public virtual Location Location { get; set; }
 
     }
 }

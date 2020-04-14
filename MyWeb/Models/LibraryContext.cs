@@ -14,6 +14,7 @@ namespace MyWeb.Models
         {
 
         }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BorBook> BorBooks { get; set; }

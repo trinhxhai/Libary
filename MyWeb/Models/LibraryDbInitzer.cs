@@ -14,12 +14,16 @@ namespace MyWeb.Models
         private static int lastBorBookId =0;
         protected override void Seed(LibraryContext context)
         {
-            TemplateUser().ForEach(user => context.Users.Add(user));
-            TemplateBook().ForEach(book =>context.Books.Add(book));
-
+            // trong User có ref đến Location nên cần thêm và lưu trước !
+            List<Location> listLocation = TemplateLocation();
+            listLocation.ForEach(loc => context.Locations.Add(loc));
             context.SaveChanges();
 
+            TemplateUser().ForEach(user => context.Users.Add(user));
+
             List<Book> listBook = TemplateBook();
+            listBook.ForEach(book => context.Books.Add(book));
+            context.SaveChanges();
 
             for (int i = 0; i < listBook.Count; i++)
             {
@@ -32,18 +36,47 @@ namespace MyWeb.Models
                                 {
                                     id = ++lastBorBookId,
                                     BookId = book.bookId,
-                                    Book = book,
                                     borrowDate = DateTime.Now,
                                     returnDate = DateTime.Now,
-                                    state = 0 
+                                    state = 0,
+                                    // rải đều cho 4 location mặc định
+                                    LocationId = j % 4 + 1
                                 }
-                        ); 
+                        ); ; 
                 }
             }
 
-            genRandomBook(ref context,80);
+            genRandomBook(ref context, 80);
             context.SaveChanges();
 
+        }
+
+        private static List<Location> TemplateLocation()
+        {
+            var listLocation = new List<Location> { 
+                new Location
+                {
+                    id = 1,
+                    dchi="Nhà sách Phương Nam, Giáp Bát, Hà Nội"
+                },
+                new Location
+                {
+                    id = 2,
+                    dchi = "Thư viện An Nam, Cầu giấy, Hà Nội"
+                },
+                new Location
+                {
+                    id = 3,
+                    dchi = "Nhà sách Đông Lào, Long Biên, Hà Nội"
+                },
+                new Location
+                {
+                    id = 4,
+                    dchi = "Thư Viện VinBook, Hoàn Kiếm, Hà Nội"
+                },
+
+             };
+            return listLocation;
         }
         private static List<User> TemplateUser()
         {
@@ -54,7 +87,8 @@ namespace MyWeb.Models
                     passWord="123456",
                     realName="trinh xuan hai",
                     CMND="012345678912",
-                    role="admin"
+                    role="admin",
+                    LocationId=1
                 },
                 new User
                 {
@@ -62,7 +96,8 @@ namespace MyWeb.Models
                     passWord="123456",
                     realName="bui van toan",
                     CMND="012345678912",
-                    role="admin"
+                    role="admin",
+                    LocationId=1
                 },
                 new User
                 {
@@ -70,7 +105,8 @@ namespace MyWeb.Models
                     passWord="123456",
                     realName="tran hai nam",
                     CMND="012345678912",
-                    role="admin"
+                    role="admin",
+                    LocationId=2
                 },
                 new User
                 {
@@ -78,7 +114,8 @@ namespace MyWeb.Models
                     passWord="123456",
                     realName="Nguyễn Trung Trực",
                     CMND="012345678912",
-                    role="user"
+                    role="admin",
+                    LocationId=3
                 },
                 new User
                 {
@@ -86,8 +123,8 @@ namespace MyWeb.Models
                     passWord="123456",
                     realName="TUAN ahihi",
                     CMND="012345678912",
-                    role="user"
-
+                    role="user",
+                    LocationId=3
                 }
             };
             return listUser;
