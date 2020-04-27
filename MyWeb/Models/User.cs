@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 namespace MyWeb.Models
 {
-    public class User
+    public partial class User
     {
         public User()
         {

@@ -31,7 +31,7 @@ namespace MyWeb
             tbUserName.Text = username;
             tbRealName.Text = user.realName;
             tbDiaChi.Text = user.dchi;
-            borBookCount.Text = user.borBooks.Count(bb=>bb.state==2)+"/" + BookLogic.limitBorBook 
+            borBookCount.Text = user.borBooks.Count(bb=>bb.state==2)+"/" + Book.limitBorBook 
                 + "(đang đặt :" + user.borBooks.Count(bb => bb.state == 1)+")" ;
             tbRole.Text = user.role;
         }

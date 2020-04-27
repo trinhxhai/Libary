@@ -5,7 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 namespace MyWeb.Models
 {
-    public class BookLogic
+    public partial class Book
     {
         public static int limitBorBook { get; } = 5;
         public static bool validExtensionImagePath(string imagePath)

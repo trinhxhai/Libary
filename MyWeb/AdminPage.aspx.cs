@@ -235,9 +235,6 @@ namespace MyWeb
             preMView.ActiveViewIndex = 1;
         }
 
-
-
-
         protected void addUserBnt_Click(object sender, EventArgs e)
         {
             //using System.ComponentModel.DataAnnotations;
@@ -297,7 +294,7 @@ namespace MyWeb
                     price = BookPrice.Text,
 
                 };
-                if (BookLogic.isValid(tmp,ref messages))
+                if (Book.isValid(tmp,ref messages))
                 {
                     try
                     {
@@ -311,7 +308,7 @@ namespace MyWeb
                     db.Books.Add(tmp);
                     db.SaveChanges();
                     // Sinh các borrowable cho book
-                    BookLogic.genBorBook(tmp);
+                    Book.genBorBook(tmp);
                         
                     db.SaveChanges();
                     messages.Add("Thêm thành công!");
@@ -375,7 +372,7 @@ namespace MyWeb
 
             // kiểm  tra số lượng sách người dùng đang mượn !
             int borrowedBook = user.borBooks.Count(bb => bb.state == 2);
-            if (borrowedBook == BookLogic.limitBorBook)
+            if (borrowedBook == Book.limitBorBook)
                 message.Add("Bạn đã mượn " + borrowedBook +  "quyển sách, hãy trả sách để có thể mượn thêm sách !");
 
             //danh sách sách còn lại của sách này
@@ -774,7 +771,7 @@ namespace MyWeb
                     if (amout > 0)
                     {
                         var tmp = curAdmin.Location;
-                        BookLogic.genBorBook(ref book, amout, ref tmp);
+                        Book.genBorBook(ref book, amout, ref tmp);
                         messenger.Add("Thêm thành công");
                         db.SaveChanges();
                         // load lại table 

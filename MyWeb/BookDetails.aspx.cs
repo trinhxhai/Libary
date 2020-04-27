@@ -289,7 +289,7 @@ namespace MyWeb
                 if (delta < 0)
                 {
                     //tức là số sách nhập vào ít hơn số sách cũ, admin muốn loại bỏ bớt số sách đang "có sẵn - không có ai mượn";
-                    BookLogic.removeBorBook(ref curBook, -delta);
+                    Book.removeBorBook(ref curBook, -delta);
                 }
                 else
                 {
@@ -364,10 +364,6 @@ namespace MyWeb
             db = new LibraryContext();
             curUser = db.Users.FirstOrDefault(user => user.userName == curUser.userName);
 
-            
-
-
-
             // Kiểm tra xem người dùng đã đặt sách này chưa
             BorBook borBook = curUser.borBooks.FirstOrDefault(bb => bb.BookId == curBook.bookId);
             // tức người dùng có đặt/mượn sách rồi
@@ -423,9 +419,9 @@ namespace MyWeb
             int lcId = int.Parse(listLocation.SelectedValue);
 
             // Kiểm tra số lượng sách người dùng đã đặt & mượn
-            if (curUser.borBooks.Count == BookLogic.limitBorBook)
+            if (curUser.borBooks.Count == Book.limitBorBook)
             {
-                message.Add("Bạn đã đặt/mượn giới hạn " + BookLogic.limitBorBook + " sách !");
+                message.Add("Bạn đã đặt/mượn giới hạn " + Book.limitBorBook + " sách !");
                 errorBorrow.DataSource = message;
                 errorBorrow.DataBind();
             }

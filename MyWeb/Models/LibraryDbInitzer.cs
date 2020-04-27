@@ -231,7 +231,7 @@ namespace MyWeb.Models
                 db.Books.Add(tmp);
                 db.SaveChanges();
                 // Sinh các borrowable cho book
-                BookLogic.genBorBook(tmp);
+                Book.genBorBook(tmp);
                 db.SaveChanges();
             }
         }

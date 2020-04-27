@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace MyWeb.Models
 {
-    public class Book
+    public partial class Book
     {
       
 /*        public Book(Book tmp)
