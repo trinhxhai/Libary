@@ -1,37 +1,9 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.ListUser"  %>
-<!DOCTYPE html>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AdminPage.aspx.cs" Inherits="MyWeb.WebForm1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+</asp:Content>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <link href="~/Style/AdminPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    
-</head>
-<body>
-    <form id="form1" runat="server">
-
-        <div class="navBar">
-            <a href="ListBook.aspx" class="logoLink">
-                <img src="Images/Logo.jpg" />
-            </a>
-            <ul class="navMenu">
-                <li><a href="ListBook.aspx">Trang Chủ</a></li>
-                <li><a href="AdminPage.aspx">Admin</a></li>
-                <li><a href="Location.aspx"> Địa điểm </a></li>
-                <li><a href="Introduction.aspx">Giới thiệu </a></li>
-            </ul>
-            <div id="headerLoginBox" runat="server">
-                <a href="Login.aspx">Đăng nhập</a>
-            </div>
-            <div id="userNav"  runat="server">
-                <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
-                <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
-            </div>
-        </div>
-        
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server" ClientIDMode="Static">
         <div id="viewContainer">
         <div id="menuBar">   
             <asp:Button ID="viewListUser" runat="server" Text="Users"  OnClick="viewListUser_Click" />
@@ -313,10 +285,7 @@
 
         </div>
 
-
-    </form>
-    <footer>1412</footer>
-    <script>
+        <script>
         var borBox = document.getElementById("listBorBook");
         var listBook = borBox.getElementsByTagName("option");
         for (var i = 0; i < listBook.length; i++) {
@@ -341,6 +310,4 @@
         }
 
     </script>
-</body>
-
-</html>
+</asp:Content>

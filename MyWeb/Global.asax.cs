@@ -14,11 +14,13 @@ namespace MyWeb
         protected void Application_Start(object sender, EventArgs e)
         {
             Database.SetInitializer(new LibraryDbInitzer());
+            Application["onlineAcc"] = 0;
+                
         }
 
         protected void Session_Start(object sender, EventArgs e)
         {
-
+            Application["onlineAcc"] = (int)Application["onlineAcc"] + 1;
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)
@@ -38,7 +40,7 @@ namespace MyWeb
 
         protected void Session_End(object sender, EventArgs e)
         {
-
+            Application["onlineAcc"] = (int)Application["onlineAcc"] - 1;
         }
 
         protected void Application_End(object sender, EventArgs e)

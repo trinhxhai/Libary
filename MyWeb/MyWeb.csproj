@@ -124,15 +124,9 @@
     <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
     <Content Include="bin\roslyn\vbc.exe" />
     <Content Include="bin\roslyn\VBCSCompiler.exe" />
-    <Content Include="BookDetails.aspx" />
     <Content Include="RemoveBorBook.aspx" />
     <Content Include="Style\ContentPage.css" />
     <Content Include="Global.asax" />
-    <Content Include="Introduction.aspx" />
-    <Content Include="ListBook.aspx" />
-    <Content Include="AdminPage.aspx" />
-    <Content Include="Location.aspx" />
-    <Content Include="Login.aspx" />
     <Content Include="NoPermisson.html" />
     <Content Include="NotFound.html" />
     <Content Include="obj\Debug\MyWeb.csproj.FileListAbsolute.txt" />
@@ -146,26 +140,48 @@
     <Content Include="Style\ListBook.css" />
     <Content Include="Style\Login.css" />
     <Content Include="Style\UserDetails.css" />
-    <Content Include="UserDetails.aspx" />
     <Content Include="Web.config" />
+    <Content Include="ListBook.aspx" />
+    <Content Include="AdminPage.aspx" />
+    <Content Include="BookDetails.aspx" />
+    <Content Include="Login.aspx" />
+    <Content Include="UserDetails.aspx" />
+    <Content Include="Introduction.aspx" />
+    <Content Include="Location.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookDetails.aspx.cs">
-      <DependentUpon>BookDetails.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BookDetails.aspx.designer.cs">
-      <DependentUpon>BookDetails.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Introduction.aspx.cs">
-      <DependentUpon>Introduction.aspx</DependentUpon>
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Logic\BookLogic.cs" />
+    <Compile Include="Models\BorBook.cs" />
+    <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\LibraryContext.cs" />
+    <Compile Include="Models\LibraryDbInitzer.cs" />
+    <Compile Include="Logic\UserLogic.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="ContentPage.master.cs">
+      <DependentUpon>ContentPage.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Introduction.aspx.designer.cs">
-      <DependentUpon>Introduction.aspx</DependentUpon>
+    <Compile Include="ContentPage.master.designer.cs">
+      <DependentUpon>ContentPage.master</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveBorBook.aspx.cs">
+      <DependentUpon>RemoveBorBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RemoveBorBook.aspx.designer.cs">
+      <DependentUpon>RemoveBorBook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
     </Compile>
     <Compile Include="ListBook.aspx.cs">
       <DependentUpon>ListBook.aspx</DependentUpon>
@@ -181,12 +197,12 @@
     <Compile Include="AdminPage.aspx.designer.cs">
       <DependentUpon>AdminPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Location.aspx.cs">
-      <DependentUpon>Location.aspx</DependentUpon>
+    <Compile Include="BookDetails.aspx.cs">
+      <DependentUpon>BookDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Location.aspx.designer.cs">
-      <DependentUpon>Location.aspx</DependentUpon>
+    <Compile Include="BookDetails.aspx.designer.cs">
+      <DependentUpon>BookDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -195,28 +211,26 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Logic\BookLogic.cs" />
-    <Compile Include="Models\BorBook.cs" />
-    <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\LibraryContext.cs" />
-    <Compile Include="Models\LibraryDbInitzer.cs" />
-    <Compile Include="Logic\UserLogic.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoveBorBook.aspx.cs">
-      <DependentUpon>RemoveBorBook.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="RemoveBorBook.aspx.designer.cs">
-      <DependentUpon>RemoveBorBook.aspx</DependentUpon>
-    </Compile>
     <Compile Include="UserDetails.aspx.cs">
       <DependentUpon>UserDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UserDetails.aspx.designer.cs">
       <DependentUpon>UserDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Introduction.aspx.cs">
+      <DependentUpon>Introduction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Introduction.aspx.designer.cs">
+      <DependentUpon>Introduction.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Location.aspx.cs">
+      <DependentUpon>Location.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Location.aspx.designer.cs">
+      <DependentUpon>Location.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +249,9 @@
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\MyWeb.csproj.CopyComplete" />
     <Content Include="obj\Debug\MyWeb.csprojAssemblyReference.cache" />
+    <Content Include="ContentPage.master" />
     <None Include="packages.config" />
+    <Content Include="Site.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

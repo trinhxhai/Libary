@@ -8,15 +8,14 @@ using MyWeb.Models;
 using System.ComponentModel.DataAnnotations;
 namespace MyWeb
 {
-    public partial class BookDetails : System.Web.UI.Page
+    public partial class WebForm : System.Web.UI.Page
     {
         private List<BorBook> listBorBook = new List<BorBook>();
         private LibraryContext db = new LibraryContext();
         private Book curBook;
-        public string username ;
+        public string username;
         private User curUser;
-        Dictionary<int, ValueTuple<string, int>> locationDict = new Dictionary<int, ValueTuple<string,int>>();
-
+        Dictionary<int, ValueTuple<string, int>> locationDict = new Dictionary<int, ValueTuple<string, int>>();
         protected void Page_Load(object sender, EventArgs e)
         {
             //thêm sự kiện xác nhận xóa borBook
@@ -62,8 +61,6 @@ namespace MyWeb
                 }
 
 
-                headerLoginBox.Style.Add("display", "none");
-                username = curUser.userName;
                 //cập nhật user trước khi check 
                 curUser = db.Users.FirstOrDefault(user => user.userName == curUser.userName);
 
@@ -91,11 +88,7 @@ namespace MyWeb
                     }
                 }
             }
-            else
-            {
-                userNav.Style.Add("display", "none");
-            }
-            
+
             if (IsPostBack)
             {
             }
@@ -118,6 +111,7 @@ namespace MyWeb
             }
             parseLocation();
         }
+
         public void parseLocation()
         {
             if (curBook == null) return;
@@ -134,11 +128,11 @@ namespace MyWeb
                 string lcName = availableBorBooks[i].Location.dchi;
                 if (locationDict.TryGetValue(lcId, out val))
                 {
-                    locationDict[lcId] = (val.Item1 , val.Item2+1);
+                    locationDict[lcId] = (val.Item1, val.Item2 + 1);
                 }
                 else
                 {
-                    locationDict.Add(lcId, (lcName,1) );
+                    locationDict.Add(lcId, (lcName, 1));
 
                 }
 
@@ -152,7 +146,7 @@ namespace MyWeb
                     }
                 );
             listLocation.DataBind();
-            
+
         }
         private void updateBorBook()
         {
@@ -210,7 +204,7 @@ namespace MyWeb
                 {
                     cellUser.Text = listBorBook[i].User.userName;
                     cellborrowDate.Text = listBorBook[i].borrowDate.ToString("dd'/'MM'/'yyyy");
-                    if (listBorBook[i].state==2)
+                    if (listBorBook[i].state == 2)
                         cellreturnDate.Text = listBorBook[i].returnDate.ToString("dd'/'MM'/'yyyy");
                     else
                         cellreturnDate.Text = "";
@@ -238,7 +232,7 @@ namespace MyWeb
 
         protected void saveBtn_Click(object sender, EventArgs e)
         {
-            List<string> messages= new List<string>();
+            List<string> messages = new List<string>();
             // khi nhấn được nút btn => chắc chắn đã able text
             //string bName = BookName.Text;
             string bName = BookName.InnerText;
@@ -341,7 +335,7 @@ namespace MyWeb
             }
         }
 
- 
+
         protected void borrowBtn_Click(object sender, EventArgs e)
         {
             List<String> message = new List<string>();
@@ -369,7 +363,7 @@ namespace MyWeb
             // tức người dùng có đặt/mượn sách rồi
             if (borBook != null)
             {
-                if ( borBook.state == 1)
+                if (borBook.state == 1)
                 {
                     // HỦY ĐẶT
                     // nếu đã đặt thì hủy đặt
@@ -405,7 +399,7 @@ namespace MyWeb
                 }
             }
 
-          
+
 
             if (listLocation.SelectedIndex == -1)
             {
@@ -463,7 +457,7 @@ namespace MyWeb
 
             errorBorrow.DataSource = message;
             errorBorrow.DataBind();
-            
+
         }
 
         protected void removeBtn_Click(object sender, EventArgs e)
@@ -478,15 +472,11 @@ namespace MyWeb
             Response.Redirect("ListBook.aspx");
         }
 
-        protected void logoutBtn_Click(object sender, EventArgs e)
-        {
-            Session["user"] = null;
-            Response.Redirect("ListBook.aspx");
-        }
+
     }
     class BookInstance
     {
-        public int id { get; set; } 
+        public int id { get; set; }
         public string BookName { get; set; }
         public string userName { get; set; }
         public string returnDate { get; set; }
@@ -496,5 +486,4 @@ namespace MyWeb
         public int id { get; set; }
         public string locationInfo { get; set; }
     }
-
 }

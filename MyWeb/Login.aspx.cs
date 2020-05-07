@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using MyWeb.Models;
 namespace MyWeb
 {
-    public partial class Login : System.Web.UI.Page
+    public partial class WebForm3 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -15,7 +15,7 @@ namespace MyWeb
             {
                 string userName = Request.Form.Get("username");
                 string passWord = Request.Form.Get("password");
-                string resq ="";
+                string resq = "";
 
                 LibraryContext db = new LibraryContext();
 

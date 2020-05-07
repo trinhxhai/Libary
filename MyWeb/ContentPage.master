@@ -1,0 +1,26 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ContentPage.master.cs" Inherits="MyWeb.NestedMasterPage1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="/Style/ContentPage.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+</asp:Content>
+    
+
+
+    <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server" ClientIDMode="Static">
+            
+
+            
+        <div id="container">
+            <label id="containerTitle">
+                <asp:ContentPlaceHolder ID="TitlePlaceHolder" runat="server">
+                </asp:ContentPlaceHolder>
+            </label>
+            <div id="content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+    </asp:Content>
+
+
+

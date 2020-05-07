@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="MyWeb.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="navBar">
+        <a href="ListBook.aspx" class="logoLink">
+            <img src="Images/Logo.jpg" />
+        </a>
+        <ul class="navMenu">
+            <li><a href="ListBook.aspx">Trang Chủ</a></li>
+            <li><a href="AdminPage.aspx">Admin</a></li>
+            <li><a href="Location.aspx"> Địa điểm </a></li>
+            <li><a href="Introduction.aspx">Giới thiệu </a></li>
+        </ul>
+        <div id="headerLoginBox" runat="server">
+            <a href="Login.aspx">Đăng nhập</a>
+        </div>
+        <div id="userNav"  runat="server">
+            <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
+            <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
+        </div>
+        </div>
+
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+
+
+    <footer>Số người đang truy cập: <%: onlineAcc %></footer>
+    </form>
+</body>
+</html>

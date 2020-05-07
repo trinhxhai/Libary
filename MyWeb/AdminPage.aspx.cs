@@ -8,7 +8,7 @@ using MyWeb.Models;
 using System.ComponentModel.DataAnnotations;
 namespace MyWeb
 {
-    public partial class ListUser : System.Web.UI.Page
+    public partial class WebForm1 : System.Web.UI.Page
     {
         private LibraryContext db = new LibraryContext();
         private List<User> listUser = new List<User>();
@@ -18,22 +18,20 @@ namespace MyWeb
         private User curAdmin;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             // regiter for js in clientside
             Page.ClientScript.RegisterClientScriptInclude("AdminPage", "Script/AdminPage.js");
 
             // kiểm tra quyền ad min
             curAdmin = (User)Session["user"];
-            if (curAdmin == null|| curAdmin.role!="admin") Response.Redirect("NoPermisson.html");
-            username = curAdmin.userName;
-            // nếu là admin / tồn tại user thì ẩn hộp login - vì đã đăng nhập r
-            headerLoginBox.Style.Add("display", "none");
+            if (curAdmin == null || curAdmin.role != "admin") Response.Redirect("NoPermisson.html");
+
 
             // load view đầu tiên - mặc định
 
             locationInfo.Text = "Địa điểm :" + curAdmin.Location.dchi;
-            
-            borrowBook_locationInfo.Text = "Địa điểm :" + curAdmin.Location.dchi; 
+
+            borrowBook_locationInfo.Text = "Địa điểm :" + curAdmin.Location.dchi;
             // take List User
             listUser = db.Users.ToList();
 
@@ -63,7 +61,7 @@ namespace MyWeb
                     addBorBookList.ItemType = "BookItem";
                     addBorBookList.DataTextField = "name";
                     addBorBookList.DataValueField = "id";
-                    
+
                     var tmp = db.Books.Select(
                             b => new BookItem
                             {
@@ -74,8 +72,8 @@ namespace MyWeb
                     addBorBookList.DataSource = tmp;
                     //addBorBookList.SelectedValue = Session["BookId"];
 
-                    int idx=-1;
-                    for(int i = 0; i < tmp.Count; i++)
+                    int idx = -1;
+                    for (int i = 0; i < tmp.Count; i++)
                     {
                         if (tmp[i].id == int.Parse(Session["RemoveBorBookBacking_BookId"].ToString()))
                         {
@@ -99,7 +97,7 @@ namespace MyWeb
                 listBorBook.ItemType = "BookItem";
                 listBorBook.DataTextField = "name";
                 listBorBook.DataValueField = "id";
-                
+
 
             }
             else
@@ -107,7 +105,6 @@ namespace MyWeb
             }
             previewUserBookPic.ImageUrl = "";
         }
-
 
 
         // XỬ LÝ CỬA SỔ
@@ -247,11 +244,11 @@ namespace MyWeb
                 CMND = inpCMND.Text,
                 dchi = inpDchi.Text,
                 role = inpRole.SelectedValue,
-                LocationId=curAdmin.LocationId
-                
+                LocationId = curAdmin.LocationId
+
             };
 
-            ValidationContext ctx = new ValidationContext(tmp,serviceProvider:null,items:null);
+            ValidationContext ctx = new ValidationContext(tmp, serviceProvider: null, items: null);
             var results = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(tmp, ctx, results, true);
 
@@ -259,7 +256,7 @@ namespace MyWeb
             if (isValid)
             {
                 LibraryContext db = new LibraryContext();
-                var exist = db.Users.Any(u => u.userName==inpUserName.Text);
+                var exist = db.Users.Any(u => u.userName == inpUserName.Text);
                 if (!exist)
                 {
                     db.Users.Add(tmp);
@@ -271,7 +268,7 @@ namespace MyWeb
                 {
                     messages.Add("Username đã tồn tại!");
                 }
-                
+
             }
             validUserErrors.DataSource = messages;
             validUserErrors.DataBind();
@@ -287,16 +284,16 @@ namespace MyWeb
                 LibraryContext db = new LibraryContext();
                 Book tmp = new Book
                 {
-                    bookId = db.Books.Max(b => b.bookId)+1, // Id của sách sẽ +1 so với id  lớn nhất của các sách hiện tại
+                    bookId = db.Books.Max(b => b.bookId) + 1, // Id của sách sẽ +1 so với id  lớn nhất của các sách hiện tại
                     bookName = BookName.Text,
                     category = BookCategory.Text,
                     description = BookDescription.Text,
-                    amount= Amount.Text,
+                    amount = Amount.Text,
                     imagePath = ImageUpload.FileName,
                     price = BookPrice.Text,
 
                 };
-                if (Book.isValid(tmp,ref messages))
+                if (Book.isValid(tmp, ref messages))
                 {
                     try
                     {
@@ -311,7 +308,7 @@ namespace MyWeb
                     db.SaveChanges();
                     // Sinh các borrowable cho book
                     Book.genBorBook(tmp);
-                        
+
                     db.SaveChanges();
                     messages.Add("Thêm thành công!");
                 }
@@ -338,10 +335,10 @@ namespace MyWeb
             previewPriceBook.Text = book.price;
             previewPriceBook.DataBind();
 
-            previewPicBook.ImageUrl = "/Images/"+book.imagePath;
+            previewPicBook.ImageUrl = "/Images/" + book.imagePath;
             previewPicBook.DataBind();
         }
- 
+
         protected void borrowBtn_Click(object sender, EventArgs e)
         {
             List<String> message = new List<string>();
@@ -375,17 +372,17 @@ namespace MyWeb
             // kiểm  tra số lượng sách người dùng đang mượn !
             int borrowedBook = user.borBooks.Count(bb => bb.state == 2);
             if (borrowedBook == Book.limitBorBook)
-                message.Add("Bạn đã mượn " + borrowedBook +  "quyển sách, hãy trả sách để có thể mượn thêm sách !");
+                message.Add("Bạn đã mượn " + borrowedBook + "quyển sách, hãy trả sách để có thể mượn thêm sách !");
 
             //danh sách sách còn lại của sách này
             // chỉ được tính sách ở location của Admin đang lưu trữ
 
             List<BorBook> avableBorBook = db.BorBooks
-                        .Where(bb => bb.state == 0 
-                                            && 
-                                     bb.BookId == curBook.bookId 
-                                            && 
-                                    bb.Location.id==curAdmin.Location.id
+                        .Where(bb => bb.state == 0
+                                            &&
+                                     bb.BookId == curBook.bookId
+                                            &&
+                                    bb.Location.id == curAdmin.Location.id
                                     ).ToList();
 
             // nếu nó rỗng tức không còn loại sách này
@@ -393,8 +390,8 @@ namespace MyWeb
                 message.Add("Xin lỗi sách này đã hết !");
 
             // trường hợp người dùng đã đặt trước ?? th đặc biệt
-            BorBook tmp = user.borBooks.FirstOrDefault(bb => bb.BookId == bookId&&bb.state==1);
-            if (tmp!=null)
+            BorBook tmp = user.borBooks.FirstOrDefault(bb => bb.BookId == bookId && bb.state == 1);
+            if (tmp != null)
             {
                 // không cần xét dk số lượng sách đã mượn vì, k tăng thêm chỉ chỉnh sách's state lên 2
                 message.Clear();
@@ -461,12 +458,12 @@ namespace MyWeb
 
 
             var username = listBoxUser.SelectedValue;
-            User user = db.Users.FirstOrDefault(u=>u.userName==username);
+            User user = db.Users.FirstOrDefault(u => u.userName == username);
             if (user == null) return;
             accName.Text = user.userName;
             borBookCount.Text = user.borBooks.Count.ToString();
             // load danh sachs sachs muon
-            if (user.borBooks != null && user.borBooks.Count >0)
+            if (user.borBooks != null && user.borBooks.Count > 0)
             {
                 userListBorBook.DataSource = user.borBooks
                     .Where(bb => bb.state == 2)
@@ -474,7 +471,7 @@ namespace MyWeb
                             new BorBookItem
                             {
                                 id = bb.id,
-                                name = bb.Book.bookName 
+                                name = bb.Book.bookName
                                 //name = db.Books.FirstOrDefault(b => b.bookId == bb.BookId).bookName
                             }
 
@@ -482,7 +479,7 @@ namespace MyWeb
             }
             else
             {
-                userListBorBook.DataSource = new List<BorBookItem>() ;
+                userListBorBook.DataSource = new List<BorBookItem>();
             }
             userListBorBook.DataBind();
             // load lại các trường thông tin
@@ -490,7 +487,7 @@ namespace MyWeb
 
         }
 
-       
+
         protected void returnBookBtn_Click(object sender, EventArgs e)
         {
             if (userListBorBook.SelectedValue != null)
@@ -499,7 +496,7 @@ namespace MyWeb
                 var user = db.Users.FirstOrDefault(u => u.userName == username);
                 if (user == null) return;
                 int BBid = int.Parse(userListBorBook.SelectedValue);
-                BorBook BB = db.BorBooks.FirstOrDefault(b => b.id == BBid );
+                BorBook BB = db.BorBooks.FirstOrDefault(b => b.id == BBid);
                 if (BB == null) return;
                 user.borBooks.Remove(BB);
 
@@ -536,13 +533,14 @@ namespace MyWeb
             }
             reloadUserInfo();
         }
-        
+
         // Fill lại các trường in4 của người dùng
         private void reloadUserInfo()
         {
             string username = listBoxUser.SelectedValue;
             var user = db.Users.FirstOrDefault(u => u.userName == username);
-            if (user == null) {
+            if (user == null)
+            {
                 accName.Text = "";
                 realName.Text = "";
                 CMND.Text = "";
@@ -558,15 +556,16 @@ namespace MyWeb
                 CMND.Text = user.CMND;
                 dchi.Text = user.dchi;
                 passWord.Text = "";
-                borBookCount.Text = user.borBooks.Count(bb=>bb.state==2).ToString();
+                borBookCount.Text = user.borBooks.Count(bb => bb.state == 2).ToString();
             }
         }
         protected void removeUserBtn_Click(object sender, EventArgs e)
         {
             string username = listBoxUser.SelectedValue;
-            List<string> messages= new List<string>();
+            List<string> messages = new List<string>();
             var u = db.Users.FirstOrDefault(user => user.userName == username);
-            if (u == null) {
+            if (u == null)
+            {
                 messages.Add("Hãy chọn User");
                 listUserMessages.DataSource = messages;
                 listUserMessages.DataBind();
@@ -581,7 +580,7 @@ namespace MyWeb
                 listUserMessages.DataBind();
                 return;
             }
-            
+
 
             db.Users.Remove(u);
             db.SaveChanges();
@@ -601,7 +600,7 @@ namespace MyWeb
             if (userListBorBook.SelectedValue == "") return;
             int idBorBook = int.Parse(userListBorBook.SelectedValue);
             // chắc chắn có
-            BorBook borBook = db.BorBooks.FirstOrDefault(bb=>bb.id==idBorBook);
+            BorBook borBook = db.BorBooks.FirstOrDefault(bb => bb.id == idBorBook);
             Book book = db.Books.FirstOrDefault(b => b.bookId == borBook.BookId);
             previewUserBookPic.ImageUrl = "Images/" + book.imagePath;
             reloadUserInfo();
@@ -623,8 +622,8 @@ namespace MyWeb
             if (curUser == null) return;
 
             string tmpPass = passWord.Text;
-            
-            if (passWord.Text=="") tmpPass = curUser.passWord;
+
+            if (passWord.Text == "") tmpPass = curUser.passWord;
 
             User tmp = new User()
             {
@@ -633,7 +632,7 @@ namespace MyWeb
                 CMND = CMND.Text,
                 dchi = dchi.Text,
                 passWord = passWord.Text,
-                role=curUser.role,
+                role = curUser.role,
             };
 
             ValidationContext ctx = new ValidationContext(tmp, serviceProvider: null, items: null);
@@ -659,13 +658,13 @@ namespace MyWeb
             validationUserError.DataBind();
             reloadUserInfo();
             realName.DataBind();
-            
+
         }
 
         protected void editUser_Click(object sender, EventArgs e)
         {
             List<string> messages = new List<string>();
-            if (listBoxUser.SelectedValue == ""|| listBoxUser.SelectedValue==null)
+            if (listBoxUser.SelectedValue == "" || listBoxUser.SelectedValue == null)
             {
                 messages.Add("Hãy chọn user");
                 validationUserError.DataSource = messages;
@@ -677,12 +676,6 @@ namespace MyWeb
             CMND.Enabled = true;
             dchi.Enabled = true;
             passWord.Enabled = true;
-        }
-
-        protected void logoutBtn_Click(object sender, EventArgs e)
-        {
-            Session["user"] = null;
-            Response.Redirect("ListBook.aspx");
         }
 
         protected void listBorUser_SelectedIndexChanged(object sender, EventArgs e)
@@ -701,7 +694,7 @@ namespace MyWeb
             reloadBorBook(ref user);
         }
 
-        private  void reloadBorBook(ref User user)
+        private void reloadBorBook(ref User user)
         {
             // thêm đuôi [Đã hết] cho những sách đã hết ở thư viện
             List<BookItem> tmp = addTailsBorrowableBooks();
@@ -717,7 +710,7 @@ namespace MyWeb
                     tmp[i].order = true;
                 }
             }
-            listBorBook.DataSource = tmp.OrderBy(bi =>!bi.order);
+            listBorBook.DataSource = tmp.OrderBy(bi => !bi.order);
             listBorBook.DataBind();
 
         }
@@ -748,7 +741,7 @@ namespace MyWeb
                     cells[3].Text = locationBorBooks[i].borrowDate.ToString("dd'/'MM'/'yyyy");
                 if (locationBorBooks[i].state == 2)
                     cells[4].Text = locationBorBooks[i].returnDate.ToString("dd'/'MM'/'yyyy");
-                if(locationBorBooks[i].state!=2)
+                if (locationBorBooks[i].state != 2)
                     cells[5].Text = @"<a href='RemoveBorBook.aspx?idBorBook=" + locationBorBooks[i].id.ToString() + "'>Xóa</a>";
                 var row = new TableRow();
                 for (int j = 0; j < 6; j++) row.Cells.Add(cells[j]);
@@ -761,14 +754,14 @@ namespace MyWeb
         {
             preMView.ActiveViewIndex = 2;
             var messenger = new List<string>();
-            if (addBorBookList.SelectedIndex !=-1)
+            if (addBorBookList.SelectedIndex != -1)
             {
                 int bookId = int.Parse(addBorBookList.SelectedValue);
-                Book book =  db.Books.FirstOrDefault(b => b.bookId == bookId);
+                Book book = db.Books.FirstOrDefault(b => b.bookId == bookId);
 
 
                 int amout;
-                if (int.TryParse(addingAmount.Text,out amout))
+                if (int.TryParse(addingAmount.Text, out amout))
                 {
                     if (amout > 0)
                     {
@@ -783,7 +776,7 @@ namespace MyWeb
                     {
                         messenger.Add("Số lượng >= 0");
                     }
-                    
+
                 }
                 else
                 {
@@ -798,12 +791,12 @@ namespace MyWeb
             addBorBookMessage.DataSource = messenger;
             addBorBookMessage.DataBind();
         }
-    }
+    
     class BookItem
     {
         public int id { get; set; }
         public string name { get; set; }
-        
+
         // để sắp xếp các sách đã đặt lên trên
         public bool order { get; set; }
     }
@@ -812,4 +805,6 @@ namespace MyWeb
         public int id { get; set; }
         public string name { get; set; }
     }
+
+}
 }

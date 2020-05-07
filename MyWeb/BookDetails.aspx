@@ -1,48 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="BookDetails.aspx.cs" Inherits="MyWeb.BookDetails" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BookDetails.aspx.cs" Inherits="MyWeb.WebForm" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server" ClientIDMode="Static">
 
-<!DOCTYPE html>
+    <link href="/Style/BookDetails.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+ 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/Style/Layout.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <link href="~/Style/BookDetails.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
-    <style>
-        
-            
-    </style>
-    <script type="text/javascript" language="javascript">
-        function ConfirmOnDelete() {
-            if (confirm("Bạn có chắc chắn muốn xóa sách này không ?") == true)
-                return true;
-            else return false;
-        }
-    </script>
-</head>
-<body>
-    <form id="form1" runat="server">
-
-        <div class="navBar">
-            <a href="ListBook.aspx" class="logoLink">
-                <img src="Images/Logo.jpg" />
-            </a>
-            <ul class="navMenu">
-                <li><a href="ListBook.aspx">Trang Chủ</a></li>
-                <li><a href="AdminPage.aspx">Admin</a></li>
-                <li><a href="Location.aspx"> Địa điểm </a></li>
-                <li><a href="Introduction.aspx">Giới thiệu </a></li>
-            </ul>
-            <div id="headerLoginBox" runat="server">
-                <a href="Login.aspx" ViewStateMode="Disabled">Đăng nhập</a>
-            </div>
-            <div id="userNav"  runat="server">
-                <a href="UserDetails.aspx?username=<%:username%>">Hello <%:username%></a>
-                <asp:Button ID="logoutBtn" runat="server" Text="Logout" OnClick="logoutBtn_Click" />
-            </div>
-        </div>
-        <!-- AAAAAAAAAAAA-->
-       <div id="bookContainer">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server" ClientIDMode="Static">
+               <div id="bookContainer">
            <div id="inforBook">
                <div id="borrowArea">
                    <asp:Button ID="borrowBtn" runat="server" Text="Đặt mượn sách này " OnClick="borrowBtn_Click" />
@@ -96,9 +60,5 @@
                </asp:Table>
            </div>
         </div>
-    </form>
-    </div>
-    </form>
-    <footer>1412</footer>
-</body>
-</html>
+    
+</asp:Content>

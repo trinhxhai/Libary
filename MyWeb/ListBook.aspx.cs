@@ -5,13 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using MyWeb.Models;
-
 namespace MyWeb
 {
-    public partial class ListBook : System.Web.UI.Page
+    public partial class WebForm2 : System.Web.UI.Page
     {
         private LibraryContext db = new LibraryContext();
-        
+
         // ListBook
         private List<listBookItem> listBook = new List<listBookItem>();
         // danh sách được lọc từ listBook
@@ -27,17 +26,8 @@ namespace MyWeb
         private User curUser;
         protected void Page_Load(object sender, EventArgs e)
         {
-
             curUser = (User)Session["user"];
 
-            if (curUser != null) {
-                headerLoginBox.Style.Add("display", "none");
-                username = curUser.userName;
-            }
-            else
-            {
-                userNav.Style.Add("display", "none");
-            }
 
 
             loadListBook();
@@ -68,7 +58,6 @@ namespace MyWeb
 
                 }
             }
-
         }
         private void loadListBook()
         {
@@ -97,19 +86,20 @@ namespace MyWeb
         }
 
         // Truyền danh sách các category vào Hash
-        public void parseCategory(){
+        public void parseCategory()
+        {
             if (listBook == null) return;
             string[] categories;
             for (int i = 0; i < listBook.Count; i++)
             {
                 if (listBook[i].category == null) continue;
                 categories = listBook[i].category.ToLower().Split(';');
-                foreach(string c in categories)
+                foreach (string c in categories)
                 {
                     int val;
-                    if (categoryDict.TryGetValue(c,out val))
+                    if (categoryDict.TryGetValue(c, out val))
                     {
-                        categoryDict[c]=val+1;
+                        categoryDict[c] = val + 1;
                     }
                     else
                     {
@@ -118,14 +108,14 @@ namespace MyWeb
                     }
                 }
             }
-        
+
         }
         private void loadCategoryCheckList()
         {
             // truyền dữ liệu vào checkboxList
             categoryCheckList.ItemType = "Category";
             categoryCheckList.DataSource = categoryDict.Select(
-                c =>  new Category
+                c => new Category
                 {
                     text = c.Key + "(" + c.Value + ")",
                     value = c.Key
@@ -156,11 +146,11 @@ namespace MyWeb
             Session["lastPage"] = 1;
             loadPageNumber();
         }
-        
+
         // lọc  listBook bằng category
         private void categoryFilter()
         {
-            if (checkedCategoryList == null||checkedCategoryList.Count == 0) return;
+            if (checkedCategoryList == null || checkedCategoryList.Count == 0) return;
             List<listBookItem> afterClarify = new List<listBookItem>();
             foreach (var book in listBook)
             {
@@ -175,7 +165,7 @@ namespace MyWeb
         {
             foreach (string c in book.category.ToLower().Split(';'))
             {
-                if (checkedCategoryList.Any(checkedVal => checkedVal==c)) 
+                if (checkedCategoryList.Any(checkedVal => checkedVal == c))
                     return true;
             }
             return false;
@@ -220,15 +210,15 @@ namespace MyWeb
         private bool inBookContent(string str, listBookItem book)
         {
             if (book.bookName.ToLower().IndexOf(str.ToLower()) != -1) return true;
-            if (book.description!=null)
-                if(book.description.ToLower().IndexOf(str.ToLower()) != -1) return true;
-            
+            if (book.description != null)
+                if (book.description.ToLower().IndexOf(str.ToLower()) != -1) return true;
+
             /*if (book.extraSearch!=null)
                 if (book.extraSearch.ToLower().IndexOf(str.ToLower()) != -1) return true;*/
 
             return false;
         }
-       
+
 
         protected void removeCheck_Click(object sender, EventArgs e)
         {
@@ -268,11 +258,6 @@ namespace MyWeb
             inpPage.Text = Session["lastPage"].ToString();
         }
 
-        protected void logoutBtn_Click(object sender, EventArgs e)
-        {
-            Session["user"] = null;
-            Response.Redirect("ListBook.aspx");
-        }
     }
     class Category
     {
@@ -281,7 +266,7 @@ namespace MyWeb
     }
     public class listBookItem
     {
-        public int bookId{ get; set; }
+        public int bookId { get; set; }
         public string bookName { get; set; }
         public string category { get; set; }
         public string description { get; set; }
@@ -291,5 +276,4 @@ namespace MyWeb
         // giúp hiển thị xem sách này liệu có còn ở location nào khoonng ?
         public string availableLocation { get; set; }
     }
-    
-}
+    }
