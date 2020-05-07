@@ -246,7 +246,9 @@ namespace MyWeb
                 realName = inpRealName.Text,
                 CMND = inpCMND.Text,
                 dchi = inpDchi.Text,
-                role = inpRole.SelectedValue
+                role = inpRole.SelectedValue,
+                LocationId=curAdmin.LocationId
+                
             };
 
             ValidationContext ctx = new ValidationContext(tmp,serviceProvider:null,items:null);

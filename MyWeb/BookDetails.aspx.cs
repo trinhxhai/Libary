@@ -468,7 +468,12 @@ namespace MyWeb
 
         protected void removeBtn_Click(object sender, EventArgs e)
         {
-            db.Books.Remove(curBook);
+            User curAdmin = (User)Session["user"];
+            // cập nhật curBook
+            curBook = db.Books.FirstOrDefault(b => b.bookId == curBook.bookId);
+            List<BorBook> removebb = curBook.BorBooks.Where(b => b.LocationId == curAdmin.LocationId).ToList();
+            for (int i = 0; i < removebb.Count; i++) db.BorBooks.Remove(removebb[i]);
+            if (curBook.BorBooks.Count == 0) db.Books.Remove(curBook);
             db.SaveChanges();
             Response.Redirect("ListBook.aspx");
         }
